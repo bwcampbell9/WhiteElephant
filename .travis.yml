@@ -21,5 +21,11 @@ android:
     - extra-google-m2repository
     - extra-android-m2repository
     - addon-google_apis-google-$ANDROID_API_LEVEL
+addons:
+    sonarcloud:
+    organization: "bwcampbell9"
+    token:
+        secure: f3a6570f7dba7173bd600660be2f8897de05ce23
 script:
     - ./gradlew build check
+    - ./gradlew sonarqube
