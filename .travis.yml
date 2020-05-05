@@ -1,6 +1,5 @@
 language: android
 jdk: oraclejdk8
-dist: trusty
 env:
  global:
     - ANDROID_API_LEVEL=25
@@ -31,4 +30,4 @@ addons:
         secure: f3a6570f7dba7173bd600660be2f8897de05ce23
 script:
     - ./gradlew build check
-    - sonar-scanner
+    - ./gradlew sonarqube
