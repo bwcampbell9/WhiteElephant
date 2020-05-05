@@ -30,4 +30,4 @@ addons:
         secure: f3a6570f7dba7173bd600660be2f8897de05ce23
 script:
     - ./gradlew build check
-    - ./gradlew sonarqube
+    - sonar-scanner
