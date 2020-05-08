@@ -1,6 +1,7 @@
 package com.example.white_elephant.Models;
 
 import android.content.ClipData;
+import android.os.Parcel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,6 +18,15 @@ public class ItemModel implements Model {
         setName("");
         setDescription("");
         setValue(-1);
+    }
+
+    /***
+     *  Construct an ItemModel with data
+     */
+    public ItemModel(String name, String description, double value) {
+        setName(name);
+        setDescription(description);
+        setValue(value);
     }
 
     /*** Construct a new ItemModel from a json object
@@ -100,5 +110,38 @@ public class ItemModel implements Model {
             e.printStackTrace();
         }
         return json;
+    }
+
+
+    /* ALL CODE TO IMPLEMENT PARCELABLE THIS ALLOWS THE OBJECT TO BE PASSED IN A BUNDLE */
+
+    protected ItemModel(Parcel in) {
+        this.setName(in.readString());
+        this.setDescription(in.readString());
+        this.setValue(in.readDouble());
+    }
+
+    public static final Creator<ItemModel> CREATOR = new Creator<ItemModel>() {
+        @Override
+        public ItemModel createFromParcel(Parcel in) {
+            return new ItemModel(in);
+        }
+
+        @Override
+        public ItemModel[] newArray(int size) {
+            return new ItemModel[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.getName());
+        dest.writeString(this.getDescription());
+        dest.writeDouble(this.getValue());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }
