@@ -30,10 +30,11 @@ public class PostItemActivity extends AppCompatActivity {
 
         reff = FirebaseDatabase.getInstance().getReference().child("Item");
 
+
         addItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = nameEditText.getText().toString().trim();
+                /**String name = nameEditText.getText().toString().trim();
                 String desc = descEditText.getText().toString().trim();
                 Double val = Double.parseDouble(valEditText.getText().toString().trim());
 
@@ -43,7 +44,8 @@ public class PostItemActivity extends AppCompatActivity {
 
                 reff.push().setValue(item);
 
-                Toast.makeText(PostItemActivity.this, "Item Added Successfully", Toast.LENGTH_LONG).show();
+                Toast.makeText(PostItemActivity.this, "Item Added Successfully", Toast.LENGTH_LONG).show();*/
+                finish();
 
             }
         });
