@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "123344783914",
+    "firebase_url": "https://whiteelephant-a7728.firebaseio.com",
+    "project_id": "whiteelephant-a7728",
+    "storage_bucket": "whiteelephant-a7728.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123344783914:android:b60165e35b4a491fc1d153",
+        "android_client_info": {
+          "package_name": "com.example.white_elephant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "123344783914-r89qqdqi1uib8jld2m09b8741ibr2003.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.white_elephant",
+            "certificate_hash": "893abff7cb317272bdc2083be7ae5d13aac8a3cf"
+          }
+        },
+        {
+          "client_id": "123344783914-t7uul62hs74hvqu97d5voctkm3kadnha.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6n_ToYWOpC1_kbsjCi_-fUEF6ErTTwOk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "123344783914-t7uul62hs74hvqu97d5voctkm3kadnha.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
