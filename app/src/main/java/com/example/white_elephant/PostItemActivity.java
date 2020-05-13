@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.white_elephant.Models.ItemModel;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -15,7 +16,7 @@ public class PostItemActivity extends AppCompatActivity {
     EditText nameEditText, descEditText, valEditText;
     Button addItemBtn;
     DatabaseReference reff;
-    Item item;
+    ItemModel item;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +25,7 @@ public class PostItemActivity extends AppCompatActivity {
         nameEditText = (EditText) findViewById(R.id.nameEditText);
         descEditText = (EditText) findViewById(R.id.descEditText);
         valEditText = (EditText) findViewById(R.id.valEditText);
-        item = new Item();
+        item = new ItemModel();
         addItemBtn = (Button) findViewById(R.id.addItemBtn);
 
         reff = FirebaseDatabase.getInstance().getReference().child("Item");
@@ -34,11 +35,11 @@ public class PostItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String name = nameEditText.getText().toString().trim();
                 String desc = descEditText.getText().toString().trim();
-                int val = Integer.parseInt(valEditText.getText().toString().trim());
+                Double val = Double.parseDouble(valEditText.getText().toString().trim());
 
                 item.setName(name);
-                item.setDesc(desc);
-                item.setApproxVal(val);
+                item.setDescription(desc);
+                item.setValue(val);
 
                 reff.push().setValue(item);
 
