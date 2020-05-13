@@ -15,6 +15,17 @@
       },
       "oauth_client": [
         {
+<<<<<<< Updated upstream
+=======
+          "client_id": "123344783914-mu40kmu4e3mcrasmji7mdtlvd4j1g0fo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.white_elephant",
+            "certificate_hash": "d0f61ff2cd70a88d55fb3986c112e21397647533"
+          }
+        },
+        {
+>>>>>>> Stashed changes
           "client_id": "123344783914-r89qqdqi1uib8jld2m09b8741ibr2003.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
