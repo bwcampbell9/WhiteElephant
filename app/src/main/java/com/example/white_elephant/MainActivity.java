@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.example.white_elephant.Views.BaseView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,17 +17,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_menu);
-
-        profButton = (Button) findViewById(R.id.profilebutton);
-
-        profButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                launchProfile();
-            }
-        });
+        setContentView(R.layout.parent_layout);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
+//
+//        profButton = (Button) findViewById(R.id.profilebutton);
+//
+//        profButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                launchProfile();
+//            }
+//        });
 
     }
 

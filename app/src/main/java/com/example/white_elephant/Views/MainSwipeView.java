@@ -1,37 +1,67 @@
 package com.example.white_elephant.Views;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.example.white_elephant.BlankFragment;
 import com.example.white_elephant.Models.ItemModel;
 
 import java.util.ArrayList;
 
 import com.example.white_elephant.R;
 
-public class MainSwipeView extends AppCompatActivity {
+public class MainSwipeView extends Fragment {
 
     public RelativeLayout parentView;
     private FragmentManager fragMan;
-    private Context context;
+    private MainSwipeView context;
 
     ArrayList<ItemSwipeView> itemViewList;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.main_swipe_layout);
+    public MainSwipeView() {
+        // Required empty public constructor
+    }
 
-        fragMan = getFragmentManager();
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @return A new instance of fragment BlankFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static BlankFragment newInstance() {
+        BlankFragment fragment = new BlankFragment();
+        //Bundle args = new Bundle();
+        //fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.main_swipe_layout, container, false);
+
+        fragMan = getChildFragmentManager();
 
         context = MainSwipeView.this;
 
-        parentView = (RelativeLayout) findViewById(R.id.swipe_cards_layout);
+        parentView = (RelativeLayout) view.findViewById(R.id.swipe_cards_layout);
 
         itemViewList = new ArrayList<>();
 
@@ -39,14 +69,14 @@ public class MainSwipeView extends AppCompatActivity {
 
         FragmentTransaction fragTransaction = fragMan.beginTransaction();
         if (itemViewList.size() > 1) {
-            fragTransaction.add(R.id.swipe_cards_layout, itemViewList.get(1));
+            fragTransaction.add(R.id.swipe_cards_layout, (Fragment) itemViewList.get(1));
         }
         if (itemViewList.size() > 0) {
             fragTransaction.add(R.id.swipe_cards_layout, itemViewList.get(0));
         }
         fragTransaction.commit();
 
-
+        return view;
     }
 
     private ItemSwipeView popTopItem() {
