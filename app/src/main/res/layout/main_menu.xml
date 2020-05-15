@@ -22,7 +22,7 @@
             android:text="Swipe" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/listButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

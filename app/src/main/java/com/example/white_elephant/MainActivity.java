@@ -11,6 +11,9 @@ public class MainActivity extends AppCompatActivity {
 
     private Button profButton;
 
+    private Button listButton;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,11 +29,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        listButton = (Button) findViewById(R.id.listButton);
+
+        listButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                launchListItem();
+            }
+        });
+
     }
+
+
 
     private void launchProfile() {
 
         Intent intent = new Intent(this, ViewProfileActivity.class);
+        startActivity(intent);
+    }
+
+
+    private void launchListItem() {
+
+        Intent intent = new Intent(this, PostItemActivity.class);
         startActivity(intent);
     }
 
