@@ -7,13 +7,19 @@
     android:orientation="vertical"
     tools:context=".PostItemActivity" >
 
-    <EditText
-        android:id="@+id/nameEditText"
+    <Button
+        android:id="@+id/backBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Name"
-        android:inputType="textPersonName" />
+        android:text="Go Back" />
+
+    <TextView
+        android:id="@+id/postTitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:gravity="center"
+        android:text="Post Your Item"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/chooseBtn"
@@ -34,6 +40,14 @@
         android:text="Upload Image" />
 
     <EditText
+        android:id="@+id/nameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="textPersonName" />
+
+    <EditText
         android:id="@+id/descEditText"
         android:layout_width="match_parent"
         android:layout_height="162dp"
@@ -46,7 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Approximate Value"
+        android:hint="Approximate Value (Enter a number)"
         android:inputType="textPersonName" />
 
     <Button

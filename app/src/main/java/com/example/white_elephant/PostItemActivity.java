@@ -35,7 +35,9 @@ public class PostItemActivity extends AppCompatActivity {
     EditText descEditText;
     EditText valEditText;
 
-    Button chooseBtn, uploadBtn;
+    Button backBtn;
+    Button chooseBtn;
+    Button uploadBtn;
     ImageView imageView;
     StorageReference mStorageRef;
     public Uri imageUri;
@@ -52,9 +54,25 @@ public class PostItemActivity extends AppCompatActivity {
 
         mStorageRef = FirebaseStorage.getInstance().getReference("Images");
 
+        backBtn = (Button) findViewById(R.id.backBtn);
         chooseBtn = (Button) findViewById(R.id.chooseBtn);
         uploadBtn = (Button) findViewById(R.id.uploadBtn);
         imageView = (ImageView) findViewById(R.id.imageView);
+
+        nameEditText = (EditText) findViewById(R.id.nameEditText);
+        descEditText = (EditText) findViewById(R.id.descEditText);
+        valEditText = (EditText) findViewById(R.id.valEditText);
+        item = new ItemModel();
+        addItemBtn = (Button) findViewById(R.id.addItemBtn);
+
+        reff = FirebaseDatabase.getInstance().getReference().child("Item");
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         chooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,15 +99,6 @@ public class PostItemActivity extends AppCompatActivity {
 
             }
         });
-
-        nameEditText = (EditText) findViewById(R.id.nameEditText);
-        descEditText = (EditText) findViewById(R.id.descEditText);
-        valEditText = (EditText) findViewById(R.id.valEditText);
-        item = new ItemModel();
-        addItemBtn = (Button) findViewById(R.id.addItemBtn);
-
-        reff = FirebaseDatabase.getInstance().getReference().child("Item");
-
 
         addItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
