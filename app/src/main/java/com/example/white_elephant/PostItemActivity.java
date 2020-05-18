@@ -44,9 +44,7 @@ public class PostItemActivity extends AppCompatActivity {
                 item.setName(name);
                 item.setDescription(desc);
 
-<<<<<<< HEAD
                 Toast.makeText(PostItemActivity.this, "Item Added Successfully", Toast.LENGTH_LONG).show();
-=======
                 try{
                     val = Double.parseDouble(valEditText.getText().toString().trim());
                     item.setValue(val);
@@ -59,7 +57,6 @@ public class PostItemActivity extends AppCompatActivity {
                 } catch (Exception e){
                     postErrorEditText.setText("Item Not Added: Invalid Input");
                 }
->>>>>>> 6f669bd... Added error checking to post item activity
 
             }
         });

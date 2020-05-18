@@ -13,7 +13,6 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.white_elephant.BlankFragment;
 import com.example.white_elephant.Models.ItemModel;
 
 import java.util.ArrayList;
@@ -39,8 +38,8 @@ public class MainSwipeView extends Fragment {
      * @return A new instance of fragment BlankFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BlankFragment newInstance() {
-        BlankFragment fragment = new BlankFragment();
+    public static MainSwipeView newInstance() {
+        MainSwipeView fragment = new MainSwipeView();
         //Bundle args = new Bundle();
         //fragment.setArguments(args);
         return fragment;

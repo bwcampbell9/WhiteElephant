@@ -3,9 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainSwipeView2">
+    app:startDestination="@id/mainSwipeView">
     <fragment
-        android:id="@+id/mainSwipeView2"
+        android:id="@+id/mainSwipeView"
         android:name="com.example.white_elephant.Views.MainSwipeView"
-        android:label="MainSwipeView" />
+        android:label="MainSwipeView" >
+        <action
+            android:id="@+id/action_mainSwipeView_to_postItemActivity"
+            app:destination="@id/postItemActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/postItemActivity"
+        android:name="com.example.white_elephant.PostItemActivity"
+        android:label="activity_post_item"
+        tools:layout="@layout/activity_post_item" />
 </navigation>
