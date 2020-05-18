@@ -6,12 +6,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.Window;
 import android.widget.RelativeLayout;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.white_elephant.Models.ItemModel;
+import com.example.white_elephant.R;
 
 import java.util.ArrayList;
-
-import com.example.white_elephant.R;
 
 public class MainSwipeView extends AppCompatActivity {
 
