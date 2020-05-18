@@ -12,6 +12,13 @@ import androidx.navigation.Navigation;
 
 public class MainActivity extends AppCompatActivity {
 
+    private enum State {
+        SWIPE,
+        PROFILE,
+        POST
+    }
+
+    private State state;
     private Button profButton;
     NavController navController;
 
@@ -21,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.parent_layout);
 
         navController = Navigation.findNavController(findViewById(R.id.nav_fragment));
+
+        state = State.SWIPE;
     }
 
     private void launchProfile() {
@@ -30,14 +39,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickProfile(View view) {
-
+        if(state == State.SWIPE) {
+            NavDirections action = MainSwipeFragmentDirections.actionMainSwipeViewToViewProfileFragment();
+            navController.navigate(action);
+        } else if (state == State.POST)  {
+            NavDirections action = PostItemFragmentDirections.actionPostItemFragmentToViewProfileFragment();
+            navController.navigate(action);
+        }
+        state = State.PROFILE;
     }
     public void onClickTrading(View view) {
-
+        if(state == State.PROFILE) {
+            NavDirections action = ViewProfileFragmentDirections.actionViewProfileFragmentToMainSwipeView();
+            navController.navigate(action);
+        } else if (state == State.POST)  {
+            NavDirections action = PostItemFragmentDirections.actionPostItemFragmentToMainSwipeView();
+            navController.navigate(action);
+        }
+        state = State.SWIPE;
     }
     public void onClickPost(View view) {
-        //NavDirections action =
-        //navController.navigate(action);
+        if(state == State.PROFILE) {
+            NavDirections action = ViewProfileFragmentDirections.actionViewProfileFragmentToPostItemFragment();
+            navController.navigate(action);
+        } else if (state == State.SWIPE)  {
+            NavDirections action = MainSwipeFragmentDirections.actionMainSwipeViewToPostItemFragment();
+            navController.navigate(action);
+        }
+        state = State.POST;
     }
 
 
