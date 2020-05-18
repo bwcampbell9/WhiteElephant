@@ -1,9 +1,7 @@
 package com.example.white_elephant.Views;
 
-import android.app.Activity;
 import androidx.fragment.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.white_elephant.MainSwipeFragment;
 import com.example.white_elephant.Models.ItemModel;
 import com.example.white_elephant.R;
 
@@ -83,7 +82,7 @@ public class ItemSwipeView extends Fragment {
                 yCenter = height / 2;
 
                 // TODO: handle possible crash here if this fragment is used outside of MainSwipeView
-                MainSwipeView parentFragment = (MainSwipeView) getParentFragment();
+                MainSwipeFragment parentFragment = (MainSwipeFragment) getParentFragment();
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:

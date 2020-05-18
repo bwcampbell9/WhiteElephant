@@ -6,15 +6,23 @@
     app:startDestination="@id/mainSwipeView">
     <fragment
         android:id="@+id/mainSwipeView"
-        android:name="com.example.white_elephant.Views.MainSwipeView"
+        android:name="com.example.white_elephant.MainSwipeFragment"
         android:label="MainSwipeView" >
         <action
-            android:id="@+id/action_mainSwipeView_to_postItemActivity"
-            app:destination="@id/postItemActivity" />
+            android:id="@+id/action_mainSwipeView_to_viewProfileFragment"
+            app:destination="@id/viewProfileFragment" />
+        <action
+            android:id="@+id/action_mainSwipeView_to_postItemFragment"
+            app:destination="@id/postItemFragment" />
     </fragment>
-    <activity
-        android:id="@+id/postItemActivity"
-        android:name="com.example.white_elephant.PostItemActivity"
+    <fragment
+        android:id="@+id/viewProfileFragment"
+        android:name="com.example.white_elephant.ViewProfileFragment"
+        android:label="activity_view_profile"
+        tools:layout="@layout/activity_view_profile" />
+    <fragment
+        android:id="@+id/postItemFragment"
+        android:name="com.example.white_elephant.PostItemFragment"
         android:label="activity_post_item"
         tools:layout="@layout/activity_post_item" />
 </navigation>

@@ -1,15 +1,12 @@
-package com.example.white_elephant.Views;
+package com.example.white_elephant;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.RelativeLayout;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -17,17 +14,17 @@ import com.example.white_elephant.Models.ItemModel;
 
 import java.util.ArrayList;
 
-import com.example.white_elephant.R;
+import com.example.white_elephant.Views.ItemSwipeView;
 
-public class MainSwipeView extends Fragment {
+public class MainSwipeFragment extends Fragment {
 
     public RelativeLayout parentView;
     private FragmentManager fragMan;
-    private MainSwipeView context;
+    private MainSwipeFragment context;
 
     ArrayList<ItemSwipeView> itemViewList;
 
-    public MainSwipeView() {
+    public MainSwipeFragment() {
         // Required empty public constructor
     }
 
@@ -38,8 +35,8 @@ public class MainSwipeView extends Fragment {
      * @return A new instance of fragment BlankFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MainSwipeView newInstance() {
-        MainSwipeView fragment = new MainSwipeView();
+    public static MainSwipeFragment newInstance() {
+        MainSwipeFragment fragment = new MainSwipeFragment();
         //Bundle args = new Bundle();
         //fragment.setArguments(args);
         return fragment;
@@ -58,7 +55,7 @@ public class MainSwipeView extends Fragment {
 
         fragMan = getChildFragmentManager();
 
-        context = MainSwipeView.this;
+        context = MainSwipeFragment.this;
 
         parentView = (RelativeLayout) view.findViewById(R.id.swipe_cards_layout);
 

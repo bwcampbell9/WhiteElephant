@@ -2,17 +2,13 @@ package com.example.white_elephant;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.navigation.NavAction;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-
-import com.example.white_elephant.Views.MainSwipeViewDirections;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,18 +25,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void launchProfile() {
 
-        Intent intent = new Intent(this, ViewProfileActivity.class);
+        Intent intent = new Intent(this, ViewProfileFragment.class);
         startActivity(intent);
     }
 
-    public void onClickProfile() {
+    public void onClickProfile(View view) {
 
     }
-    public void onClickTrading() {
+    public void onClickTrading(View view) {
 
     }
-    public void onClickPost() {
-        //NavDirections action = MainSwipeViewDirections.actionMainSwipeViewToPostItemActivity();
+    public void onClickPost(View view) {
+        //NavDirections action =
         //navController.navigate(action);
     }
 
