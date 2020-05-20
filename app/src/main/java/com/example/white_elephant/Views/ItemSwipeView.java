@@ -1,9 +1,7 @@
 package com.example.white_elephant.Views;
 
-import android.app.Activity;
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,10 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.white_elephant.MainSwipeFragment;
 import com.example.white_elephant.Models.ItemModel;
 import com.example.white_elephant.R;
 
-public class ItemSwipeView extends Fragment implements BaseView {
+public class ItemSwipeView extends Fragment {
 
     int width, height;
     double xCenter, yCenter;
@@ -83,7 +82,7 @@ public class ItemSwipeView extends Fragment implements BaseView {
                 yCenter = height / 2;
 
                 // TODO: handle possible crash here if this fragment is used outside of MainSwipeView
-                MainSwipeView parentActivity = (MainSwipeView) getActivity();
+                MainSwipeFragment parentFragment = (MainSwipeFragment) getParentFragment();
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
@@ -130,13 +129,13 @@ public class ItemSwipeView extends Fragment implements BaseView {
 
                         switch (status) {
                             case LIKE:
-                                parentActivity.likeItem();
+                                parentFragment.likeItem();
                                 break;
                             case DISLIKE:
-                                parentActivity.dislikeItem();
+                                parentFragment.dislikeItem();
                                 break;
                             case SAVE:
-                                parentActivity.saveItem();
+                                parentFragment.saveItem();
                                 break;
                             case NOTHING:
                                 view.setX(0);
@@ -161,11 +160,5 @@ public class ItemSwipeView extends Fragment implements BaseView {
 
     public ItemModel getModel() {
         return getArguments().getParcelable("model");
-    }
-
-
-    @Override
-    public void updateAll() {
-
     }
 }

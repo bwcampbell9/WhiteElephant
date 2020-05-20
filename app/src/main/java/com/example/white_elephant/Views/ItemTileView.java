@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.example.white_elephant.Models.ItemModel;
 import com.example.white_elephant.R;
 
-public class ItemTileView extends Fragment implements BaseView {
+public class ItemTileView extends Fragment {
 
     /**
      * Create a new instance of ItemSwipeView, initialized to
@@ -46,11 +46,5 @@ public class ItemTileView extends Fragment implements BaseView {
 
     public ItemModel getModel() {
         return getArguments().getParcelable("model");
-    }
-
-
-    @Override
-    public void updateAll() {
-
     }
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainSwipeView">
+    <fragment
+        android:id="@+id/mainSwipeView"
+        android:name="com.example.white_elephant.MainSwipeFragment"
+        android:label="MainSwipeView" >
+        <action
+            android:id="@+id/action_mainSwipeView_to_viewProfileFragment"
+            app:destination="@id/viewProfileFragment" />
+        <action
+            android:id="@+id/action_mainSwipeView_to_postItemFragment"
+            app:destination="@id/postItemFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewProfileFragment"
+        android:name="com.example.white_elephant.ViewProfileFragment"
+        android:label="activity_view_profile"
+        tools:layout="@layout/activity_view_profile" >
+        <action
+            android:id="@+id/action_viewProfileFragment_to_mainSwipeView"
+            app:destination="@id/mainSwipeView" />
+        <action
+            android:id="@+id/action_viewProfileFragment_to_postItemFragment"
+            app:destination="@id/postItemFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postItemFragment"
+        android:name="com.example.white_elephant.PostItemFragment"
+        android:label="activity_post_item"
+        tools:layout="@layout/activity_post_item" >
+        <action
+            android:id="@+id/action_postItemFragment_to_mainSwipeView"
+            app:destination="@id/mainSwipeView" />
+        <action
+            android:id="@+id/action_postItemFragment_to_viewProfileFragment"
+            app:destination="@id/viewProfileFragment" />
+    </fragment>
+</navigation>
