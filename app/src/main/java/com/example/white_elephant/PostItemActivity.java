@@ -24,8 +24,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
-
 public class PostItemActivity extends AppCompatActivity {
 
     public boolean uploaded = false;
@@ -39,8 +37,12 @@ public class PostItemActivity extends AppCompatActivity {
     Button chooseBtn;
     Button uploadBtn;
     ImageView imageView;
+
     StorageReference mStorageRef;
     public Uri imageUri;
+
+    String tempImageUrl;
+    String imageUrl = "";
 
     Button addItemBtn;
     DatabaseReference reff;
@@ -52,7 +54,7 @@ public class PostItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_item);
 
-        mStorageRef = FirebaseStorage.getInstance().getReference("Images");
+        mStorageRef = FirebaseStorage.getInstance().getReference("Item");
 
         backBtn = (Button) findViewById(R.id.backBtn);
         chooseBtn = (Button) findViewById(R.id.chooseBtn);
@@ -62,6 +64,7 @@ public class PostItemActivity extends AppCompatActivity {
         nameEditText = (EditText) findViewById(R.id.nameEditText);
         descEditText = (EditText) findViewById(R.id.descEditText);
         valEditText = (EditText) findViewById(R.id.valEditText);
+
         item = new ItemModel();
         addItemBtn = (Button) findViewById(R.id.addItemBtn);
 
@@ -92,12 +95,10 @@ public class PostItemActivity extends AppCompatActivity {
                     makeToast("Item already uploaded");
                 } else if (chose == false){
                     makeToast("Choose an image first");
-                } else{
-                    System.out.println("here");
+                } else
                     myFileUploader();
-                }
-
             }
+
         });
 
         addItemBtn.setOnClickListener(new View.OnClickListener() {
@@ -109,11 +110,12 @@ public class PostItemActivity extends AppCompatActivity {
 
                 item.setName(name);
                 item.setDescription(desc);
+                item.setImageUrl(imageUrl);
 
                 try{
                     val = Double.parseDouble(valEditText.getText().toString().trim());
                     item.setValue(val);
-                    if (name.length() <= 0 || val < 0){
+                    if (name.length() <= 0 || imageUrl.length() <= 0 || val < 0){
                         makeToast("Item Not Added, Try Again");
                     } else{
                         reff.push().setValue(item);
@@ -137,18 +139,16 @@ public class PostItemActivity extends AppCompatActivity {
     }
 
     private void myFileUploader(){
-        StorageReference reff = mStorageRef.child(System.currentTimeMillis() + "." + getExtension(imageUri));
-        Uri file = Uri.fromFile(new File("path/to/images/rivers.jpg"));
-        StorageReference riversRef = mStorageRef.child("images/rivers.jpg");
+        tempImageUrl = System.currentTimeMillis() + "." + getExtension(imageUri);
+        StorageReference reff = mStorageRef.child(tempImageUrl);
 
         uploadTask = reff.putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Get a URL to the uploaded content
-                        //Uri downloadUrl = taskSnapshot.getDownloadUrl()
                         Toast.makeText(PostItemActivity.this,
                                 "Image Uploaded Successfully", Toast.LENGTH_LONG).show();
+                        imageUrl = tempImageUrl;
                         uploaded = true;
                     }
 
@@ -156,8 +156,7 @@ public class PostItemActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
-                        // ...
+                        makeToast(exception.getMessage());
                     }
                 });
 
@@ -183,6 +182,6 @@ public class PostItemActivity extends AppCompatActivity {
 
     private void makeToast(String str){
         Toast.makeText(PostItemActivity.this, str, Toast.LENGTH_LONG).show();
-    }
+}
 
 }

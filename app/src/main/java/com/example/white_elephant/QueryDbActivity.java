@@ -2,6 +2,7 @@ package com.example.white_elephant;
 
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,14 +34,14 @@ public class QueryDbActivity extends AppCompatActivity {
         itemList = new ArrayList<>();
 
         // select * from items
-        //reff.addListenerForSingleValueEvent(valueEventListener);
+        reff.addListenerForSingleValueEvent(valueEventListener);
 
 
         // select * from items where name = "Guitar"
         Query query = reff
                 .orderByChild("name")
                 .equalTo("Guitar");
-        //query.addListenerForSingleValueEvent(valueEventListener);
+//        query.addListenerForSingleValueEvent(valueEventListener);
 
         // select * from items limit 2
         Query query2 = reff.limitToFirst(2);
@@ -50,7 +51,7 @@ public class QueryDbActivity extends AppCompatActivity {
         Query query3 = reff
                 .orderByChild("value")
                 .endAt(30);
-        query3.addListenerForSingleValueEvent(valueEventListener);
+        // query3.addListenerForSingleValueEvent(valueEventListener);
 
     }
 
@@ -72,7 +73,7 @@ public class QueryDbActivity extends AppCompatActivity {
 
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {
-
+            Toast.makeText(QueryDbActivity.this, databaseError.getMessage(), Toast.LENGTH_LONG).show();
         }
     };
 
