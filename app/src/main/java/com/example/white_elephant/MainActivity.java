@@ -6,54 +6,60 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button profButton;
+    private enum State {
+        SWIPE,
+        PROFILE,
+        POST
+    }
 
-    private Button listButton;
-
+    private State state;
+    NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_menu);
+        setContentView(R.layout.parent_layout);
 
-        profButton = (Button) findViewById(R.id.profilebutton);
+        navController = Navigation.findNavController(findViewById(R.id.nav_fragment));
 
-        profButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                launchProfile();
-            }
-        });
-
-        listButton = (Button) findViewById(R.id.listButton);
-
-        listButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                launchListItem();
-            }
-        });
-
+        state = State.SWIPE;
     }
 
-
-
-    private void launchProfile() {
-
-        Intent intent = new Intent(this, ViewProfileActivity.class);
-        startActivity(intent);
+    public void onClickProfile(View view) {
+        if(state == State.SWIPE) {
+            NavDirections action = MainSwipeFragmentDirections.actionMainSwipeViewToViewProfileFragment();
+            navController.navigate(action);
+        } else if (state == State.POST)  {
+            NavDirections action = PostItemFragmentDirections.actionPostItemFragmentToViewProfileFragment();
+            navController.navigate(action);
+        }
+        state = State.PROFILE;
     }
-
-
-    private void launchListItem() {
-
-        Intent intent = new Intent(this, PostItemActivity.class);
-        startActivity(intent);
+    public void onClickTrading(View view) {
+        if(state == State.PROFILE) {
+            NavDirections action = ViewProfileFragmentDirections.actionViewProfileFragmentToMainSwipeView();
+            navController.navigate(action);
+        } else if (state == State.POST)  {
+            NavDirections action = PostItemFragmentDirections.actionPostItemFragmentToMainSwipeView();
+            navController.navigate(action);
+        }
+        state = State.SWIPE;
+    }
+    public void onClickPost(View view) {
+        if(state == State.PROFILE) {
+            NavDirections action = ViewProfileFragmentDirections.actionViewProfileFragmentToPostItemFragment();
+            navController.navigate(action);
+        } else if (state == State.SWIPE)  {
+            NavDirections action = MainSwipeFragmentDirections.actionMainSwipeViewToPostItemFragment();
+            navController.navigate(action);
+        }
+        state = State.POST;
     }
 
 

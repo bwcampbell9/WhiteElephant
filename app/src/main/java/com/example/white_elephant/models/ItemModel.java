@@ -1,11 +1,12 @@
-package com.example.white_elephant.Models;
+package com.example.white_elephant.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ItemModel implements Model {
+public class ItemModel implements com.example.white_elephant.models.Model {
     private String name;
     private String description;
     private double value;
@@ -27,14 +28,6 @@ public class ItemModel implements Model {
         setName(name);
         setDescription(description);
         setValue(value);
-    }
-
-    /*** Construct a new ItemModel from a json object
-     *
-     * @param json: the json object to construct using
-     */
-    public ItemModel(JSONObject json) {
-        fromJson(json);
     }
 
     /***
@@ -125,7 +118,7 @@ public class ItemModel implements Model {
         this.setValue(in.readDouble());
     }
 
-    public static final Creator<ItemModel> CREATOR = new Creator<ItemModel>() {
+    public static final Parcelable.Creator<ItemModel> CREATOR = new Parcelable.Creator<ItemModel>() {
         @Override
         public ItemModel createFromParcel(Parcel in) {
             return new ItemModel(in);

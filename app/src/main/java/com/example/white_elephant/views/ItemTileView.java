@@ -1,4 +1,4 @@
-package com.example.white_elephant.Views;
+package com.example.white_elephant.views;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -7,10 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.white_elephant.Models.ItemModel;
+import com.example.white_elephant.models.ItemModel;
 import com.example.white_elephant.R;
 
-public class ItemTileView extends Fragment implements BaseView {
+public class ItemTileView extends Fragment {
 
     /**
      * Create a new instance of ItemSwipeView, initialized to
@@ -46,11 +46,5 @@ public class ItemTileView extends Fragment implements BaseView {
 
     public ItemModel getModel() {
         return getArguments().getParcelable("model");
-    }
-
-
-    @Override
-    public void updateAll() {
-
     }
 }

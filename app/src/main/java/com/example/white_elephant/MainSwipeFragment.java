@@ -1,10 +1,9 @@
-package com.example.white_elephant.Views;
+package com.example.white_elephant;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Context;
 import android.os.Bundle;
-import android.view.Window;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -12,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.white_elephant.Models.ItemModel;
-import com.example.white_elephant.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,26 +21,50 @@ import java.util.ArrayList;
 
 public class MainSwipeView extends AppCompatActivity {
 
-    public RelativeLayout parentView;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.example.white_elephant.models.ItemModel;
+
+import java.util.ArrayList;
+
+import com.example.white_elephant.views.ItemSwipeView;
+
+public class MainSwipeFragment extends Fragment {
+
+
     private FragmentManager fragMan;
-    private Context context;
 
     ArrayList<ItemModel> itemList;
     DatabaseReference reff;
 
-    ArrayList<ItemSwipeView> itemViewList;
+    ArrayList<com.example.white_elephant.views.ItemSwipeView> itemViewList;
+
+    public MainSwipeFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @return A new instance of fragment BlankFragment.
+     */
+    public static MainSwipeFragment newInstance() {
+        return new MainSwipeFragment();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.main_swipe_layout);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.main_swipe_layout, container, false);
 
-        fragMan = getFragmentManager();
+        fragMan = getChildFragmentManager();
 
-        context = MainSwipeView.this;
-
-        parentView = (RelativeLayout) findViewById(R.id.swipe_cards_layout);
+        RelativeLayout parentView = (RelativeLayout) view.findViewById(R.id.swipe_cards_layout);
 
         itemViewList = new ArrayList<>();
 
@@ -59,18 +81,18 @@ public class MainSwipeView extends AppCompatActivity {
 
         FragmentTransaction fragTransaction = fragMan.beginTransaction();
         if (itemViewList.size() > 1) {
-            fragTransaction.add(R.id.swipe_cards_layout, itemViewList.get(1));
+            fragTransaction.add(R.id.swipe_cards_layout, (Fragment) itemViewList.get(1));
         }
-        if (itemViewList.size() > 0) {
+        if (!itemViewList.isEmpty()) {
             fragTransaction.add(R.id.swipe_cards_layout, itemViewList.get(0));
         }
         fragTransaction.commit();
 
-
+        return view;
     }
 
-    private ItemSwipeView popTopItem() {
-        if(itemViewList.size() == 0) {
+    private com.example.white_elephant.views.ItemSwipeView popTopItem() {
+        if(itemViewList.isEmpty()) {
             return null;
         }
         FragmentTransaction fragTransaction = fragMan.beginTransaction();
@@ -98,15 +120,15 @@ public class MainSwipeView extends AppCompatActivity {
 
     private void getArrayData() {
         for(int i = 0; i < 5; i++) {
-            ItemModel model = new ItemModel("Neat Shoes", "These are my super neat shoes", i * 10);
-            ItemSwipeView view = ItemSwipeView.newInstance(model);
+            ItemModel model = new ItemModel("Neat Shoes", "These are my super neat shoes", i * 10.0);
+            com.example.white_elephant.views.ItemSwipeView view = com.example.white_elephant.views.ItemSwipeView.newInstance(model);
             itemViewList.add(view);
         }
     }
 
     private void displayListings(ArrayList<ItemModel> itemList) {
         for(ItemModel item: itemList) {
-            ItemSwipeView view = ItemSwipeView.newInstance(item);
+            com.example.white_elephant.views.ItemSwipeView view = com.example.white_elephant.views.ItemSwipeView.newInstance(item);
             itemViewList.add(view);
         }
     }

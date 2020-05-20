@@ -1,4 +1,4 @@
-# WhiteElephant
+# WhiteElephant [![Build Status](https://travis-ci.org/bwcampbell9/WhiteElephant.svg?branch=master)](https://travis-ci.org/bwcampbell9/WhiteElephant)
 
 ## First:
 
