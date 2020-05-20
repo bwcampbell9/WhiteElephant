@@ -1,6 +1,5 @@
 package com.example.white_elephant.Models;
 
-import android.content.ClipData;
 import android.os.Parcel;
 
 import org.json.JSONException;
@@ -10,6 +9,7 @@ public class ItemModel implements Model {
     private String name;
     private String description;
     private double value;
+    private String imageUrl;
 
     /***
      *  Construct an empty ItemModel
@@ -81,6 +81,10 @@ public class ItemModel implements Model {
     public void setValue(double value) {
         this.value = value;
     }
+
+    public String getImageUrl() {return imageUrl; }
+
+    public void setImageUrl(String imageUrl) {this.imageUrl = imageUrl; }
 
     /*** Fills the item with data from a json object
      * @param json: the json object to use

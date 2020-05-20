@@ -6,18 +6,29 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.Window;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.white_elephant.Models.ItemModel;
+import com.example.white_elephant.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
-import com.example.white_elephant.R;
 
 public class MainSwipeView extends AppCompatActivity {
 
     public RelativeLayout parentView;
     private FragmentManager fragMan;
     private Context context;
+
+    ArrayList<ItemModel> itemList;
+    DatabaseReference reff;
 
     ArrayList<ItemSwipeView> itemViewList;
 
@@ -35,7 +46,16 @@ public class MainSwipeView extends AppCompatActivity {
 
         itemViewList = new ArrayList<>();
 
-        getArrayData();
+        reff = FirebaseDatabase.getInstance().getReference().child("Item");
+
+        itemList = new ArrayList<>();
+
+        // select * from items
+        reff.addListenerForSingleValueEvent(valueEventListener);
+
+        displayListings(itemList);
+
+        //getArrayData();
 
         FragmentTransaction fragTransaction = fragMan.beginTransaction();
         if (itemViewList.size() > 1) {
@@ -83,4 +103,38 @@ public class MainSwipeView extends AppCompatActivity {
             itemViewList.add(view);
         }
     }
+
+    private void displayListings(ArrayList<ItemModel> itemList) {
+        for(ItemModel item: itemList) {
+            ItemSwipeView view = ItemSwipeView.newInstance(item);
+            itemViewList.add(view);
+        }
+    }
+
+    ValueEventListener valueEventListener = new ValueEventListener() {
+
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+            Toast.makeText(MainSwipeView.this, "Here", Toast.LENGTH_LONG).show();
+
+
+            itemList.clear();
+            if (dataSnapshot.exists()){
+                for (DataSnapshot itemSnapshot: dataSnapshot.getChildren()){
+                    ItemModel item = itemSnapshot.getValue(ItemModel.class);
+                    itemList.add(item);
+                }
+
+//                ItemList adapter = new ItemList(MainSwipeView.this, itemList);
+//                itemsListView.setAdapter(adapter);
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+            Toast.makeText(MainSwipeView.this, databaseError.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    };
+
+
 }
