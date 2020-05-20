@@ -1,10 +1,6 @@
-package com.example.white_elephant.Models;
+package com.example.white_elephant.models;
 
-import android.content.ClipData;
 import android.os.Parcel;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ItemModel implements Model {
     private String name;
@@ -27,14 +23,6 @@ public class ItemModel implements Model {
         setName(name);
         setDescription(description);
         setValue(value);
-    }
-
-    /*** Construct a new ItemModel from a json object
-     *
-     * @param json: the json object to construct using
-     */
-    public ItemModel(JSONObject json) {
-        fromJson(json);
     }
 
     /***
@@ -81,37 +69,6 @@ public class ItemModel implements Model {
     public void setValue(double value) {
         this.value = value;
     }
-
-    /*** Fills the item with data from a json object
-     * @param json: the json object to use
-     */
-    @Override
-    public void fromJson(JSONObject json) {
-        try {
-            this.setName(json.getString("Name"));
-            this.setDescription(json.getString("Description"));
-            this.setValue(json.getDouble("Value"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /***
-     * @return A json representation of the item data
-     */
-    @Override
-    public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-        try {
-            json.put("Name", this.getName());
-            json.put("Description", this.getDescription());
-            json.put("Value", this.getValue());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return json;
-    }
-
 
     /* ALL CODE TO IMPLEMENT PARCELABLE THIS ALLOWS THE OBJECT TO BE PASSED IN A BUNDLE */
 

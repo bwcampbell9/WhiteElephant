@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.white_elephant.Models.ItemModel;
+import com.example.white_elephant.models.ItemModel;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -35,17 +35,8 @@ public class PostItemFragment extends Fragment {
      *
      * @return A new instance of fragment BlankFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static PostItemFragment newInstance() {
-        PostItemFragment fragment = new PostItemFragment();
-        //Bundle args = new Bundle();
-        //fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        return new PostItemFragment();
     }
 
     @Override

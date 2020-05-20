@@ -10,17 +10,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.white_elephant.Models.ItemModel;
+import com.example.white_elephant.models.ItemModel;
 
 import java.util.ArrayList;
 
-import com.example.white_elephant.Views.ItemSwipeView;
+import com.example.white_elephant.views.ItemSwipeView;
 
 public class MainSwipeFragment extends Fragment {
 
-    public RelativeLayout parentView;
     private FragmentManager fragMan;
-    private MainSwipeFragment context;
 
     ArrayList<ItemSwipeView> itemViewList;
 
@@ -34,17 +32,8 @@ public class MainSwipeFragment extends Fragment {
      *
      * @return A new instance of fragment BlankFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static MainSwipeFragment newInstance() {
-        MainSwipeFragment fragment = new MainSwipeFragment();
-        //Bundle args = new Bundle();
-        //fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        return new MainSwipeFragment();
     }
 
     @Override
@@ -55,9 +44,7 @@ public class MainSwipeFragment extends Fragment {
 
         fragMan = getChildFragmentManager();
 
-        context = MainSwipeFragment.this;
-
-        parentView = (RelativeLayout) view.findViewById(R.id.swipe_cards_layout);
+        RelativeLayout parentView = (RelativeLayout) view.findViewById(R.id.swipe_cards_layout);
 
         itemViewList = new ArrayList<>();
 
@@ -67,7 +54,7 @@ public class MainSwipeFragment extends Fragment {
         if (itemViewList.size() > 1) {
             fragTransaction.add(R.id.swipe_cards_layout, (Fragment) itemViewList.get(1));
         }
-        if (itemViewList.size() > 0) {
+        if (!itemViewList.isEmpty()) {
             fragTransaction.add(R.id.swipe_cards_layout, itemViewList.get(0));
         }
         fragTransaction.commit();
@@ -76,7 +63,7 @@ public class MainSwipeFragment extends Fragment {
     }
 
     private ItemSwipeView popTopItem() {
-        if(itemViewList.size() == 0) {
+        if(itemViewList.isEmpty()) {
             return null;
         }
         FragmentTransaction fragTransaction = fragMan.beginTransaction();
@@ -104,7 +91,7 @@ public class MainSwipeFragment extends Fragment {
 
     private void getArrayData() {
         for(int i = 0; i < 5; i++) {
-            ItemModel model = new ItemModel("Neat Shoes", "These are my super neat shoes", i * 10);
+            ItemModel model = new ItemModel("Neat Shoes", "These are my super neat shoes", i * 10.0);
             ItemSwipeView view = ItemSwipeView.newInstance(model);
             itemViewList.add(view);
         }

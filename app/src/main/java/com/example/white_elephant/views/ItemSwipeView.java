@@ -1,4 +1,4 @@
-package com.example.white_elephant.Views;
+package com.example.white_elephant.views;
 
 import androidx.fragment.app.Fragment;
 import android.os.Bundle;
@@ -10,14 +10,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.white_elephant.MainSwipeFragment;
-import com.example.white_elephant.Models.ItemModel;
+import com.example.white_elephant.models.ItemModel;
 import com.example.white_elephant.R;
 
 public class ItemSwipeView extends Fragment {
 
-    int width, height;
-    double xCenter, yCenter;
-    int x_cord, y_cord, x, y;
+    int width;
+    int height;
+    double xCenter;
+    double yCenter;
+    int xCord;
+    int yCord;
+    int x;
+    int y;
     static final double MAX_ROTATION = .2;
 
     enum Status {
@@ -78,8 +83,8 @@ public class ItemSwipeView extends Fragment {
 
                 width = container.getWidth();
                 height = container.getHeight();
-                xCenter = width / 2;
-                yCenter = height / 2;
+                xCenter = width / 2.0;
+                yCenter = height / 2.0;
 
                 // TODO: handle possible crash here if this fragment is used outside of MainSwipeView
                 MainSwipeFragment parentFragment = (MainSwipeFragment) getParentFragment();
@@ -91,15 +96,15 @@ public class ItemSwipeView extends Fragment {
                         break;
                     case MotionEvent.ACTION_MOVE:
 
-                        x_cord = (int) event.getRawX() - x;
+                        xCord = (int) event.getRawX() - x;
                         // smoother animation.
-                        y_cord = (int) event.getRawY() - y;
+                        yCord = (int) event.getRawY() - y;
 
-                        view.setX(x_cord);
-                        view.setY(y_cord);
-                        view.setRotation((float) ((x_cord / xCenter) * (90) * MAX_ROTATION));
-                        float xVal = (float)((x_cord) / (xCenter / 2.0));
-                        float yVal = (float)((y_cord) / (yCenter / 2.0));
+                        view.setX(xCord);
+                        view.setY(yCord);
+                        view.setRotation((float) ((xCord / xCenter) * (90) * MAX_ROTATION));
+                        float xVal = (float)((xCord) / (xCenter / 2.0));
+                        float yVal = (float)((yCord) / (yCenter / 2.0));
                         if(xVal < .5 && xVal > -.5) {
                             saveView.setAlpha(-yVal);
                         } else {
@@ -108,11 +113,11 @@ public class ItemSwipeView extends Fragment {
                         likeView.setAlpha(xVal);
                         dislikeView.setAlpha(-xVal);
 
-                        if (x_cord > (xCenter / 2)) {
+                        if (xCord > (xCenter / 2)) {
                             status = Status.LIKE;
-                        } else if (x_cord < -(xCenter / 2.0)) {
+                        } else if (xCord < -(xCenter / 2.0)) {
                             status = Status.DISLIKE;
-                        } else if (y_cord < -(yCenter / 2.0)) {
+                        } else if (yCord < -(yCenter / 2.0)) {
                             status = Status.SAVE;
                         } else {
                             status = Status.NOTHING;
@@ -121,11 +126,8 @@ public class ItemSwipeView extends Fragment {
                         break;
                     case MotionEvent.ACTION_UP:
 
-                        x_cord = (int) event.getRawX() - x;
-                        y_cord = (int) event.getRawY() - y;
-
-                        //tvUnLike.setAlpha(0);
-                        //tvLike.setAlpha(0);
+                        xCord = (int) event.getRawX() - x;
+                        yCord = (int) event.getRawY() - y;
 
                         switch (status) {
                             case LIKE:

@@ -10,8 +10,6 @@ import android.widget.Button;
 
 public class ViewProfileFragment extends Fragment {
 
-    private Button mBtGoBack;
-
     public ViewProfileFragment() {
         // required empty constructor
     }
@@ -22,26 +20,16 @@ public class ViewProfileFragment extends Fragment {
      *
      * @return A new instance of fragment BlankFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static ViewProfileFragment newInstance() {
-        ViewProfileFragment fragment = new ViewProfileFragment();
-        //Bundle args = new Bundle();
-        //fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        return new ViewProfileFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = inflater.inflate(R.layout.activity_view_profile, container, false);
-        // View logic here
-        return view;
+        return inflater.inflate(R.layout.activity_view_profile, container, false);
+        // View logic here and return view after
     }
 
 

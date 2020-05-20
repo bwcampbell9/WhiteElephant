@@ -19,11 +19,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private State state;
-    private Button profButton;
     NavController navController;
-
-    private Button listButton;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +29,6 @@ public class MainActivity extends AppCompatActivity {
         navController = Navigation.findNavController(findViewById(R.id.nav_fragment));
 
         state = State.SWIPE;
-    }
-
-
-
-    private void launchProfile() {
-
-        Intent intent = new Intent(this, ViewProfileFragment.class);
-        startActivity(intent);
     }
 
     public void onClickProfile(View view) {
