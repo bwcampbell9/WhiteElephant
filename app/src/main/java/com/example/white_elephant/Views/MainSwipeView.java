@@ -5,7 +5,6 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Window;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -21,7 +20,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainSwipeView extends AppCompatActivity {
 
@@ -29,8 +27,7 @@ public class MainSwipeView extends AppCompatActivity {
     private FragmentManager fragMan;
     private Context context;
 
-    List<ItemModel> itemList;
-    ListView itemsListView;
+    ArrayList<ItemModel> itemList;
     DatabaseReference reff;
 
     ArrayList<ItemSwipeView> itemViewList;
@@ -41,7 +38,6 @@ public class MainSwipeView extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.main_swipe_layout);
 
-
         fragMan = getFragmentManager();
 
         context = MainSwipeView.this;
@@ -50,17 +46,16 @@ public class MainSwipeView extends AppCompatActivity {
 
         itemViewList = new ArrayList<>();
 
-        itemList = new ArrayList<>();
-
         reff = FirebaseDatabase.getInstance().getReference().child("Item");
 
-        // get items from database
+        itemList = new ArrayList<>();
+
         // select * from items
         reff.addListenerForSingleValueEvent(valueEventListener);
 
-        getArrayData();
+        displayListings(itemList);
 
-//        displayListings(itemList);
+        //getArrayData();
 
         FragmentTransaction fragTransaction = fragMan.beginTransaction();
         if (itemViewList.size() > 1) {
@@ -101,17 +96,17 @@ public class MainSwipeView extends AppCompatActivity {
         popTopItem();
     }
 
-    private void displayListings(List<ItemModel> itemsList) {
-        for(ItemModel item: itemsList) {
-            ItemSwipeView view = ItemSwipeView.newInstance(item);
+    private void getArrayData() {
+        for(int i = 0; i < 5; i++) {
+            ItemModel model = new ItemModel("Neat Shoes", "These are my super neat shoes", i * 10);
+            ItemSwipeView view = ItemSwipeView.newInstance(model);
             itemViewList.add(view);
         }
     }
 
-    private void getArrayData() {
-        for(int i = 0; i < 10; i ++) {
-            ItemModel model = new ItemModel("Neat Shoes", "My Neat Shoes", i *= 10);
-            ItemSwipeView view = ItemSwipeView.newInstance(model);
+    private void displayListings(ArrayList<ItemModel> itemList) {
+        for(ItemModel item: itemList) {
+            ItemSwipeView view = ItemSwipeView.newInstance(item);
             itemViewList.add(view);
         }
     }
@@ -119,6 +114,9 @@ public class MainSwipeView extends AppCompatActivity {
     ValueEventListener valueEventListener = new ValueEventListener() {
 
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+            Toast.makeText(MainSwipeView.this, "Here", Toast.LENGTH_LONG).show();
+
 
             itemList.clear();
             if (dataSnapshot.exists()){
@@ -137,4 +135,6 @@ public class MainSwipeView extends AppCompatActivity {
             Toast.makeText(MainSwipeView.this, databaseError.getMessage(), Toast.LENGTH_LONG).show();
         }
     };
+
+
 }
