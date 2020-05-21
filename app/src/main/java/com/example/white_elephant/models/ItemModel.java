@@ -79,36 +79,6 @@ public class ItemModel implements com.example.white_elephant.models.Model {
 
     public void setImageUrl(String imageUrl) {this.imageUrl = imageUrl; }
 
-    /*** Fills the item with data from a json object
-     * @param json: the json object to use
-     */
-    @Override
-    public void fromJson(JSONObject json) {
-        try {
-            this.setName(json.getString("Name"));
-            this.setDescription(json.getString("Description"));
-            this.setValue(json.getDouble("Value"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /***
-     * @return A json representation of the item data
-     */
-    @Override
-    public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-        try {
-            json.put("Name", this.getName());
-            json.put("Description", this.getDescription());
-            json.put("Value", this.getValue());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return json;
-    }
-
 
     /* ALL CODE TO IMPLEMENT PARCELABLE THIS ALLOWS THE OBJECT TO BE PASSED IN A BUNDLE */
 

@@ -48,7 +48,7 @@ public class PostItemFragment extends Fragment {
         nameEditText = (EditText) view.findViewById(R.id.nameEditText);
         descEditText = (EditText) view.findViewById(R.id.descEditText);
         valEditText = (EditText) view.findViewById(R.id.valEditText);
-        postErrorEditText = (EditText) view.findViewById(R.id.postErrorEditText);
+        //postErrorEditText = (EditText) view.findViewById(R.id.postErrorEditText);
         item = new ItemModel();
         addItemBtn = (Button) view.findViewById(R.id.addItemBtn);
 

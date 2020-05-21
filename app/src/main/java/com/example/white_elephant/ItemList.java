@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.white_elephant.Models.ItemModel;
+import com.example.white_elephant.models.ItemModel;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.List;

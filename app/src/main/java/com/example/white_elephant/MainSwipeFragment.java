@@ -10,17 +10,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.white_elephant.Models.ItemModel;
+import com.example.white_elephant.models.ItemModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-
-public class MainSwipeView extends AppCompatActivity {
-
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -31,6 +26,8 @@ import com.example.white_elephant.models.ItemModel;
 import java.util.ArrayList;
 
 import com.example.white_elephant.views.ItemSwipeView;
+
+import java.util.ArrayList;
 
 public class MainSwipeFragment extends Fragment {
 
@@ -137,7 +134,7 @@ public class MainSwipeFragment extends Fragment {
 
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-            Toast.makeText(MainSwipeView.this, "Here", Toast.LENGTH_LONG).show();
+            Toast.makeText(getView().getContext(), "Here", Toast.LENGTH_LONG).show();
 
 
             itemList.clear();
@@ -154,7 +151,7 @@ public class MainSwipeFragment extends Fragment {
 
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {
-            Toast.makeText(MainSwipeView.this, databaseError.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getView().getContext(), databaseError.getMessage(), Toast.LENGTH_LONG).show();
         }
     };
 
