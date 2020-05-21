@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.white_elephant.models.ItemModel;
-import com.google.firebase.database.DatabaseReference;
+import com.example.white_elephant.util.Database;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class PostItemFragment extends Fragment {
@@ -22,8 +22,6 @@ public class PostItemFragment extends Fragment {
     EditText postErrorEditText;
 
     Button addItemBtn;
-    DatabaseReference reff;
-    ItemModel item;
 
     public PostItemFragment() {
         // required empty constructor
@@ -49,10 +47,7 @@ public class PostItemFragment extends Fragment {
         descEditText = (EditText) view.findViewById(R.id.descEditText);
         valEditText = (EditText) view.findViewById(R.id.valEditText);
         //postErrorEditText = (EditText) view.findViewById(R.id.postErrorEditText);
-        item = new ItemModel();
         addItemBtn = (Button) view.findViewById(R.id.addItemBtn);
-
-        reff = FirebaseDatabase.getInstance().getReference().child("Item");
 
         addItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +56,7 @@ public class PostItemFragment extends Fragment {
                 String desc = descEditText.getText().toString().trim();
                 Double val = Double.valueOf(0);
 
+                ItemModel item = new ItemModel();
                 item.setName(name);
                 item.setDescription(desc);
 
@@ -71,7 +67,7 @@ public class PostItemFragment extends Fragment {
                     if (name.length() <= 0 || val < 0){
                         postErrorEditText.setText("Item Not Added: Invalid Input");
                     } else{
-                        reff.push().setValue(item);
+                        Database.getInstance().pushItem(item);
                         Toast.makeText(getActivity(), "Item Added Successfully", Toast.LENGTH_LONG).show();
                     }
                 } catch (Exception e){

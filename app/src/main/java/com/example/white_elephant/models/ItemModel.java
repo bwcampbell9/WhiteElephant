@@ -6,10 +6,14 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ItemModel implements com.example.white_elephant.models.Model {
     private String name;
     private String description;
     private double value;
+    private List<String> tags;
     private String imageUrl;
 
     /***
@@ -19,15 +23,17 @@ public class ItemModel implements com.example.white_elephant.models.Model {
         setName("");
         setDescription("");
         setValue(-1);
+        setTags(new ArrayList<String>());
     }
 
     /***
      *  Construct an ItemModel with data
      */
-    public ItemModel(String name, String description, double value) {
+    public ItemModel(String name, String description, double value, List<String> tags) {
         setName(name);
         setDescription(description);
         setValue(value);
+        setTags(tags);
     }
 
     /***
@@ -74,6 +80,10 @@ public class ItemModel implements com.example.white_elephant.models.Model {
     public void setValue(double value) {
         this.value = value;
     }
+
+    public List<String> getTags() { return tags; }
+
+    public void setTags(List<String> tags) { this.tags = tags; }
 
     public String getImageUrl() {return imageUrl; }
 
