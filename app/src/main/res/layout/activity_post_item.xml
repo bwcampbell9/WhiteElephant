@@ -7,16 +7,10 @@
     android:orientation="vertical"
     tools:context=".PostItemFragment" >
 
-    <Button
-        android:id="@+id/backBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Go Back" />
-
     <TextView
         android:id="@+id/postTitleTextView"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
+        android:layout_height="90dp"
         android:gravity="center"
         android:text="Post Your Item"
         android:textSize="20sp" />
