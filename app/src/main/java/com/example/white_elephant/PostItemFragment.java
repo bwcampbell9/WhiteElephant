@@ -24,13 +24,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
 public class PostItemFragment extends Fragment {
 
-    public boolean uploaded = false;
-    public boolean chose = false;
+    private boolean uploaded = false;
+    private boolean chose = false;
 
     EditText nameEditText;
     EditText descEditText;
@@ -43,16 +42,16 @@ public class PostItemFragment extends Fragment {
     ImageView imageView;
 
     Button addItemBtn;
-    DatabaseReference reff;
+    DatabaseReference dbReff;
     ItemModel item;
 
     StorageReference mStorageRef;
-    public Uri imageUri;
+    private Uri imageUri;
 
     String tempImageUrl;
     String imageUrl = "";
 
-    private StorageTask uploadTask;
+    private UploadTask uploadTask;
 
     public PostItemFragment() {
         // required empty constructor
@@ -85,7 +84,7 @@ public class PostItemFragment extends Fragment {
         item = new ItemModel();
         addItemBtn = (Button) view.findViewById(R.id.addItemBtn);
 
-        reff = FirebaseDatabase.getInstance().getReference().child("Item");
+        dbReff = FirebaseDatabase.getInstance().getReference().child("Item");
         mStorageRef = FirebaseStorage.getInstance().getReference("Item");
 
         chooseBtn.setOnClickListener(new View.OnClickListener() {
@@ -102,9 +101,9 @@ public class PostItemFragment extends Fragment {
             public void onClick(View v) {
                 if (uploadTask != null && uploadTask.isInProgress()){
                     makeToast("Upload in progress");
-                } else if (uploaded == true){
+                } else if (uploaded){
                     makeToast("Item already uploaded");
-                } else if (chose == false){
+                } else if (!chose){
                     makeToast("Choose an image first");
                 } else
                     myFileUploader();
@@ -129,7 +128,7 @@ public class PostItemFragment extends Fragment {
                     if (name.length() <= 0 || imageUrl.length() <= 0 || val < 0){
                         makeToast("Item Not Added, Try Again");
                     } else{
-                        reff.push().setValue(item);
+                        dbReff.push().setValue(item);
                         makeToast("Item Added Successfully");
                     }
                 } catch (Exception e){
@@ -152,9 +151,9 @@ public class PostItemFragment extends Fragment {
 
     private void myFileUploader(){
         tempImageUrl = System.currentTimeMillis() + "." + getExtension(imageUri);
-        StorageReference reff = mStorageRef.child(tempImageUrl);
+        StorageReference storageReff = mStorageRef.child(tempImageUrl);
 
-        uploadTask = reff.putFile(imageUri)
+        uploadTask = (UploadTask) storageReff.putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
