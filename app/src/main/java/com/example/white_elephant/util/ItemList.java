@@ -1,4 +1,4 @@
-package com.example.white_elephant;
+package com.example.white_elephant.util;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.white_elephant.R;
 import com.example.white_elephant.models.ItemModel;
 import com.google.firebase.storage.StorageReference;
 

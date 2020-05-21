@@ -6,10 +6,18 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ItemModel implements com.example.white_elephant.models.Model {
+    public String id;
     private String name;
     private String description;
     private double value;
+    private List<String> tags;
+
+    private List<String> liked;
+    private List<String> disliked;
     private String imageUrl;
 
     /***
@@ -19,15 +27,17 @@ public class ItemModel implements com.example.white_elephant.models.Model {
         setName("");
         setDescription("");
         setValue(-1);
+        setTags(new ArrayList<String>());
     }
 
     /***
      *  Construct an ItemModel with data
      */
-    public ItemModel(String name, String description, double value) {
+    public ItemModel(String name, String description, double value, List<String> tags) {
         setName(name);
         setDescription(description);
         setValue(value);
+        setTags(tags);
     }
 
     /***
@@ -75,9 +85,21 @@ public class ItemModel implements com.example.white_elephant.models.Model {
         this.value = value;
     }
 
+    public List<String> getTags() { return tags; }
+
+    public void setTags(List<String> tags) { this.tags = tags; }
+
     public String getImageUrl() {return imageUrl; }
 
     public void setImageUrl(String imageUrl) {this.imageUrl = imageUrl; }
+
+    public List<String> getDisliked() { return disliked; }
+
+    public void setDisliked(List<String> disliked) { this.disliked = disliked; }
+
+    public List<String> getLiked() { return liked; }
+
+    public void setLiked(List<String> liked) { this.liked = liked; }
 
 
     /* ALL CODE TO IMPLEMENT PARCELABLE THIS ALLOWS THE OBJECT TO BE PASSED IN A BUNDLE */
