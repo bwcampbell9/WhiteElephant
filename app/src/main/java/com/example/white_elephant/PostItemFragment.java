@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.white_elephant.models.ItemModel;
 import com.example.white_elephant.util.Database;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class PostItemFragment extends Fragment {
 

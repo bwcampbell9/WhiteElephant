@@ -9,13 +9,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,8 +25,8 @@ import java.util.List;
  */
 public class Database {
 
-    public interface ForEachItem {
-        void forEachItem(ItemModel item);
+    public interface ObjectCallback {
+        void objectCallback(Object item);
     }
 
     private static Database singleton;
@@ -41,25 +43,12 @@ public class Database {
         return singleton;
     }
 
-    public void getItemsByTags(List<String> tags, final ForEachItem forEachDoc) {
-        Query query = db.collection("items").whereArrayContainsAny("tags", tags);
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        ItemModel item = document.toObject(ItemModel.class);
-                        forEachDoc.forEachItem(item);
-                    }
-                } else {
-                }
-            }
-        });
+    public void getItemsByTags(List<String> tags, final ObjectCallback forEachDoc) {
+        getDocsByProp("items", "tags", "array-contains-any", tags, forEachDoc);
     }
 
-    //Todo: add success and failure listeners
+    //Todo: add success and failure listeners and use add document
     public void pushItem(ItemModel item) {
-        Log.e("Info", "pushing item");
         db.collection("items").add(item)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -73,6 +62,88 @@ public class Database {
                         Log.e("Info", "Error adding document", e);
                     }
                 });;
+    }
+
+    public void getDocument(String path, final ObjectCallback docCB) {
+        DocumentReference docRef = this.db.document(path);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        ItemModel item = document.toObject(ItemModel.class);
+                        item.id = document.getId();
+                        docCB.objectCallback(item);
+                    } else {
+                        Log.e("Error", "No such document");
+                    }
+                } else {
+                    Log.e("Error", "get failed with ", task.getException());
+                }
+            }
+        });
+    };
+
+    public void getDocsByProp(String path, String prop, String compare, Object value, ObjectCallback forEachDoc) {
+        Query query = null;
+        switch (compare) {
+            case "==":
+                query = this.db.collection(path).whereEqualTo(prop, value);
+                break;
+            case "<":
+                query = this.db.collection(path).whereLessThan(prop, value);
+                break;
+            case ">":
+                query = this.db.collection(path).whereGreaterThan(prop, value);
+                break;
+            case "<=":
+                query = this.db.collection(path).whereLessThanOrEqualTo(prop, value);
+                break;
+            case ">=":
+                query = this.db.collection(path).whereGreaterThanOrEqualTo(prop, value);
+                break;
+            case "array-contains":
+                query = this.db.collection(path).whereArrayContains(prop, value);
+                break;
+            case "array-contains-any":
+                query = this.db.collection(path).whereArrayContainsAny(prop, (List) value);
+                break;
+            case "in":
+                query = this.db.collection(path).whereIn(prop, (List) value);
+                break;
+            defualt:
+                Log.e("Error", "invalid comparison type")
+                return;
+        }
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        ItemModel item = document.toObject(ItemModel.class);
+                        item.id = document.getId();
+                        forEachDoc.objectCallback(item);
+                    }
+                } else {
+                }
+            }
+        });
+    };
+
+    public void addDocument(String path, Object doc) {
+        CollectionReference colRef = this.db.collection(path);
+        colRef.add(doc);
+    };
+
+    public void deleteDocument(String path) {
+        DocumentReference docRef = this.db.document(path);
+        docRef.delete();
+    }
+
+    public void updateDocument(String path, Object data) {
+        DocumentReference docRef = this.db.document(path);
+        docRef.set(data, SetOptions.merge());
     }
 
 }
