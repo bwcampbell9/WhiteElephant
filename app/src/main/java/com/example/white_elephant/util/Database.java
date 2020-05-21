@@ -26,7 +26,11 @@ import java.util.List;
 public class Database {
 
     public interface ObjectCallback {
-        void objectCallback(Object item);
+        void objectCallback(Object object);
+    }
+
+    public interface ItemCallback {
+        void itemCallback(ItemModel item);
     }
 
     private static Database singleton;
@@ -43,8 +47,8 @@ public class Database {
         return singleton;
     }
 
-    public void getItemsByTags(List<String> tags, final ObjectCallback forEachDoc) {
-        getDocsByProp("items", "tags", "array-contains-any", tags, forEachDoc);
+    public void getItemsByTags(List<String> tags, final ItemCallback forEachDoc) {
+        getDocsByProp("items", "tags", "array-contains-any", tags, (Object o) -> {forEachDoc.itemCallback(((ItemModel) o));});
     }
 
     //Todo: add success and failure listeners and use add document
@@ -112,9 +116,10 @@ public class Database {
             case "in":
                 query = this.db.collection(path).whereIn(prop, (List) value);
                 break;
-            defualt:
-                Log.e("Error", "invalid comparison type")
-                return;
+        }
+        if(query == null) {
+            Log.e("Error", "invalid comparison type");
+            return;
         }
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
