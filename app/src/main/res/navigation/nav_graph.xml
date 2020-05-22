@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_viewProfileFragment_to_postItemFragment"
             app:destination="@id/postItemFragment" />
+        <action
+            android:id="@+id/action_viewProfileFragment_to_myClosetFragment"
+            app:destination="@id/myClosetFragment" />
     </fragment>
     <fragment
         android:id="@+id/postItemFragment"
@@ -39,4 +42,27 @@
             android:id="@+id/action_postItemFragment_to_viewProfileFragment"
             app:destination="@id/viewProfileFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/myClosetFragment"
+        android:name="com.example.white_elephant.MyClosetFragment"
+        android:label="fragment_my_closet"
+        tools:layout="@layout/fragment_my_closet" >
+        <action
+            android:id="@+id/action_myClosetFragment_to_postItemFragment"
+            app:destination="@id/postItemFragment" />
+        <action
+            android:id="@+id/action_myClosetFragment_to_viewProfileFragment3"
+            app:destination="@id/viewProfileFragment" />
+        <action
+            android:id="@+id/action_myClosetFragment_to_mainSwipeView2"
+            app:destination="@id/mainSwipeView" />
+        <action
+            android:id="@+id/action_myClosetFragment_to_viewMyItem"
+            app:destination="@id/viewMyItem" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewMyItem"
+        android:name="com.example.white_elephant.ViewMyItem"
+        android:label="fragment_view_my_item"
+        tools:layout="@layout/fragment_view_my_item" />
 </navigation>

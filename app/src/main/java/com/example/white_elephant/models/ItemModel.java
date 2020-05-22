@@ -6,10 +6,11 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemModel implements com.example.white_elephant.models.Model {
+public class ItemModel implements com.example.white_elephant.models.Model, Serializable {
     public String id;
     private String name;
     private String description;
