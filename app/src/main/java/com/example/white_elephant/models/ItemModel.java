@@ -3,10 +3,11 @@ package com.example.white_elephant.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemModel implements com.example.white_elephant.models.Model {
+public class ItemModel implements com.example.white_elephant.models.Model, Serializable {
     public String id;
     private String name;
     private String description;
