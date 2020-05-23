@@ -3,9 +3,6 @@ package com.example.white_elephant.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class ItemModel implements com.example.white_elephant.models.Model {
     private String name;
     private String description;
@@ -16,7 +13,6 @@ public class ItemModel implements com.example.white_elephant.models.Model {
      *  Construct an empty ItemModel
      */
     public ItemModel() {
-        setName("");
         setDescription("");
         setValue(-1);
     }
