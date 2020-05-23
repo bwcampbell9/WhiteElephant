@@ -47,26 +47,11 @@ public class ClosetAdapter extends RecyclerView.Adapter<ClosetAdapter.ViewHolder
         holder.descTextView.setText(item.getDescription());
         holder.valueTextView.setText(Double.toString(item.getValue()));
 
+        // attempts to retrieve image from firebase
+        // still not working
         if (item.getImageUrl().length() > 0){
             mStorageRef = FirebaseStorage.getInstance().getReference("Item").child(item.getImageUrl());
             GlideApp.with(holder.itemView.getContext()).load(mStorageRef).into(holder.myImage);
-
-
-
-
-
-//            mStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                @Override
-//                public void onSuccess(Uri uri) {
-//                    Picasso.with(holder.myImage.getContext()).load(uri.toString()).into(holder.myImage);
-//                }
-//            }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception e) {
-//
-//                }
-//            });
-
         }
     }
 

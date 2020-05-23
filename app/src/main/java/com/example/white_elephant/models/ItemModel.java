@@ -9,6 +9,7 @@ import java.util.List;
 
 public class ItemModel implements com.example.white_elephant.models.Model, Serializable {
     public String id;
+    public String user;
     private String name;
     private String description;
     private double value;
@@ -37,6 +38,14 @@ public class ItemModel implements com.example.white_elephant.models.Model, Seria
         setValue(value);
         setImageUrl("");
         setTags(tags);
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     /***
@@ -84,21 +93,37 @@ public class ItemModel implements com.example.white_elephant.models.Model, Seria
         this.value = value;
     }
 
-    public List<String> getTags() { return tags; }
+    public List<String> getTags() {
+        return tags;
+    }
 
-    public void setTags(List<String> tags) { this.tags = tags; }
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
 
-    public String getImageUrl() {return imageUrl; }
+    public String getImageUrl() {
+        return imageUrl;
+    }
 
-    public void setImageUrl(String imageUrl) {this.imageUrl = imageUrl; }
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
-    public List<String> getDisliked() { return disliked; }
+    public List<String> getDisliked() {
+        return disliked;
+    }
 
-    public void setDisliked(List<String> disliked) { this.disliked = disliked; }
+    public void setDisliked(List<String> disliked) {
+        this.disliked = disliked;
+    }
 
-    public List<String> getLiked() { return liked; }
+    public List<String> getLiked() {
+        return liked;
+    }
 
-    public void setLiked(List<String> liked) { this.liked = liked; }
+    public void setLiked(List<String> liked) {
+        this.liked = liked;
+    }
 
 
     /* ALL CODE TO IMPLEMENT PARCELABLE THIS ALLOWS THE OBJECT TO BE PASSED IN A BUNDLE */

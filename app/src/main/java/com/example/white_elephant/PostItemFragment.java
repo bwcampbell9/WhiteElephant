@@ -19,9 +19,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.white_elephant.models.ItemModel;
 import com.example.white_elephant.util.Database;
+import com.example.white_elephant.util.Storage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -84,7 +84,7 @@ public class PostItemFragment extends Fragment {
         addItemBtn = (Button) view.findViewById(R.id.addItemBtn);
 
         //dbReff = FirebaseDatabase.getInstance().getReference().child("Item");
-        mStorageRef = FirebaseStorage.getInstance().getReference("Item");
+        mStorageRef = Storage.getInstance().getRef("Item");
 
         chooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,11 +116,16 @@ public class PostItemFragment extends Fragment {
                 String name = nameEditText.getText().toString().trim();
                 String desc = descEditText.getText().toString().trim();
                 Double val = Double.valueOf(0);
+                Bundle bundle = getActivity().getIntent().getExtras();
+                String user = bundle.getString("email");
 
                 ItemModel item = new ItemModel();
                 item.setName(name);
                 item.setDescription(desc);
                 item.setImageUrl(imageUrl);
+                if (user != null){
+                    item.setUser(bundle.getString("email"));
+                }
 
                 try{
                     val = Double.parseDouble(valEditText.getText().toString().trim());

@@ -1,5 +1,6 @@
 package com.example.white_elephant;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -8,15 +9,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.white_elephant.databinding.ActivitySignupBinding;
+import com.example.white_elephant.models.UserModel;
+import com.example.white_elephant.util.Database;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import com.example.white_elephant.databinding.ActivitySignupBinding;
-
-public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
+public class SignUpActivity extends AppCompatActivity {
 
     private ActivitySignupBinding mBinding;
     private FirebaseAuth mAuth;
@@ -27,8 +29,36 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         mBinding = ActivitySignupBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        mBinding.createAcct.setOnClickListener(this);
-        mBinding.signIn.setOnClickListener(this);
+        //mBinding.createAcct.setOnClickListener(this);
+
+        mBinding.createAcct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = mBinding.fieldEmail.getText().toString();
+                String password = mBinding.fieldPassword.getText().toString();
+                createAccount(email, password);
+            }
+        });
+
+        mBinding.signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = mBinding.fieldEmail.getText().toString();
+                String password = mBinding.fieldPassword.getText().toString();
+                signIn(email, password);
+                Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+
+                Bundle bundle = new Bundle();
+                bundle.putString("email", email);
+                intent.putExtras(bundle);
+
+                startActivity(intent);
+            }
+        });
+
+
+
+        //mBinding.signIn.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
     }
@@ -65,6 +95,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
+                            UserModel userModel = new UserModel(email, password);
+                            Database.getInstance().addDocument("users", userModel);
                         }
                         else {
                             Toast.makeText(SignUpActivity.this, "Authentication failed.",
@@ -113,14 +145,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.createAcct) {
-            createAccount(mBinding.fieldEmail.getText().toString(), mBinding.fieldPassword.getText().toString());
-        }
-        else if (i == R.id.signIn) {
-            signIn(mBinding.fieldEmail.getText().toString(), mBinding.fieldPassword.getText().toString());
-        }
-    }
+//    @Override
+//    public void onClick(View v) {
+//        int i = v.getId();
+//        if (i == R.id.createAcct) {
+//            createAccount(mBinding.fieldEmail.getText().toString(), mBinding.fieldPassword.getText().toString());
+//        }
+//        else if (i == R.id.signIn) {
+//            signIn(mBinding.fieldEmail.getText().toString(), mBinding.fieldPassword.getText().toString());
+//        }
+//    }
 }
