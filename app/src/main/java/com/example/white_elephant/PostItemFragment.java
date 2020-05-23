@@ -18,10 +18,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.white_elephant.models.ItemModel;
+import com.example.white_elephant.util.Database;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -42,7 +41,7 @@ public class PostItemFragment extends Fragment {
     ImageView imageView;
 
     Button addItemBtn;
-    DatabaseReference dbReff;
+    //DatabaseReference dbReff;
     ItemModel item;
 
     StorageReference mStorageRef;
@@ -84,7 +83,7 @@ public class PostItemFragment extends Fragment {
         item = new ItemModel();
         addItemBtn = (Button) view.findViewById(R.id.addItemBtn);
 
-        dbReff = FirebaseDatabase.getInstance().getReference().child("Item");
+        //dbReff = FirebaseDatabase.getInstance().getReference().child("Item");
         mStorageRef = FirebaseStorage.getInstance().getReference("Item");
 
         chooseBtn.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +128,7 @@ public class PostItemFragment extends Fragment {
                     if (name.length() <= 0 || imageUrl.length() <= 0 || val < 0){
                         makeToast("Item Not Added, Try Again");
                     } else{
-                        dbReff.push().setValue(item);
+                        Database.getInstance().addDocument("items", item);
                         makeToast("Item Added Successfully");
                     }
                 } catch (Exception e){

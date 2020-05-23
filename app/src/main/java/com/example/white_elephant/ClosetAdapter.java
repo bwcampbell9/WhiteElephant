@@ -10,6 +10,9 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.white_elephant.models.ItemModel;
+import com.example.white_elephant.util.GlideApp;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -18,9 +21,12 @@ public class ClosetAdapter extends RecyclerView.Adapter<ClosetAdapter.ViewHolder
     private List<ItemModel> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
+    private Context mContext;
+    StorageReference mStorageRef;
 
     // data is passed into the constructor
     ClosetAdapter(Context context, List<ItemModel> data) {
+        mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
@@ -36,12 +42,32 @@ public class ClosetAdapter extends RecyclerView.Adapter<ClosetAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-            ItemModel item = mData.get(position);
-            holder.nameTextView.setText(item.getName());
-            holder.valueTextView.setText(Double.toString(item.getValue()));
-            //set picture here
-            //holder.myImage.setImageResource(item.);
+        ItemModel item = mData.get(position);
+        holder.nameTextView.setText(item.getName());
+        holder.descTextView.setText(item.getDescription());
+        holder.valueTextView.setText(Double.toString(item.getValue()));
 
+        if (item.getImageUrl().length() > 0){
+            mStorageRef = FirebaseStorage.getInstance().getReference("Item").child(item.getImageUrl());
+            GlideApp.with(holder.itemView.getContext()).load(mStorageRef).into(holder.myImage);
+
+
+
+
+
+//            mStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                @Override
+//                public void onSuccess(Uri uri) {
+//                    Picasso.with(holder.myImage.getContext()).load(uri.toString()).into(holder.myImage);
+//                }
+//            }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception e) {
+//
+//                }
+//            });
+
+        }
     }
 
     // total number of rows
@@ -54,12 +80,14 @@ public class ClosetAdapter extends RecyclerView.Adapter<ClosetAdapter.ViewHolder
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView nameTextView;
+        TextView descTextView;
         TextView valueTextView;
         ImageView myImage;
 
         ViewHolder(View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.listNameTextView);
+            descTextView = itemView.findViewById(R.id.listDescTextView);
             valueTextView = itemView.findViewById(R.id.listValTextView);
             myImage = itemView.findViewById(R.id.listImageView);
 

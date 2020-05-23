@@ -24,6 +24,7 @@ public class ItemModel implements com.example.white_elephant.models.Model, Seria
     public ItemModel() {
         setDescription("");
         setValue(-1);
+        setImageUrl("");
         setTags(new ArrayList<String>());
     }
 
@@ -34,6 +35,7 @@ public class ItemModel implements com.example.white_elephant.models.Model, Seria
         setName(name);
         setDescription(description);
         setValue(value);
+        setImageUrl("");
         setTags(tags);
     }
 

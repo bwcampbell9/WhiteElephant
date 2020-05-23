@@ -1,22 +1,19 @@
 package com.example.white_elephant;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.example.white_elephant.models.ItemModel;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 
 public class MyClosetFragment extends Fragment implements ClosetAdapter.ItemClickListener {
@@ -41,6 +38,9 @@ public class MyClosetFragment extends Fragment implements ClosetAdapter.ItemClic
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_closet, container, false);
         ArrayList<ItemModel> items = new ArrayList<>();
+        ItemModel testImageItem = new ItemModel("Vans", "New white vans.", 50, new LinkedList<>());
+        testImageItem.setImageUrl("1590202130003.webp");
+        items.add(testImageItem);
         items.add(new ItemModel("Shirt", "My old shirt.", 22.0, new LinkedList<>()));
         items.add(new ItemModel("Pants", "These new pants.", .08, new LinkedList<>()));
         items.add(new ItemModel("Shoes", "Two shoes.", 10.0, new LinkedList<>()));
