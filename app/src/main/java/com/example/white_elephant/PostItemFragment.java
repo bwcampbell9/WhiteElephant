@@ -118,6 +118,7 @@ public class PostItemFragment extends Fragment {
                 String desc = descEditText.getText().toString().trim();
                 Double val = Double.valueOf(0);
 
+                ItemModel item = new ItemModel();
                 item.setName(name);
                 item.setDescription(desc);
                 item.setImageUrl(imageUrl);

@@ -15,11 +15,23 @@ public class MainActivity extends AppCompatActivity {
     private enum State {
         SWIPE,
         PROFILE,
-        POST
+        POST,
+        CLOSET
     }
 
     private State state;
     NavController navController;
+
+    public void setState(int i){
+        switch (i){
+            case 0:
+                state = State.CLOSET;
+        }
+    }
+
+    public NavController getNavController(){
+        return navController;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (state == State.POST)  {
             NavDirections action = PostItemFragmentDirections.actionPostItemFragmentToViewProfileFragment();
             navController.navigate(action);
+        }else if (state == State.CLOSET){
+            NavDirections action = MyClosetFragmentDirections.actionMyClosetFragmentToViewProfileFragment3();
+            navController.navigate(action);
         }
         state = State.PROFILE;
     }
@@ -47,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
             navController.navigate(action);
         } else if (state == State.POST)  {
             NavDirections action = PostItemFragmentDirections.actionPostItemFragmentToMainSwipeView();
+            navController.navigate(action);
+        }else if (state == State.CLOSET){
+            NavDirections action = MyClosetFragmentDirections.actionMyClosetFragmentToMainSwipeView2();
             navController.navigate(action);
         }
         state = State.SWIPE;
@@ -58,9 +76,13 @@ public class MainActivity extends AppCompatActivity {
         } else if (state == State.SWIPE)  {
             NavDirections action = MainSwipeFragmentDirections.actionMainSwipeViewToPostItemFragment();
             navController.navigate(action);
+        }else if (state == State.CLOSET){
+            NavDirections action = MyClosetFragmentDirections.actionMyClosetFragmentToPostItemFragment();
+            navController.navigate(action);
         }
         state = State.POST;
     }
+
 
 
 }
