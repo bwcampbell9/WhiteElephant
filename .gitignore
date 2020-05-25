@@ -14,7 +14,6 @@ local.properties
 .signing/
 
 # User-specific configurations
-.idea/*
 *.iml
 
 # OS-specific files
