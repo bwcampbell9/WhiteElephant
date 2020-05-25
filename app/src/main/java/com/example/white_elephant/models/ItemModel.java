@@ -1,28 +1,51 @@
 package com.example.white_elephant.models;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
-public class ItemModel implements Model {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ItemModel implements com.example.white_elephant.models.Model, Serializable {
+    public String id;
+    public String user;
     private String name;
     private String description;
     private double value;
+    private List<String> tags;
+
+    private List<String> liked;
+    private List<String> disliked;
+    private String imageUrl;
 
     /***
      *  Construct an empty ItemModel
      */
     public ItemModel() {
-        setName("");
         setDescription("");
         setValue(-1);
+        setImageUrl("");
+        setTags(new ArrayList<String>());
     }
 
     /***
      *  Construct an ItemModel with data
      */
-    public ItemModel(String name, String description, double value) {
+    public ItemModel(String name, String description, double value, List<String> tags) {
         setName(name);
         setDescription(description);
         setValue(value);
+        setImageUrl("");
+        setTags(tags);
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     /***
@@ -70,6 +93,39 @@ public class ItemModel implements Model {
         this.value = value;
     }
 
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public List<String> getDisliked() {
+        return disliked;
+    }
+
+    public void setDisliked(List<String> disliked) {
+        this.disliked = disliked;
+    }
+
+    public List<String> getLiked() {
+        return liked;
+    }
+
+    public void setLiked(List<String> liked) {
+        this.liked = liked;
+    }
+
+
     /* ALL CODE TO IMPLEMENT PARCELABLE THIS ALLOWS THE OBJECT TO BE PASSED IN A BUNDLE */
 
     protected ItemModel(Parcel in) {
@@ -78,7 +134,7 @@ public class ItemModel implements Model {
         this.setValue(in.readDouble());
     }
 
-    public static final Creator<ItemModel> CREATOR = new Creator<ItemModel>() {
+    public static final Parcelable.Creator<ItemModel> CREATOR = new Parcelable.Creator<ItemModel>() {
         @Override
         public ItemModel createFromParcel(Parcel in) {
             return new ItemModel(in);

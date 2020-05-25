@@ -1,10 +1,23 @@
 package com.example.white_elephant;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.white_elephant.models.ItemModel;
+import com.example.white_elephant.util.Database;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -16,11 +29,14 @@ import java.util.ArrayList;
 
 import com.example.white_elephant.views.ItemSwipeView;
 
+import java.util.Arrays;
+
 public class MainSwipeFragment extends Fragment {
+
 
     private FragmentManager fragMan;
 
-    ArrayList<ItemSwipeView> itemViewList;
+    ArrayList<com.example.white_elephant.views.ItemSwipeView> itemViewList;
 
     public MainSwipeFragment() {
         // Required empty public constructor
@@ -62,7 +78,7 @@ public class MainSwipeFragment extends Fragment {
         return view;
     }
 
-    private ItemSwipeView popTopItem() {
+    private com.example.white_elephant.views.ItemSwipeView popTopItem() {
         if(itemViewList.isEmpty()) {
             return null;
         }
@@ -78,6 +94,23 @@ public class MainSwipeFragment extends Fragment {
         return itemViewList.remove(0);
     }
 
+    private void pushNewItem(ItemModel item) {
+        ItemSwipeView view = ItemSwipeView.newInstance(item);
+        itemViewList.add(view);
+        if(itemViewList.size() > 2) {
+            return;
+        }
+        FragmentTransaction fragTransaction = fragMan.beginTransaction();
+        fragTransaction.add(R.id.swipe_cards_layout, view);
+        if(itemViewList.size() == 2) {
+            Log.e("Info", "Rearranging ");
+            fragTransaction.detach(itemViewList.get(0));
+            fragTransaction.attach(itemViewList.get(0));
+        }
+        Log.e("Info", "Task Pushing item with name " + item.getName());
+        fragTransaction.commit();
+    }
+
     public void likeItem() {
         popTopItem();
     }
@@ -90,10 +123,6 @@ public class MainSwipeFragment extends Fragment {
     }
 
     private void getArrayData() {
-        for(int i = 0; i < 5; i++) {
-            ItemModel model = new ItemModel("Neat Shoes", "These are my super neat shoes", i * 10.0);
-            ItemSwipeView view = ItemSwipeView.newInstance(model);
-            itemViewList.add(view);
-        }
+        Database.getInstance().getItemsByTags(Arrays.asList("null"), this::pushNewItem);
     }
 }

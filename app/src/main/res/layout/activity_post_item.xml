@@ -7,6 +7,32 @@
     android:orientation="vertical"
     tools:context=".PostItemFragment" >
 
+    <TextView
+        android:id="@+id/postTitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:gravity="center"
+        android:text="Post Your Item"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/chooseBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Choose Image" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <Button
+        android:id="@+id/uploadBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Upload Image" />
+
     <EditText
         android:id="@+id/nameEditText"
         android:layout_width="match_parent"
@@ -28,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Approximate Value"
+        android:hint="Approximate Value (Enter a number)"
         android:inputType="textPersonName" />
 
     <Button
@@ -37,10 +63,4 @@
         android:layout_height="wrap_content"
         android:text="Add Item" />
 
-    <EditText
-        android:id="@+id/postErrorEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName" />
 </LinearLayout>
