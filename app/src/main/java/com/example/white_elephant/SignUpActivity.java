@@ -102,12 +102,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             mBinding.textStatus.setText(String.format("Email User: %1$s",
                     user.getEmail(), user.isEmailVerified()));
             mBinding.createAcct.setVisibility(View.GONE);
+            mBinding.signIn.setVisibility(View.GONE);
             mBinding.fieldEmail.setVisibility(View.GONE);
             mBinding.fieldPassword.setVisibility(View.GONE);
         }
         else {
             mBinding.textStatus.setText("Didn't work");
             mBinding.createAcct.setVisibility(View.VISIBLE);
+            mBinding.signIn.setVisibility(View.VISIBLE);
             mBinding.fieldEmail.setVisibility(View.VISIBLE);
             mBinding.fieldPassword.setVisibility(View.VISIBLE);
         }
