@@ -16,7 +16,6 @@ local.properties
 # User-specific configurations
 .idea/*
 *.iml
-build_file_checksums.ser
 
 # OS-specific files
 .DS_Store
@@ -26,3 +25,5 @@ build_file_checksums.ser
 .Trashes
 ehthumbs.db
 Thumbs.dbs
+
+.idea/caches/build_file_checksums.ser
