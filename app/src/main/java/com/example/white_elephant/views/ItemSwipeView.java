@@ -170,7 +170,7 @@ public class ItemSwipeView extends Fragment {
             }
         });
 
-        Storage.getInstance().getImageURL("1590037253841.jpg", this::LoadImageFromWebOperations);
+        Storage.getInstance().getImage("1590037253841.jpg", imageView);
         return view;
     }
 

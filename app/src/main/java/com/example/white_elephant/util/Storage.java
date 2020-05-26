@@ -4,9 +4,11 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.example.white_elephant.MyApplication;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -48,29 +50,15 @@ public class Storage {
         return singleton;
     }
 
-    public void getImageURL(String imageName, DrawableCallback cb) {
-       // Create a storage reference from our app
-       StorageReference storageRef = storage.getReference();
+    public void getImage(String imageName, ImageView view) {
+        // Create a storage reference from our app
+        StorageReference storageRef = storage.getReference();
 
-       // Create a reference with an initial file path and name
-       StorageReference pathReference = storageRef.child("Item/" + imageName);
+        // Create a reference with an initial file path and name
+        StorageReference pathReference = storageRef.child("Item/" + imageName);
 
-       pathReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-           @Override
-           public void onSuccess(Uri uri) {
-               try {
-                   InputStream is = MyApplication.getAppContext().getContentResolver().openInputStream(uri);
-                   Drawable d = Drawable.createFromStream(is, "src name");;
-                   cb.drawableCallback(d);
-               } catch (Exception e) {
-                   e.printStackTrace();
-               }
-           }
-       }).addOnFailureListener(new OnFailureListener() {
-           @Override
-           public void onFailure(@NonNull Exception exception) {
-               exception.printStackTrace();
-           }
-       });
-   }
+        Glide.with(MyApplication.getAppContext())
+                .load(pathReference)
+                .into(view);
+    }
 }
