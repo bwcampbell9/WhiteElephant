@@ -48,7 +48,7 @@ public class Storage {
         return singleton;
     }
 
-   public void getImageURL(String imageName, DrawableCallback cb) {
+    public void getImageURL(String imageName, DrawableCallback cb) {
        // Create a storage reference from our app
        StorageReference storageRef = storage.getReference();
 

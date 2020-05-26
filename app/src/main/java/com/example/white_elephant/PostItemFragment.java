@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,10 +42,8 @@ public class PostItemFragment extends Fragment {
     ImageView imageView;
 
     Button addItemBtn;
-    //DatabaseReference dbReff;
     ItemModel item;
 
-    StorageReference mStorageRef;
     private Uri imageUri;
 
     String tempImageUrl;
@@ -82,9 +81,6 @@ public class PostItemFragment extends Fragment {
 
         item = new ItemModel();
         addItemBtn = (Button) view.findViewById(R.id.addItemBtn);
-
-        //dbReff = FirebaseDatabase.getInstance().getReference().child("Item");
-        mStorageRef = Storage.getInstance().getRef("Item");
 
         chooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,24 +152,25 @@ public class PostItemFragment extends Fragment {
 
     private void myFileUploader(){
         tempImageUrl = System.currentTimeMillis() + "." + getExtension(imageUri);
-        StorageReference storageReff = mStorageRef.child(tempImageUrl);
 
-        uploadTask = (UploadTask) storageReff.putFile(imageUri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        makeToast("Image Uploaded Successfully");
-                        imageUrl = tempImageUrl;
-                        uploaded = true;
-                    }
+        Log.e("Error", "Depreciated, moving to using the Storage class once sign-in is implemented");
 
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        makeToast(exception.getMessage());
-                    }
-                });
+//        uploadTask = (UploadTask) storageReff.putFile(imageUri)
+//                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                        makeToast("Image Uploaded Successfully");
+//                        imageUrl = tempImageUrl;
+//                        uploaded = true;
+//                    }
+//
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception exception) {
+//                        makeToast(exception.getMessage());
+//                    }
+//                });
 
 
     }
