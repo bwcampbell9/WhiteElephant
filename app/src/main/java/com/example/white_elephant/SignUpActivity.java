@@ -57,7 +57,6 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
 
-
         //mBinding.signIn.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
