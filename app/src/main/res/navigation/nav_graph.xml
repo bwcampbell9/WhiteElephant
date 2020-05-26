@@ -59,6 +59,9 @@
         <action
             android:id="@+id/action_myClosetFragment_to_viewMyItem"
             app:destination="@id/viewMyItem" />
+        <action
+            android:id="@+id/action_myClosetFragment_self"
+            app:destination="@id/myClosetFragment" />
     </fragment>
     <fragment
         android:id="@+id/viewMyItem"

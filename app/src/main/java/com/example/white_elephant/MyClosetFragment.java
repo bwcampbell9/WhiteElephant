@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +21,7 @@ import java.util.LinkedList;
 public class MyClosetFragment extends Fragment implements ClosetAdapter.ItemClickListener {
 
     ClosetAdapter adapter;
+    private Button goBack;
 
     public MyClosetFragment() {
         // Required empty public constructor
@@ -64,4 +67,5 @@ public class MyClosetFragment extends Fragment implements ClosetAdapter.ItemClic
         ft.replace(R.id.Closet, fragment);
         ft.commit();
     }
+
 }
