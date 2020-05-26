@@ -35,16 +35,29 @@ public class ViewProfileFragment extends Fragment implements  View.OnClickListen
         View view = inflater.inflate(R.layout.activity_view_profile, container, false);
         final Button viewCloset = view.findViewById(R.id.MyCloset);
         viewCloset.setOnClickListener(this);
+        final Button viewMatches = view.findViewById(R.id.myMatches);
+        viewMatches.setOnClickListener(this);
         return view;
         // View logic here and return view after
     }
 
     public void onClick(View v){
-        ((MainActivity)getActivity()).setState(0);
-        NavController navController = ((MainActivity)getActivity()).getNavController();
-        NavDirections action = ViewProfileFragmentDirections.actionViewProfileFragmentToMyClosetFragment();
-        navController.navigate(action);
+
+        NavController navController = ((MainActivity) getActivity()).getNavController();
+        NavDirections action;
+        switch (v.getId()) {
+            case R.id.MyCloset:
+                ((MainActivity) getActivity()).setState(0);
+                action = ViewProfileFragmentDirections.actionViewProfileFragmentToMyClosetFragment();
+                navController.navigate(action);
+                break;
+            case R.id.myMatches:
+                action = ViewProfileFragmentDirections.actionViewProfileFragmentToMatchesFragment();
+                navController.navigate(action);
+                break;
+
+        }
+        }
     }
 
 
-}

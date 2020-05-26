@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.white_elephant.models.ItemModel;
-import com.example.white_elephant.util.GlideApp;
+//import com.example.white_elephant.util.GlideApp;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -51,7 +51,7 @@ public class ClosetAdapter extends RecyclerView.Adapter<ClosetAdapter.ViewHolder
         // still not working
         if (item.getImageUrl().length() > 0){
             mStorageRef = FirebaseStorage.getInstance().getReference("Item").child(item.getImageUrl());
-            GlideApp.with(holder.itemView.getContext()).load(mStorageRef).into(holder.myImage);
+            //GlideApp.with(holder.itemView.getContext()).load(mStorageRef).into(holder.myImage);
         }
     }
 

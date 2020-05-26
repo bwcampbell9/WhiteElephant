@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_viewProfileFragment_to_myClosetFragment"
             app:destination="@id/myClosetFragment" />
+        <action
+            android:id="@+id/action_viewProfileFragment_to_matchesFragment"
+            app:destination="@id/matchesFragment" />
     </fragment>
     <fragment
         android:id="@+id/postItemFragment"
@@ -68,4 +71,9 @@
         android:name="com.example.white_elephant.ViewMyItem"
         android:label="fragment_view_my_item"
         tools:layout="@layout/fragment_view_my_item" />
+    <fragment
+        android:id="@+id/matchesFragment"
+        android:name="com.example.white_elephant.MatchesFragment"
+        android:label="fragment_matches"
+        tools:layout="@layout/fragment_matches" />
 </navigation>
