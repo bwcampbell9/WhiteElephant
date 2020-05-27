@@ -3,6 +3,7 @@ package com.example.white_elephant;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -61,7 +62,12 @@ public class MatchesFragment extends Fragment implements MainActivity.MatchesAda
         return view;
     }
 
-    public void onItemClick(View view, int position){}
+    public void onItemClick(View view, int position){
+        //FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        //Fragment fragment = ViewMyItem.newInstance(adapter.getItem(position));
+        //ft.replace(R.id.Closet, fragment);
+        //ft.commit();
+    }
 
 
 }
