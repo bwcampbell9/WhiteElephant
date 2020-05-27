@@ -39,7 +39,8 @@ public class ItemSwipeView extends Fragment {
         SAVE,
     }
 
-    Status status = Status.NOTHING;
+    private Status status = Status.NOTHING;
+    private ItemModel item;
 
     /**
      * Create a new instance of ItemSwipeView, initialized to
@@ -78,10 +79,10 @@ public class ItemSwipeView extends Fragment {
         dislikeView.setAlpha(0f);
         saveView.setAlpha(0f);
 
-        ItemModel model = getModel();
+        item = getModel();
 
-        textView.setText(model.getName() + ", $" + model.getValue());
-        descriptionView.setText(model.getDescription());
+        textView.setText(item.getName() + ", $" + item.getValue());
+        descriptionView.setText(item.getDescription());
 
         view.setX(0);
         view.setY(0);
@@ -170,7 +171,7 @@ public class ItemSwipeView extends Fragment {
             }
         });
 
-        Storage.getInstance().getImage("1590037253841.jpg", imageView);
+        Storage.getInstance().getImage(item.getImageUrl(), imageView);
         return view;
     }
 

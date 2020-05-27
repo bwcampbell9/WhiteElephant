@@ -144,7 +144,7 @@ public class PostItemFragment extends Fragment {
 
     private void myFileChooser () {
         Intent intent = new Intent();
-        intent.setType("image/");
+        intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, 1);
 
@@ -153,24 +153,22 @@ public class PostItemFragment extends Fragment {
     private void myFileUploader(){
         tempImageUrl = System.currentTimeMillis() + "." + getExtension(imageUri);
 
-        Log.e("Error", "Depreciated, moving to using the Storage class once sign-in is implemented");
+        Storage.getInstance().uploadImage(tempImageUrl, imageUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        makeToast("Image Uploaded Successfully");
+                        imageUrl = tempImageUrl;
+                        uploaded = true;
+                    }
 
-//        uploadTask = (UploadTask) storageReff.putFile(imageUri)
-//                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                    @Override
-//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                        makeToast("Image Uploaded Successfully");
-//                        imageUrl = tempImageUrl;
-//                        uploaded = true;
-//                    }
-//
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception exception) {
-//                        makeToast(exception.getMessage());
-//                    }
-//                });
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        makeToast(exception.getMessage());
+                    }
+                });
 
 
     }
