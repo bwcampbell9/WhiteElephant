@@ -75,5 +75,18 @@
         android:id="@+id/matchesFragment"
         android:name="com.example.white_elephant.MatchesFragment"
         android:label="fragment_matches"
-        tools:layout="@layout/fragment_matches" />
+        tools:layout="@layout/fragment_matches" >
+        <action
+            android:id="@+id/action_matchesFragment_to_mainSwipeView"
+            app:destination="@id/mainSwipeView" />
+        <action
+            android:id="@+id/action_matchesFragment_to_postItemFragment"
+            app:destination="@id/postItemFragment" />
+        <action
+            android:id="@+id/action_matchesFragment_to_viewProfileFragment"
+            app:destination="@id/viewProfileFragment" />
+        <action
+            android:id="@+id/action_matchesFragment_self"
+            app:destination="@id/matchesFragment" />
+    </fragment>
 </navigation>

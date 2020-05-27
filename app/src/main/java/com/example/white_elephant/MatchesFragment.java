@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.example.white_elephant.models.ItemModel;
 import com.example.white_elephant.models.TradeModel;
-import com.example.white_elephant.views.MatchesAdapter;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -21,9 +20,9 @@ import java.util.LinkedList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MatchesFragment extends Fragment implements MatchesAdapter.ItemClickListener {
+public class MatchesFragment extends Fragment implements MainActivity.MatchesAdapter.ItemClickListener {
 
-    MatchesAdapter adapter;
+    MainActivity.MatchesAdapter adapter;
 
     public MatchesFragment() {
         // Required empty public constructor
@@ -55,7 +54,7 @@ public class MatchesFragment extends Fragment implements MatchesAdapter.ItemClic
         trades.add(new TradeModel(items.get(7), items.get(7)));
         RecyclerView recyclerView = view.findViewById(R.id.matches);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new MatchesAdapter(getActivity(), trades);
+        adapter = new MainActivity.MatchesAdapter(getActivity(), trades);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
 

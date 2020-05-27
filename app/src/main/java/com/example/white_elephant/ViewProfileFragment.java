@@ -52,6 +52,7 @@ public class ViewProfileFragment extends Fragment implements  View.OnClickListen
                 navController.navigate(action);
                 break;
             case R.id.myMatches:
+                ((MainActivity) getActivity()).setState(1);
                 action = ViewProfileFragmentDirections.actionViewProfileFragmentToMatchesFragment();
                 navController.navigate(action);
                 break;
