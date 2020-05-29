@@ -1,4 +1,4 @@
-package com.example.white_elephant.views;
+package com.example.white_elephant;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.white_elephant.R;
-import com.example.white_elephant.models.ItemModel;
 import com.example.white_elephant.models.TradeModel;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -21,7 +19,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
 
     private List<TradeModel> mData;
     private LayoutInflater mInflater;
-    private MatchesAdapter.ItemClickListener mClickListener;
+    private ItemClickListener mClickListener;
     private Context mContext;
     StorageReference mStorageRef;
 
@@ -34,14 +32,14 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
 
     // inflates the row layout from xml when needed
     @Override
-    public MatchesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.trade_row, parent, false);
-        return new MatchesAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     // binds the data to the TextView in each row
     @Override
-    public void onBindViewHolder(MatchesAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
 
         TradeModel item = mData.get(position);
         holder.item1name.setText(item.getItem1().getName());
@@ -94,12 +92,12 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
     }
 
     // convenience method for getting data at click position
-    TradeModel getItem(int id) {
+    TradeModel getTrade(int id) {
         return mData.get(id);
     }
 
     // allows clicks events to be caught
-    public void setClickListener(MatchesAdapter.ItemClickListener itemClickListener) {
+    public void setClickListener(ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
     }
 

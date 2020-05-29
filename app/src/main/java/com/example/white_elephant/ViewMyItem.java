@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.white_elephant.models.ItemModel;
+import com.example.white_elephant.models.TradeModel;
 
 
 /**
@@ -56,4 +57,6 @@ public class ViewMyItem extends Fragment implements View.OnClickListener
                 NavDirections action = MyClosetFragmentDirections.actionMyClosetFragmentSelf();
                 navController.navigate(action);
     }
+
+
 }

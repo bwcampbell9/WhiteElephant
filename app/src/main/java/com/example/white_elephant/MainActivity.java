@@ -1,12 +1,24 @@
 package com.example.white_elephant;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.white_elephant.models.TradeModel;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,17 +28,17 @@ public class MainActivity extends AppCompatActivity {
         SWIPE,
         PROFILE,
         POST,
-        CLOSET
+        CLOSET,
+        MATCHES,
+        TRADES
     }
 
     private State state;
     NavController navController;
 
     public void setState(int i){
-        switch (i){
-            case 0:
-                state = State.CLOSET;
-        }
+        State[] states = new State[]{State.CLOSET, State.MATCHES, State.TRADES};
+        state = states[i];
     }
 
     public NavController getNavController(){
@@ -53,6 +65,13 @@ public class MainActivity extends AppCompatActivity {
         }else if (state == State.CLOSET){
             NavDirections action = MyClosetFragmentDirections.actionMyClosetFragmentToViewProfileFragment3();
             navController.navigate(action);
+        }else if (state == State.MATCHES){
+            NavDirections action = MatchesFragmentDirections.actionMatchesFragmentToViewProfileFragment();
+            navController.navigate(action);
+        }
+        else if (state == State.TRADES){
+            NavDirections action = MyTradesDirections.actionMyTradesToViewProfileFragment();
+            navController.navigate(action);
         }
         state = State.PROFILE;
     }
@@ -65,6 +84,12 @@ public class MainActivity extends AppCompatActivity {
             navController.navigate(action);
         }else if (state == State.CLOSET){
             NavDirections action = MyClosetFragmentDirections.actionMyClosetFragmentToMainSwipeView2();
+            navController.navigate(action);
+        }else if (state == State.MATCHES) {
+            NavDirections action = MatchesFragmentDirections.actionMatchesFragmentToMainSwipeView();
+            navController.navigate(action);
+        }else if (state == State.TRADES){
+            NavDirections action = MyTradesDirections.actionMyTradesToMainSwipeView();
             navController.navigate(action);
         }
         state = State.SWIPE;
@@ -79,6 +104,12 @@ public class MainActivity extends AppCompatActivity {
         }else if (state == State.CLOSET){
             NavDirections action = MyClosetFragmentDirections.actionMyClosetFragmentToPostItemFragment();
             navController.navigate(action);
+        }else if (state == State.MATCHES) {
+            NavDirections action = MatchesFragmentDirections.actionMatchesFragmentToPostItemFragment();
+            navController.navigate(action);
+        }else if (state == State.TRADES){
+            NavDirections action = MyTradesDirections.actionMyTradesToPostItemFragment();
+            navController.navigate(action);
         }
         state = State.POST;
     }
@@ -86,4 +117,5 @@ public class MainActivity extends AppCompatActivity {
     public String getUserEmail() {
         return userEmail;
     }
+
 }
