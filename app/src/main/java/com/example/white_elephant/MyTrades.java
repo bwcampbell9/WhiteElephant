@@ -20,19 +20,36 @@ import java.util.LinkedList;
 
 /**
  * A simple {@link Fragment} subclass.
+ * Use the {@link MyTrades#newInstance} factory method to
+ * create an instance of this fragment.
  */
-public class MatchesFragment extends Fragment implements MatchesAdapter.ItemClickListener {
+public class MyTrades extends Fragment implements MatchesAdapter.ItemClickListener {
 
     MatchesAdapter adapter;
 
-    public MatchesFragment() {
+
+    public MyTrades() {
         // Required empty public constructor
     }
 
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment MyTrades.
+     */
+    public static MyTrades newInstance(String param1, String param2) {
+        MyTrades fragment = new MyTrades();
+
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                         Bundle savedInstanceStat) {
+
         View view = inflater.inflate(R.layout.fragment_matches, container, false);
         ArrayList<ItemModel> items = new ArrayList<>();
         ItemModel testImageItem = new ItemModel("Vans", "New white vans.", 50, new LinkedList<>());
@@ -57,14 +74,13 @@ public class MatchesFragment extends Fragment implements MatchesAdapter.ItemClic
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new MatchesAdapter(getActivity(), trades);
         adapter.setClickListener(this);
-        recyclerView.setAdapter(adapter);
-
+        recyclerView.setAdapter(adapter);;
         return view;
-    }
+        }
 
     public void onItemClick(View view, int position){
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        Fragment fragment = ViewMyTrade.newInstance(adapter.getTrade(position), 0, false);
+        Fragment fragment = ViewMyTrade.newInstance(adapter.getTrade(position), 1, true);
         ft.replace(R.id.Matches, fragment);
         ft.commit();
     }

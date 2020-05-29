@@ -1,6 +1,8 @@
 package com.example.white_elephant.models;
 
-public class TradeModel {
+import java.io.Serializable;
+
+public class TradeModel implements Serializable {
     private ItemModel item1;
     private ItemModel item2;
     private boolean user1Confirm;

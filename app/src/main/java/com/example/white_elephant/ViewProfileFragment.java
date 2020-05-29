@@ -37,12 +37,13 @@ public class ViewProfileFragment extends Fragment implements  View.OnClickListen
         viewCloset.setOnClickListener(this);
         final Button viewMatches = view.findViewById(R.id.myMatches);
         viewMatches.setOnClickListener(this);
+        final Button viewTrades = view.findViewById(R.id.myTrades);
+        viewTrades.setOnClickListener(this);
         return view;
         // View logic here and return view after
     }
 
     public void onClick(View v){
-
         NavController navController = ((MainActivity) getActivity()).getNavController();
         NavDirections action;
         switch (v.getId()) {
@@ -56,6 +57,10 @@ public class ViewProfileFragment extends Fragment implements  View.OnClickListen
                 action = ViewProfileFragmentDirections.actionViewProfileFragmentToMatchesFragment();
                 navController.navigate(action);
                 break;
+            case R.id.myTrades:
+                ((MainActivity) getActivity()).setState(2);
+                action = ViewProfileFragmentDirections.actionViewProfileFragmentToMyTrades();
+                navController.navigate(action);
 
         }
         }
