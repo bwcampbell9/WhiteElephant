@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.white_elephant.MainSwipeFragment;
-import com.example.white_elephant.models.ItemModel;
+import com.example.white_elephant.models.Item;
 import com.example.white_elephant.R;
 
 public class ItemSwipeView extends Fragment {
@@ -37,7 +37,7 @@ public class ItemSwipeView extends Fragment {
      * Create a new instance of ItemSwipeView, initialized to
      * show the view of the provided itemModel.
      */
-    public static ItemSwipeView newInstance(ItemModel model) {
+    public static ItemSwipeView newInstance(Item model) {
         ItemSwipeView f = new ItemSwipeView();
 
         // Supply model input as an argument.
@@ -64,7 +64,7 @@ public class ItemSwipeView extends Fragment {
         dislikeView.setAlpha(0f);
         saveView.setAlpha(0f);
 
-        ItemModel model = getModel();
+        Item model = getModel();
 
         textView.setText(model.getName() + ", $" + model.getValue());
         descriptionView.setText(model.getDescription());
@@ -160,7 +160,7 @@ public class ItemSwipeView extends Fragment {
     }
 
 
-    public ItemModel getModel() {
+    public Item getModel() {
         return getArguments().getParcelable("model");
     }
 }

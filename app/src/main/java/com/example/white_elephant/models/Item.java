@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemModel implements com.example.white_elephant.models.Model, Serializable {
+public class Item implements Parcelable, Serializable {
     public String id;
     public String user;
     private String name;
@@ -22,7 +22,7 @@ public class ItemModel implements com.example.white_elephant.models.Model, Seria
     /***
      *  Construct an empty ItemModel
      */
-    public ItemModel() {
+    public Item() {
         setDescription("");
         setValue(-1);
         setImageUrl("");
@@ -32,7 +32,7 @@ public class ItemModel implements com.example.white_elephant.models.Model, Seria
     /***
      *  Construct an ItemModel with data
      */
-    public ItemModel(String name, String description, double value, List<String> tags) {
+    public Item(String name, String description, double value, List<String> tags) {
         setName(name);
         setDescription(description);
         setValue(value);
@@ -128,21 +128,21 @@ public class ItemModel implements com.example.white_elephant.models.Model, Seria
 
     /* ALL CODE TO IMPLEMENT PARCELABLE THIS ALLOWS THE OBJECT TO BE PASSED IN A BUNDLE */
 
-    protected ItemModel(Parcel in) {
+    protected Item(Parcel in) {
         this.setName(in.readString());
         this.setDescription(in.readString());
         this.setValue(in.readDouble());
     }
 
-    public static final Parcelable.Creator<ItemModel> CREATOR = new Parcelable.Creator<ItemModel>() {
+    public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {
         @Override
-        public ItemModel createFromParcel(Parcel in) {
-            return new ItemModel(in);
+        public Item createFromParcel(Parcel in) {
+            return new Item(in);
         }
 
         @Override
-        public ItemModel[] newArray(int size) {
-            return new ItemModel[size];
+        public Item[] newArray(int size) {
+            return new Item[size];
         }
     };
 

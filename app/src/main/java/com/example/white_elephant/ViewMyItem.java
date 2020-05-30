@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.white_elephant.models.ItemModel;
+import com.example.white_elephant.models.Item;
 
 
 /**
@@ -21,7 +21,7 @@ public class ViewMyItem extends Fragment {
         // Required empty public constructor
     }
 
-    public static ViewMyItem newInstance(ItemModel item){
+    public static ViewMyItem newInstance(Item item){
         ViewMyItem v = new ViewMyItem();
         Bundle args = new Bundle();
         args.putSerializable("a", item);
@@ -34,7 +34,7 @@ public class ViewMyItem extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ItemModel item = (ItemModel)getArguments().getSerializable("a");
+        Item item = (Item)getArguments().getSerializable("a");
         View view = inflater.inflate(R.layout.fragment_view_my_item, container, false);
         ((TextView)view.findViewById(R.id.Title)).setText(item.getName());
         ((TextView)view.findViewById(R.id.Details)).setText(item.getDescription());

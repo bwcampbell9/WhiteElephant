@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.white_elephant.models.ItemModel;
+import com.example.white_elephant.models.Item;
 import com.example.white_elephant.util.GlideApp;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -18,14 +18,14 @@ import java.util.List;
 
 public class ClosetAdapter extends RecyclerView.Adapter<ClosetAdapter.ViewHolder> {
 
-    private List<ItemModel> mData;
+    private List<Item> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     private Context mContext;
     StorageReference mStorageRef;
 
     // data is passed into the constructor
-    ClosetAdapter(Context context, List<ItemModel> data) {
+    ClosetAdapter(Context context, List<Item> data) {
         mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
@@ -42,7 +42,7 @@ public class ClosetAdapter extends RecyclerView.Adapter<ClosetAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        ItemModel item = mData.get(position);
+        Item item = mData.get(position);
         holder.nameTextView.setText(item.getName());
         holder.descTextView.setText(item.getDescription());
         holder.valueTextView.setText(Double.toString(item.getValue()));
@@ -86,7 +86,7 @@ public class ClosetAdapter extends RecyclerView.Adapter<ClosetAdapter.ViewHolder
     }
 
     // convenience method for getting data at click position
-    ItemModel getItem(int id) {
+    Item getItem(int id) {
        return mData.get(id);
      }
 

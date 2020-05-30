@@ -17,7 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.white_elephant.models.ItemModel;
+import com.example.white_elephant.models.Item;
 import com.example.white_elephant.util.Database;
 import com.example.white_elephant.util.Storage;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -42,7 +42,7 @@ public class PostItemFragment extends Fragment {
 
     Button addItemBtn;
     //DatabaseReference dbReff;
-    ItemModel item;
+    Item item;
 
     StorageReference mStorageRef;
     private Uri imageUri;
@@ -80,7 +80,7 @@ public class PostItemFragment extends Fragment {
         descEditText = (EditText) view.findViewById(R.id.descEditText);
         valEditText = (EditText) view.findViewById(R.id.valEditText);
 
-        item = new ItemModel();
+        item = new Item();
         addItemBtn = (Button) view.findViewById(R.id.addItemBtn);
 
         //dbReff = FirebaseDatabase.getInstance().getReference().child("Item");
@@ -119,7 +119,7 @@ public class PostItemFragment extends Fragment {
                 Bundle bundle = getActivity().getIntent().getExtras();
                 String user = bundle.getString("email");
 
-                ItemModel item = new ItemModel();
+                Item item = new Item();
                 item.setName(name);
                 item.setDescription(desc);
                 item.setImageUrl(imageUrl);

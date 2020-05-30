@@ -13,15 +13,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.white_elephant.R;
-import com.example.white_elephant.models.ItemModel;
+import com.example.white_elephant.models.Item;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
-public class ItemList extends ArrayAdapter<ItemModel> {
+public class ItemList extends ArrayAdapter<Item> {
 
     private Activity context;
-    private List<ItemModel> itemList;
+    private List<Item> itemList;
     Uri imageUri;
 
     StorageReference imageReff;
@@ -32,7 +32,7 @@ public class ItemList extends ArrayAdapter<ItemModel> {
 
     ImageView listImageView;
 
-    public ItemList(Activity context, List<ItemModel> itemList){
+    public ItemList(Activity context, List<Item> itemList){
 
         super(context, R.layout.list_layout, itemList);
         this.context = context;
@@ -50,7 +50,7 @@ public class ItemList extends ArrayAdapter<ItemModel> {
         listValTextView = (TextView) listViewItem.findViewById(R.id.listValTextView);
         //listImageView = (ImageView) listImageView.findViewById(R.id.listImageView);
 
-        ItemModel item = itemList.get(position);
+        Item item = itemList.get(position);
 
         listNameTextView.setText(item.getName());
         listDescTextView.setText(item.getDescription());

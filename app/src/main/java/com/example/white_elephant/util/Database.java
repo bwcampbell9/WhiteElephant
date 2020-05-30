@@ -4,7 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.white_elephant.models.ItemModel;
+import com.example.white_elephant.models.Item;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,7 +30,7 @@ public class Database {
     }
 
     public interface ItemCallback {
-        void itemCallback(ItemModel item);
+        void itemCallback(Item item);
     }
 
     private static Database singleton;
@@ -48,11 +48,11 @@ public class Database {
     }
 
     public void getItemsByTags(List<String> tags, final ItemCallback forEachDoc) {
-        getDocsByProp("items", "tags", "array-contains-any", tags, (Object o) -> {forEachDoc.itemCallback(((ItemModel) o));});
+        getDocsByProp("items", "tags", "array-contains-any", tags, (Object o) -> {forEachDoc.itemCallback(((Item) o));});
     }
 
     //Todo: add success and failure listeners and use add document
-    public void pushItem(ItemModel item) {
+    public void pushItem(Item item) {
         db.collection("items").add(item)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -76,7 +76,7 @@ public class Database {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        ItemModel item = document.toObject(ItemModel.class);
+                        Item item = document.toObject(Item.class);
                         item.id = document.getId();
                         docCB.objectCallback(item);
                     } else {
@@ -126,7 +126,7 @@ public class Database {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        ItemModel item = document.toObject(ItemModel.class);
+                        Item item = document.toObject(Item.class);
                         item.id = document.getId();
                         forEachDoc.objectCallback(item);
                     }
