@@ -3,12 +3,12 @@ package com.example.white_elephant.models;
 import java.io.Serializable;
 
 public class TradeModel implements Serializable {
-    private ItemModel item1;
-    private ItemModel item2;
+    private Item item1;
+    private Item item2;
     private boolean user1Confirm;
     private boolean user2Confirm;
 
-    public TradeModel(ItemModel a, ItemModel b){
+    public TradeModel(Item a, Item b){
         item1 = a;
         item2 = b;
     }
@@ -21,11 +21,11 @@ public class TradeModel implements Serializable {
         user2Confirm = a;
     }
 
-    public ItemModel getItem1() {
+    public Item getItem1() {
         return item1;
     }
 
-    public ItemModel getItem2(){
+    public Item getItem2(){
         return item2;
     }
 

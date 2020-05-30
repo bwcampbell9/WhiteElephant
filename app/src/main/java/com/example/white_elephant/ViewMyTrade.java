@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.white_elephant.models.ItemModel;
+import com.example.white_elephant.models.Item;
 import com.example.white_elephant.models.TradeModel;
 
 
