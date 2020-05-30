@@ -48,7 +48,7 @@ public class Database {
     }
 
     public void getItemsByTags(List<String> tags, final ItemCallback forEachDoc) {
-        getDocsByProp("items", "tags", "array-contains-any", tags, (Object o) -> {forEachDoc.itemCallback(((Item) o));});
+        getDocsByProp("items", "tags", "array-contains-any", tags, (Object o) -> {forEachDoc.itemCallback(((Item) o));}, Item.class);
     }
 
     //Todo: add success and failure listeners and use add document
@@ -68,7 +68,7 @@ public class Database {
                 });;
     }
 
-    public void getDocument(String path, final ObjectCallback docCB) {
+    public void getDocument(String path, final ObjectCallback docCB, Class objType) {
         DocumentReference docRef = this.db.document(path);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -76,8 +76,8 @@ public class Database {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Item item = document.toObject(Item.class);
-                        item.id = document.getId();
+                        Object item = document.toObject(objType);
+                        //item.id = document.getId();
                         docCB.objectCallback(item);
                     } else {
                         Log.e("Error", "No such document");
@@ -89,7 +89,7 @@ public class Database {
         });
     };
 
-    public void getDocsByProp(String path, String prop, String compare, Object value, ObjectCallback forEachDoc) {
+    public void getDocsByProp(String path, String prop, String compare, Object value, ObjectCallback forEachDoc, Class objType) {
         Query query = null;
         switch (compare) {
             case "==":
@@ -126,8 +126,8 @@ public class Database {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        Item item = document.toObject(Item.class);
-                        item.id = document.getId();
+                        Object item = document.toObject(objType);
+                        //item.id = document.getId();
                         forEachDoc.objectCallback(item);
                     }
                 } else {

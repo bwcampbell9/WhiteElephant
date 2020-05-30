@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,6 @@ public class PostItemFragment extends Fragment {
     //DatabaseReference dbReff;
     Item item;
 
-    StorageReference mStorageRef;
     private Uri imageUri;
 
     String tempImageUrl;
@@ -82,9 +82,6 @@ public class PostItemFragment extends Fragment {
 
         item = new Item();
         addItemBtn = (Button) view.findViewById(R.id.addItemBtn);
-
-        //dbReff = FirebaseDatabase.getInstance().getReference().child("Item");
-        mStorageRef = Storage.getInstance().getRef("Item");
 
         chooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,7 +145,7 @@ public class PostItemFragment extends Fragment {
 
     private void myFileChooser () {
         Intent intent = new Intent();
-        intent.setType("image/");
+        intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, 1);
 
@@ -156,9 +153,8 @@ public class PostItemFragment extends Fragment {
 
     private void myFileUploader(){
         tempImageUrl = System.currentTimeMillis() + "." + getExtension(imageUri);
-        StorageReference storageReff = mStorageRef.child(tempImageUrl);
 
-        uploadTask = (UploadTask) storageReff.putFile(imageUri)
+        Storage.getInstance().uploadImage(tempImageUrl, imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

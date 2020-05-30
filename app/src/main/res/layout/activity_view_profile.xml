@@ -6,22 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".ViewProfileFragment">
 
-    <Button
-        android:id="@+id/back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="goBack"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:layout_width="409dp"
         android:layout_height="681dp"
-        android:layout_marginTop="12dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/back">
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/MyCloset"
@@ -30,13 +20,13 @@
             android:text="My Closet" />
 
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/myMatches"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="My Matches" />
 
         <Button
-            android:id="@+id/button7"
+            android:id="@+id/myTrades"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="My Trades" />
