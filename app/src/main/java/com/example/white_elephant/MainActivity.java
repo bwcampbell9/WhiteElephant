@@ -10,6 +10,7 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import com.example.white_elephant.models.User;
+import com.example.white_elephant.util.Database;
 
 public class MainActivity extends AppCompatActivity {
 
