@@ -2,6 +2,7 @@ package com.example.white_elephant;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -13,7 +14,7 @@ import com.example.white_elephant.util.Database;
 
 public class MainActivity extends AppCompatActivity {
 
-    public User user;
+    public static User user;
 
     private enum State {
         SWIPE,
@@ -41,18 +42,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.parent_layout);
 
+        user = new User();
         Bundle bundle = getIntent().getExtras();
         String uid = bundle.getString("uid");
 
-       //Database.getInstance().getDocument("users/" + uid, this:getUser, User.class);
+        Database.getInstance().getDocument("users/" + uid, MainActivity.this::getUser, User.class);
 
         navController = Navigation.findNavController(findViewById(R.id.nav_fragment));
 
         state = State.SWIPE;
+
+
     }
 
     private void getUser(Object obj){
         user = (User) obj;
+        user.setEmail(((User) obj).getEmail());
+        Toast.makeText(this, user.getEmail(), Toast.LENGTH_LONG).show();
     }
 
     public void onClickProfile(View view) {
@@ -112,10 +118,6 @@ public class MainActivity extends AppCompatActivity {
             navController.navigate(action);
         }
         state = State.POST;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
     }
 
 }

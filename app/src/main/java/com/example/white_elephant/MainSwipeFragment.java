@@ -6,33 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.white_elephant.models.Item;
-import com.example.white_elephant.util.Database;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.white_elephant.models.Item;
-
-import java.util.ArrayList;
-
+import com.example.white_elephant.util.Database;
 import com.example.white_elephant.views.ItemSwipeView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainSwipeFragment extends Fragment {
-
 
     private FragmentManager fragMan;
 
