@@ -9,7 +9,6 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import com.example.white_elephant.models.User;
-import com.example.white_elephant.util.Database;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -112,10 +111,6 @@ public class MainActivity extends AppCompatActivity {
             navController.navigate(action);
         }
         state = State.POST;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
     }
 
 }
