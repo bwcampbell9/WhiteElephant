@@ -1,28 +1,19 @@
 package com.example.white_elephant;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.white_elephant.models.TradeModel;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
-import java.util.List;
+import com.example.white_elephant.models.User;
+import com.example.white_elephant.util.Database;
 
 public class MainActivity extends AppCompatActivity {
 
-    public String userEmail;
+    public User user;
 
     private enum State {
         SWIPE,
@@ -50,9 +41,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.parent_layout);
 
+        Bundle bundle = getIntent().getExtras();
+        String uid = bundle.getString("uid");
+
+       //Database.getInstance().getDocument("users/" + uid, this:getUser, User.class);
+
         navController = Navigation.findNavController(findViewById(R.id.nav_fragment));
 
         state = State.SWIPE;
+    }
+
+    private void getUser(Object obj){
+        user = (User) obj;
     }
 
     public void onClickProfile(View view) {
