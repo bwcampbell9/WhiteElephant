@@ -64,7 +64,7 @@ public class MainSwipeFragment extends Fragment {
         return view;
     }
 
-    private com.example.white_elephant.views.ItemSwipeView popTopItem() {
+    private ItemSwipeView popTopItem() {
         if(itemViewList.isEmpty()) {
             return null;
         }

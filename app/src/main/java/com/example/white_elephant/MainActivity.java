@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void getUser(Object obj){
         user = (User) obj;
-        user.setEmail(((User) obj).getEmail());
         Toast.makeText(this, user.getEmail(), Toast.LENGTH_LONG).show();
     }
 
