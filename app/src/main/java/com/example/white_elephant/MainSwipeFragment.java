@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.white_elephant.models.ItemModel;
+import com.example.white_elephant.models.Item;
 import com.example.white_elephant.util.Database;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,7 +23,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.white_elephant.models.ItemModel;
+import com.example.white_elephant.models.Item;
 
 import java.util.ArrayList;
 
@@ -94,7 +94,7 @@ public class MainSwipeFragment extends Fragment {
         return itemViewList.remove(0);
     }
 
-    private void pushNewItem(ItemModel item) {
+    private void pushNewItem(Item item) {
         ItemSwipeView view = ItemSwipeView.newInstance(item);
         itemViewList.add(view);
         if(itemViewList.size() > 2) {
@@ -125,4 +125,5 @@ public class MainSwipeFragment extends Fragment {
     private void getArrayData() {
         Database.getInstance().getItemsByTags(Arrays.asList("null"), this::pushNewItem);
     }
+
 }

@@ -7,16 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.white_elephant.models.ItemModel;
+import com.example.white_elephant.models.Item;
 import com.example.white_elephant.R;
 
 public class ItemTileView extends Fragment {
 
     /**
      * Create a new instance of ItemSwipeView, initialized to
-     * show the view of the provided itemModel.
+     * show the view of the provided Item.
      */
-    public static ItemTileView newInstance(ItemModel model) {
+    public static ItemTileView newInstance(Item model) {
         ItemTileView f = new ItemTileView();
 
         // Supply model input as an argument.
@@ -35,7 +35,7 @@ public class ItemTileView extends Fragment {
         TextView textView = (TextView) view.findViewById(R.id.titleText);
         TextView valueView = (TextView) view.findViewById(R.id.valueText);
 
-        ItemModel model = getModel();
+        Item model = getModel();
 
         textView.setText(model.getName());
         valueView.setText("Value: $" + model.getValue());
@@ -44,7 +44,7 @@ public class ItemTileView extends Fragment {
     }
 
 
-    public ItemModel getModel() {
+    public Item getModel() {
         return getArguments().getParcelable("model");
     }
 }

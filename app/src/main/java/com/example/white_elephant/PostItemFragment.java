@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.white_elephant.models.ItemModel;
+import com.example.white_elephant.models.Item;
 import com.example.white_elephant.util.Database;
 import com.example.white_elephant.util.Storage;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -42,9 +43,8 @@ public class PostItemFragment extends Fragment {
 
     Button addItemBtn;
     //DatabaseReference dbReff;
-    ItemModel item;
+    Item item;
 
-    StorageReference mStorageRef;
     private Uri imageUri;
 
     String tempImageUrl;
@@ -80,11 +80,8 @@ public class PostItemFragment extends Fragment {
         descEditText = (EditText) view.findViewById(R.id.descEditText);
         valEditText = (EditText) view.findViewById(R.id.valEditText);
 
-        item = new ItemModel();
+        item = new Item();
         addItemBtn = (Button) view.findViewById(R.id.addItemBtn);
-
-        //dbReff = FirebaseDatabase.getInstance().getReference().child("Item");
-        mStorageRef = Storage.getInstance().getRef("Item");
 
         chooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +116,7 @@ public class PostItemFragment extends Fragment {
                 Bundle bundle = getActivity().getIntent().getExtras();
                 String user = bundle.getString("email");
 
-                ItemModel item = new ItemModel();
+                Item item = new Item();
                 item.setName(name);
                 item.setDescription(desc);
                 item.setImageUrl(imageUrl);
@@ -148,7 +145,7 @@ public class PostItemFragment extends Fragment {
 
     private void myFileChooser () {
         Intent intent = new Intent();
-        intent.setType("image/");
+        intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, 1);
 
@@ -156,9 +153,8 @@ public class PostItemFragment extends Fragment {
 
     private void myFileUploader(){
         tempImageUrl = System.currentTimeMillis() + "." + getExtension(imageUri);
-        StorageReference storageReff = mStorageRef.child(tempImageUrl);
 
-        uploadTask = (UploadTask) storageReff.putFile(imageUri)
+        Storage.getInstance().uploadImage(tempImageUrl, imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

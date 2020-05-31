@@ -1,24 +1,25 @@
 package com.example.white_elephant;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
+import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.white_elephant.databinding.ActivitySignupBinding;
-import com.example.white_elephant.models.UserModel;
-import com.example.white_elephant.util.Database;
+import com.example.white_elephant.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class SignUpActivity extends AppCompatActivity {
+import com.example.white_elephant.databinding.ActivitySignupBinding;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ActivitySignupBinding mBinding;
     private FirebaseAuth mAuth;
@@ -59,6 +60,10 @@ public class SignUpActivity extends AppCompatActivity {
 
         //mBinding.signIn.setOnClickListener(this);
 
+        mBinding.createAcct.setOnClickListener(this);
+        mBinding.signIn.setOnClickListener(this);
+
+
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -73,10 +78,17 @@ public class SignUpActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            assert user != null;
+                            User tempUser = new User(user.getUid());
+                            db.collection("users").document(user.getUid()).set(tempUser);
+                            Intent intent = new Intent(SignUpActivity.this,
+                                    CreateAccountInfoActivity.class);
+                            startActivity(intent);
                         }
                         else {
-                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this,
+                                    "Authentication failed.", Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
                     }
@@ -94,12 +106,13 @@ public class SignUpActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
-                            UserModel userModel = new UserModel(email, password);
-                            Database.getInstance().addDocument("users", userModel);
+                            Intent intent = new Intent(SignUpActivity.this,
+                                    MainActivity.class);
+                            startActivity(intent);
                         }
                         else {
-                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this,
+                                    "Authentication failed.", Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
                     }
@@ -133,27 +146,27 @@ public class SignUpActivity extends AppCompatActivity {
             mBinding.textStatus.setText(String.format("Email User: %1$s",
                     user.getEmail(), user.isEmailVerified()));
             mBinding.createAcct.setVisibility(View.GONE);
-            mBinding.signIn.setVisibility(View.GONE);
             mBinding.fieldEmail.setVisibility(View.GONE);
             mBinding.fieldPassword.setVisibility(View.GONE);
         }
         else {
             mBinding.textStatus.setText("Didn't work");
             mBinding.createAcct.setVisibility(View.VISIBLE);
-            mBinding.signIn.setVisibility(View.VISIBLE);
             mBinding.fieldEmail.setVisibility(View.VISIBLE);
             mBinding.fieldPassword.setVisibility(View.VISIBLE);
         }
     }
 
-//    @Override
-//    public void onClick(View v) {
-//        int i = v.getId();
-//        if (i == R.id.createAcct) {
-//            createAccount(mBinding.fieldEmail.getText().toString(), mBinding.fieldPassword.getText().toString());
-//        }
-//        else if (i == R.id.signIn) {
-//            signIn(mBinding.fieldEmail.getText().toString(), mBinding.fieldPassword.getText().toString());
-//        }
-//    }
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+        String email = mBinding.fieldEmail.getText().toString();
+        String password = mBinding.fieldPassword.getText().toString();
+        if (i == R.id.createAcct) {
+            createAccount(email, password);
+        }
+        else if (i == R.id.signIn) {
+            signIn(email, password);
+        }
+    }
 }

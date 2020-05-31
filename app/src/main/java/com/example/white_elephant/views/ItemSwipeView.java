@@ -1,6 +1,8 @@
 package com.example.white_elephant.views;
 
 import androidx.fragment.app.Fragment;
+
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -10,8 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.white_elephant.MainSwipeFragment;
-import com.example.white_elephant.models.ItemModel;
+import com.example.white_elephant.models.Item;
 import com.example.white_elephant.R;
+import com.example.white_elephant.util.Storage;
 
 public class ItemSwipeView extends Fragment {
 
@@ -24,6 +27,7 @@ public class ItemSwipeView extends Fragment {
     int x;
     int y;
     static final double MAX_ROTATION = .2;
+    private ImageView imageView;
 
     enum Status {
         NOTHING,
@@ -31,13 +35,15 @@ public class ItemSwipeView extends Fragment {
         DISLIKE,
         SAVE,
     }
-    Status status = Status.NOTHING;
+
+    private Status status = Status.NOTHING;
+    private Item item;
 
     /**
      * Create a new instance of ItemSwipeView, initialized to
      * show the view of the provided itemModel.
      */
-    public static ItemSwipeView newInstance(ItemModel model) {
+    public static ItemSwipeView newInstance(Item model) {
         ItemSwipeView f = new ItemSwipeView();
 
         // Supply model input as an argument.
@@ -47,6 +53,11 @@ public class ItemSwipeView extends Fragment {
 
         return f;
     }
+
+    public void LoadImageFromWebOperations(Drawable d) {
+        imageView.setImageDrawable(d);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,6 +67,7 @@ public class ItemSwipeView extends Fragment {
         TextView textView = (TextView) view.findViewById(R.id.titleText);
         TextView descriptionView = (TextView) view.findViewById(R.id.descriptionText);
 
+        imageView = view.findViewById(R.id.imageView);
         final ImageView likeView = view.findViewById(R.id.likeIcon);
         final ImageView dislikeView = view.findViewById(R.id.dislikeIcon);
         final ImageView saveView = view.findViewById(R.id.saveIcon);
@@ -64,10 +76,10 @@ public class ItemSwipeView extends Fragment {
         dislikeView.setAlpha(0f);
         saveView.setAlpha(0f);
 
-        ItemModel model = getModel();
+        item = getModel();
 
-        textView.setText(model.getName() + ", $" + model.getValue());
-        descriptionView.setText(model.getDescription());
+        textView.setText(item.getName() + ", $" + item.getValue());
+        descriptionView.setText(item.getDescription());
 
         view.setX(0);
         view.setY(0);
@@ -156,11 +168,12 @@ public class ItemSwipeView extends Fragment {
             }
         });
 
+        Storage.getInstance().getImage(item.getImageUrl(), imageView);
         return view;
     }
 
 
-    public ItemModel getModel() {
+    public Item getModel() {
         return getArguments().getParcelable("model");
     }
 }

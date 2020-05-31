@@ -29,6 +29,12 @@
         <action
             android:id="@+id/action_viewProfileFragment_to_myClosetFragment"
             app:destination="@id/myClosetFragment" />
+        <action
+            android:id="@+id/action_viewProfileFragment_to_matchesFragment"
+            app:destination="@id/matchesFragment" />
+        <action
+            android:id="@+id/action_viewProfileFragment_to_myTrades"
+            app:destination="@id/myTrades" />
     </fragment>
     <fragment
         android:id="@+id/postItemFragment"
@@ -68,4 +74,51 @@
         android:name="com.example.white_elephant.ViewMyItem"
         android:label="fragment_view_my_item"
         tools:layout="@layout/fragment_view_my_item" />
+    <fragment
+        android:id="@+id/matchesFragment"
+        android:name="com.example.white_elephant.MatchesFragment"
+        android:label="fragment_matches"
+        tools:layout="@layout/fragment_matches" >
+        <action
+            android:id="@+id/action_matchesFragment_to_mainSwipeView"
+            app:destination="@id/mainSwipeView" />
+        <action
+            android:id="@+id/action_matchesFragment_to_postItemFragment"
+            app:destination="@id/postItemFragment" />
+        <action
+            android:id="@+id/action_matchesFragment_to_viewProfileFragment"
+            app:destination="@id/viewProfileFragment" />
+        <action
+            android:id="@+id/action_matchesFragment_self"
+            app:destination="@id/matchesFragment" />
+        <action
+            android:id="@+id/action_matchesFragment_to_viewMyTrade"
+            app:destination="@id/viewMyTrade" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewMyTrade"
+        android:name="com.example.white_elephant.ViewMyTrade"
+        android:label="fragment_view_my_trade"
+        tools:layout="@layout/fragment_view_my_trade" />
+    <fragment
+        android:id="@+id/myTrades"
+        android:name="com.example.white_elephant.MyTrades"
+        android:label="fragment_my_trades"
+        tools:layout="@layout/fragment_my_trades" >
+        <action
+            android:id="@+id/action_myTrades_self"
+            app:destination="@id/myTrades" />
+        <action
+            android:id="@+id/action_myTrades_to_viewMyTrade"
+            app:destination="@id/viewMyTrade" />
+        <action
+            android:id="@+id/action_myTrades_to_mainSwipeView"
+            app:destination="@id/mainSwipeView" />
+        <action
+            android:id="@+id/action_myTrades_to_viewProfileFragment"
+            app:destination="@id/viewProfileFragment" />
+        <action
+            android:id="@+id/action_myTrades_to_postItemFragment"
+            app:destination="@id/postItemFragment" />
+    </fragment>
 </navigation>
