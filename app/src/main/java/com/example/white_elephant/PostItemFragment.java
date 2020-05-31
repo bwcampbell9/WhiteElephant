@@ -5,7 +5,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +22,9 @@ import com.example.white_elephant.util.Database;
 import com.example.white_elephant.util.Storage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import static com.example.white_elephant.MainActivity.user;
 
 public class PostItemFragment extends Fragment {
 
@@ -82,6 +82,8 @@ public class PostItemFragment extends Fragment {
 
         item = new Item();
         addItemBtn = (Button) view.findViewById(R.id.addItemBtn);
+
+        makeToast(user.getEmail());
 
         chooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override

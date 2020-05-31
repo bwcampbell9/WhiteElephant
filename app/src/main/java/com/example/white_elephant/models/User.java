@@ -25,7 +25,9 @@ public class User {
     public String phoneNumber;
     public String birthday;
 
-    public User() {}
+    public User() {
+        this.email = "";
+    }
 
     public User(String uid) {
         this.uid = uid;
