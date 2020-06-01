@@ -20,6 +20,8 @@ import com.google.firebase.firestore.SetOptions;
 
 import java.util.List;
 
+import static com.example.white_elephant.MainActivity.user;
+
 /**
  *  Singleton design pattern used to deal with database operations
  */
@@ -49,6 +51,32 @@ public class Database {
 
     public void getItemsByTags(List<String> tags, final ItemCallback forEachDoc) {
         getDocsByProp("items", "tags", "array-contains-any", tags, (Object o) -> {forEachDoc.itemCallback(((Item) o));}, Item.class);
+    }
+
+    public void getItemsByPrice(double price, ObjectCallback forEachDoc, Class objType){
+        double lowerBound = .70 * price;
+        double upperBound = 1.30 * price;
+        Query query = this.db.collection("items")
+                .whereLessThanOrEqualTo("value", upperBound)
+                .whereGreaterThanOrEqualTo("value", lowerBound);
+        if(query == null) {
+            Log.e("Error", "invalid comparison type");
+            return;
+        }
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Object item = document.toObject(objType);
+                        if (!(((Item) item).getUser().equals(user.getEmail()))){
+                            forEachDoc.objectCallback(item);
+                        }
+                    }
+                } else {
+                }
+            }
+        });
     }
 
     //Todo: add success and failure listeners and use add document

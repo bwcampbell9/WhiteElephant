@@ -75,12 +75,12 @@ public class PostItemFragment extends Fragment {
         uploadBtn = (Button) view.findViewById(R.id.uploadBtn);
         imageView = view.findViewById(R.id.imageView);
 
-        nameEditText = (EditText) view.findViewById(R.id.nameEditText);
-        descEditText = (EditText) view.findViewById(R.id.descEditText);
-        valEditText = (EditText) view.findViewById(R.id.valEditText);
+        nameEditText = (EditText) view.findViewById(R.id.userNameEditText);
+        descEditText = (EditText) view.findViewById(R.id.userPhoneEditText);
+        valEditText = (EditText) view.findViewById(R.id.userAddressEditText);
 
         item = new Item();
-        addItemBtn = (Button) view.findViewById(R.id.addItemBtn);
+        addItemBtn = (Button) view.findViewById(R.id.editProfileBtn);
 
         chooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override

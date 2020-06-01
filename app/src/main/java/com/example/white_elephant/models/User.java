@@ -19,7 +19,7 @@ public class User {
 
     private static final String TAG = "USERMODEL";
     public String uid;
-    public List<String> iidList;
+    public List<String> iidList; // not used
     public List<Item> itemList;
 
     public String name;
@@ -34,7 +34,7 @@ public class User {
 
     public User(String uid) {
         this.uid = uid;
-        this.iidList = new ArrayList<String>();
+        this.iidList = new ArrayList<String>(); // not used
         this.itemList = new ArrayList<Item>();
     }
     public String getUid() {return uid;}
@@ -91,7 +91,6 @@ public class User {
 
     public void addItemToUser(Item item){
         this.itemList.add(item);
-        this.iidList.add(item.getImageUrl());
         Database.getInstance().updateDocument("users/" + this.getUid(), this);
     }
 
@@ -121,7 +120,8 @@ public class User {
                 .addOnFailureListener(e -> Log.w(TAG, "Error updating document", e));
     }
 
-    public Item[] grabItems() {
+
+    public List<Item> grabItems() {
         List<Item> itemList = new ArrayList<Item>();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference itemsRef = db.collection("items");
@@ -140,15 +140,15 @@ public class User {
                 }
             });
         }
-        return itemList.toArray(new Item[0]);
+        return itemList;
     }
 
-    public void deleteItem(String anIID) {
+    public void deleteItem(Item itemToRemove) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("items").document(anIID)
+        db.collection("items").document(itemToRemove.getImageUrl())
                 .delete()
                 .addOnSuccessListener(aVoid -> {
-                    iidList.remove(anIID);
+                    itemList.remove(itemToRemove);
                     Log.d(TAG, "DocumentSnapshot successfully deleted!");
                 })
                 .addOnFailureListener(new OnFailureListener() {
