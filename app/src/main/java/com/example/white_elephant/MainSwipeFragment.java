@@ -16,7 +16,6 @@ import com.example.white_elephant.util.Database;
 import com.example.white_elephant.views.ItemSwipeView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MainSwipeFragment extends Fragment {
 
@@ -80,8 +79,8 @@ public class MainSwipeFragment extends Fragment {
         return itemViewList.remove(0);
     }
 
-    private void pushNewItem(Item item) {
-        ItemSwipeView view = ItemSwipeView.newInstance(item);
+    private void pushNewItem(Object obj) {
+        ItemSwipeView view = ItemSwipeView.newInstance((Item) obj);
         itemViewList.add(view);
         if(itemViewList.size() > 2) {
             return;
@@ -93,7 +92,7 @@ public class MainSwipeFragment extends Fragment {
             fragTransaction.detach(itemViewList.get(0));
             fragTransaction.attach(itemViewList.get(0));
         }
-        Log.e("Info", "Task Pushing item with name " + item.getName());
+        Log.e("Info", "Task Pushing item with name " + ((Item) obj).getName());
         fragTransaction.commit();
     }
 
@@ -109,7 +108,7 @@ public class MainSwipeFragment extends Fragment {
     }
 
     private void getArrayData() {
-        Database.getInstance().getItemsByTags(Arrays.asList("null"), this::pushNewItem);
+        Database.getInstance().getItemsByPrice(50, this::pushNewItem, Item.class);
     }
 
 }

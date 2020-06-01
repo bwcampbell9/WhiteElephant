@@ -22,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
         POST,
         CLOSET,
         MATCHES,
-        TRADES
+        TRADES,
+        MYPROFILE
     }
 
     private State state;
@@ -73,11 +74,14 @@ public class MainActivity extends AppCompatActivity {
         }else if (state == State.MATCHES){
             NavDirections action = MatchesFragmentDirections.actionMatchesFragmentToViewProfileFragment();
             navController.navigate(action);
-        }
-        else if (state == State.TRADES){
+        } else if (state == State.TRADES){
             NavDirections action = MyTradesDirections.actionMyTradesToViewProfileFragment();
             navController.navigate(action);
         }
+//        else if (state == State.MYPROFILE){
+//            NavDirections action = MyProfileFragmentDirections.actionMyTradesToViewProfileFragment();
+//            navController.navigate(action);
+//        }
         state = State.PROFILE;
     }
     public void onClickTrading(View view) {

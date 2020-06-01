@@ -1,16 +1,14 @@
 package com.example.white_elephant;
 
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 
 public class ViewProfileFragment extends Fragment implements  View.OnClickListener {
 
@@ -39,6 +37,8 @@ public class ViewProfileFragment extends Fragment implements  View.OnClickListen
         viewMatches.setOnClickListener(this);
         final Button viewTrades = view.findViewById(R.id.myTrades);
         viewTrades.setOnClickListener(this);
+        final Button viewProfile = view.findViewById(R.id.myProfile);
+        viewProfile.setOnClickListener(this);
         return view;
         // View logic here and return view after
     }
@@ -61,7 +61,10 @@ public class ViewProfileFragment extends Fragment implements  View.OnClickListen
                 ((MainActivity) getActivity()).setState(2);
                 action = ViewProfileFragmentDirections.actionViewProfileFragmentToMyTrades();
                 navController.navigate(action);
+                break;
 
+            default:
+                throw new IllegalStateException("Unexpected value: " + v.getId());
         }
         }
     }

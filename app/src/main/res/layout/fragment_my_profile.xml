@@ -5,48 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".PostItemFragment" >
+    tools:context=".MyProfileFragment" >
 
     <TextView
         android:id="@+id/profileTitleTextView"
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:gravity="center"
-        android:text="Post Your Item"
+        android:text="My Profile"
         android:textSize="20sp" />
-
-    <Button
-        android:id="@+id/chooseBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Choose Image" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        app:srcCompat="@mipmap/ic_launcher" />
-
-    <Button
-        android:id="@+id/uploadBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Upload Image" />
 
     <EditText
         android:id="@+id/userNameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Name"
         android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/userPhoneEditText"
         android:layout_width="match_parent"
-        android:layout_height="162dp"
+        android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Description"
         android:inputType="textPersonName" />
 
     <EditText
@@ -54,13 +34,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Approximate Value (Enter a number)"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/userEmailEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/userPasswordEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
         android:inputType="textPersonName" />
 
     <Button
         android:id="@+id/editProfileBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Item" />
+        android:text="Edit Profile" />
 
 </LinearLayout>
+
