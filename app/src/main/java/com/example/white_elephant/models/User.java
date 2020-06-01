@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.white_elephant.util.Database;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -15,9 +16,11 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class User {
+
     private static final String TAG = "USERMODEL";
     public String uid;
     public List<String> iidList;
+    public List<Item> itemList;
 
     public String name;
     public String email;
@@ -32,10 +35,19 @@ public class User {
     public User(String uid) {
         this.uid = uid;
         this.iidList = new ArrayList<String>();
+        this.itemList = new ArrayList<Item>();
     }
     public String getUid() {return uid;}
 
     public List<String> getIidList() {return iidList;}
+
+    public List<Item> getItemList() {
+        return itemList;
+    }
+
+    public void setItemList(List<Item> itemList) {
+        this.itemList = itemList;
+    }
 
     public String getName() {
         return name;
@@ -77,8 +89,13 @@ public class User {
         this.birthday = birthday;
     }
 
-    public void addItem(String name, String description, double value, List<String> tags) {
-        Item newItem = new Item(name,description,value,tags);
+    public void addItemToUser(Item item){
+        this.itemList.add(item);
+        this.iidList.add(item.getImageUrl());
+        Database.getInstance().updateDocument("users/" + this.getUid(), this);
+    }
+
+    public void addItem(Item newItem) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("items")
                 .add(newItem)
