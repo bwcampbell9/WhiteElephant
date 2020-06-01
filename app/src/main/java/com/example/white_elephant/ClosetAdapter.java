@@ -45,7 +45,6 @@ public class ClosetAdapter extends RecyclerView.Adapter<ClosetAdapter.ViewHolder
         holder.valueTextView.setText(Double.toString(item.getValue()));
 
         Storage.getInstance().getImage(item.getImageUrl(), holder.myImage, 500);
-
     }
 
     // total number of rows

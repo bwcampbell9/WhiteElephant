@@ -17,10 +17,10 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
-import static com.example.white_elephant.MainActivity.user;
 
 /**
  *  Singleton design pattern used to deal with database operations
@@ -69,7 +69,7 @@ public class Database {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Object item = document.toObject(objType);
-                        if (!(((Item) item).getUser().equals(user.getEmail()))){
+                        if (!(((Item) item).getUser().equals(FirebaseAuth.getInstance().getUid()))){
                             forEachDoc.objectCallback(item);
                         }
                     }
@@ -149,17 +149,14 @@ public class Database {
             Log.e("Error", "invalid comparison type");
             return;
         }
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Object item = document.toObject(objType);
-                        //item.id = document.getId();
-                        forEachDoc.objectCallback(item);
-                    }
-                } else {
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Object item = document.toObject(objType);
+                    //item.id = document.getId();
+                    forEachDoc.objectCallback(item);
                 }
+            } else {
             }
         });
     };

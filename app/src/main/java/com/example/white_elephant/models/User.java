@@ -4,7 +4,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.white_elephant.util.Database;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -16,85 +15,24 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class User {
-
     private static final String TAG = "USERMODEL";
     public String uid;
-    public List<String> iidList; // not used
-    public List<Item> itemList;
+    public List<String> iidList;
 
-    public String name;
-    public String email;
-    public String address;
-    public String phoneNumber;
-    public String birthday;
-
-    public User() {
-        this.email = "";
-    }
+    public User() {}
 
     public User(String uid) {
         this.uid = uid;
-        this.iidList = new ArrayList<String>(); // not used
-        this.itemList = new ArrayList<Item>();
+        this.iidList = new ArrayList<String>();
     }
     public String getUid() {return uid;}
 
     public List<String> getIidList() {return iidList;}
 
-    public List<Item> getItemList() {
-        return itemList;
-    }
-
-    public void setItemList(List<Item> itemList) {
-        this.itemList = itemList;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
-
-    public void addItemToUser(Item item){
-        this.itemList.add(item);
-        Database.getInstance().updateDocument("users/" + this.getUid(), this);
-    }
-
-    public void addItem(Item newItem) {
+    public void addItem(String name, String description, double value,String imageurl) {
+        Item newItem = new Item(name, description, value, new ArrayList<String>());
+        newItem.setUser(uid);
+        newItem.setImageUrl(imageurl);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("items")
                 .add(newItem)
@@ -108,7 +46,7 @@ public class User {
                         Log.w(TAG, "Error adding document", e);
                     }
                 });
-        DocumentReference userRef = db.collection("items").document(uid);
+        DocumentReference userRef = db.collection("users").document(uid);
         userRef
                 .update("iidList", iidList)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -120,8 +58,7 @@ public class User {
                 .addOnFailureListener(e -> Log.w(TAG, "Error updating document", e));
     }
 
-
-    public List<Item> grabItems() {
+    public Item[] grabItems() {
         List<Item> itemList = new ArrayList<Item>();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference itemsRef = db.collection("items");
@@ -131,7 +68,7 @@ public class User {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        itemList.add((Item) document.getData());
+                        itemList.add(document.toObject(Item.class));
                     } else {
                         Log.w(TAG, "document not found. should not happen!");
                     }
@@ -140,15 +77,15 @@ public class User {
                 }
             });
         }
-        return itemList;
+        return itemList.toArray(new Item[0]);
     }
 
-    public void deleteItem(Item itemToRemove) {
+    public void deleteItem(String anIID) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("items").document(itemToRemove.getImageUrl())
+        db.collection("items").document(anIID)
                 .delete()
                 .addOnSuccessListener(aVoid -> {
-                    itemList.remove(itemToRemove);
+                    iidList.remove(anIID);
                     Log.d(TAG, "DocumentSnapshot successfully deleted!");
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -157,6 +94,16 @@ public class User {
                         Log.w(TAG, "Error deleting document", e);
                     }
                 });
+        DocumentReference userRef = db.collection("users").document(uid);
+        userRef
+                .update("iidList", iidList)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "item delete successful!");
+                    }
+                })
+                .addOnFailureListener(e -> Log.w(TAG, "Error deleting item", e));
 
     }
 }

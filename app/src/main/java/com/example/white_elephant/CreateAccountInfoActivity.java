@@ -1,18 +1,19 @@
 package com.example.white_elephant;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.white_elephant.databinding.ActivityCreateAccountInfoBinding;
-import com.example.white_elephant.models.User;
-import com.example.white_elephant.util.Database;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+
+import com.example.white_elephant.databinding.ActivityCreateAccountInfoBinding;
 
 public class CreateAccountInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -37,7 +38,7 @@ public class CreateAccountInfoActivity extends AppCompatActivity implements View
         if (!validateForm() || (newUser == null)) {
             return;
         }
-        System.out.println("begins add account info\n");
+        System.out.println("begins add accountinfo\n");
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(name).build();
         newUser.updateProfile(profileUpdates).addOnCompleteListener(this,
@@ -87,21 +88,7 @@ public class CreateAccountInfoActivity extends AppCompatActivity implements View
         int i = v.getId();
         if (i == R.id.buttonCreateAccount) {
             addAccountInfo(mBinding.fieldName.getText().toString());
-
-            Bundle bundle = getIntent().getExtras();
-            String uid = bundle.getString("uid");
-            String uEmail = bundle.getString("email");
-
-            User tempUser = new User(uid);
-            tempUser.setName(mBinding.fieldName.getText().toString());
-            tempUser.setEmail(uEmail);
-            tempUser.setPhoneNumber(mBinding.fieldPhone.getText().toString());
-            tempUser.setAddress(mBinding.fieldAddress.getText().toString());
-            tempUser.setBirthday(mBinding.fieldBirthday.getText().toString());
-
-            Database.getInstance().updateDocument("users/" + uid, tempUser);
-
+            //,mBinding.fieldPhone.getText().toString(),mBinding.fieldAddress.getText().toString());
         }
     }
-
 }

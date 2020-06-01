@@ -78,8 +78,6 @@ public class PostItemFragment extends Fragment {
         nameEditText = (EditText) view.findViewById(R.id.userNameEditText);
         descEditText = (EditText) view.findViewById(R.id.userPhoneEditText);
         valEditText = (EditText) view.findViewById(R.id.userAddressEditText);
-
-        item = new Item();
         addItemBtn = (Button) view.findViewById(R.id.editProfileBtn);
 
         chooseBtn.setOnClickListener(new View.OnClickListener() {
@@ -112,21 +110,12 @@ public class PostItemFragment extends Fragment {
                 String name = nameEditText.getText().toString().trim();
                 String desc = descEditText.getText().toString().trim();
                 Double val = Double.valueOf(0);
-
-                Item item = new Item();
-                item.setName(name);
-                item.setDescription(desc);
-                item.setUser(user.getEmail());
-                item.setImageUrl(imageUrl);
-
                 try{
                     val = Double.parseDouble(valEditText.getText().toString().trim());
-                    item.setValue(val);
                     if (name.length() <= 0 || imageUrl.length() <= 0 || val < 0){
                         makeToast("Item Not Added, Try Again");
                     } else{
-                        user.addItemToUser(item);
-                        Database.getInstance().addDocument("items", item);
+                        user.addItem(name,desc,val,imageUrl);
                         makeToast("Item Added Successfully");
                     }
                 } catch (Exception e){
