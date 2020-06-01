@@ -42,7 +42,6 @@ public class PostItemFragment extends Fragment {
     ImageView imageView;
 
     Button addItemBtn;
-    //DatabaseReference dbReff;
     Item item;
 
     private Uri imageUri;
@@ -83,8 +82,6 @@ public class PostItemFragment extends Fragment {
         item = new Item();
         addItemBtn = (Button) view.findViewById(R.id.addItemBtn);
 
-        makeToast(user.getEmail());
-
         chooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,16 +112,12 @@ public class PostItemFragment extends Fragment {
                 String name = nameEditText.getText().toString().trim();
                 String desc = descEditText.getText().toString().trim();
                 Double val = Double.valueOf(0);
-                Bundle bundle = getActivity().getIntent().getExtras();
-                String user = bundle.getString("email");
 
                 Item item = new Item();
                 item.setName(name);
                 item.setDescription(desc);
+                item.setUser(user.getEmail());
                 item.setImageUrl(imageUrl);
-                if (user != null){
-                    item.setUser(bundle.getString("email"));
-                }
 
                 try{
                     val = Double.parseDouble(valEditText.getText().toString().trim());
@@ -132,6 +125,7 @@ public class PostItemFragment extends Fragment {
                     if (name.length() <= 0 || imageUrl.length() <= 0 || val < 0){
                         makeToast("Item Not Added, Try Again");
                     } else{
+                        user.addItemToUser(item);
                         Database.getInstance().addDocument("items", item);
                         makeToast("Item Added Successfully");
                     }

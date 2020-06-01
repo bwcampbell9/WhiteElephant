@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.white_elephant.MyApplication;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -44,12 +45,22 @@ public class Storage {
         return pathReference.putStream(stream);
     }
 
-    public void getImage(String imageName, ImageView view) {
+    public void getImage(String imageName, ImageView view, int size) {
         // Create a storage reference from our app
         StorageReference pathReference = storage.getReference().child("Item/" + imageName);
 
-        Glide.with(MyApplication.getAppContext())
-                .load(pathReference)
-                .into(view);
+        if (size == -1){
+            Glide.with(MyApplication.getAppContext())
+                    .load(pathReference)
+                    .into(view);
+        } else{
+            Glide.with(MyApplication.getAppContext())
+                    .load(pathReference)
+                    .apply(new RequestOptions().override(size, size))
+                    .into(view);
+        }
+
+
+
     }
 }

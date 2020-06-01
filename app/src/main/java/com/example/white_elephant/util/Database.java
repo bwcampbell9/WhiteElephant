@@ -137,8 +137,13 @@ public class Database {
     };
 
     public void addDocument(String path, Object doc) {
+        String id;
         CollectionReference colRef = this.db.collection(path);
-        colRef.add(doc);
+        if (doc instanceof Item){
+            db.collection("items").document(((Item) doc).getImageUrl()).set(doc);
+        } else {
+            colRef.add(doc);
+        }
     };
 
     public void deleteDocument(String path) {

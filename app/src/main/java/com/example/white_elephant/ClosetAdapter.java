@@ -10,9 +10,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.white_elephant.models.Item;
-import com.example.white_elephant.util.GlideApp;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.example.white_elephant.util.Storage;
 
 import java.util.List;
 
@@ -22,7 +20,6 @@ public class ClosetAdapter extends RecyclerView.Adapter<ClosetAdapter.ViewHolder
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     private Context mContext;
-    StorageReference mStorageRef;
 
     // data is passed into the constructor
     ClosetAdapter(Context context, List<Item> data) {
@@ -47,12 +44,8 @@ public class ClosetAdapter extends RecyclerView.Adapter<ClosetAdapter.ViewHolder
         holder.descTextView.setText(item.getDescription());
         holder.valueTextView.setText(Double.toString(item.getValue()));
 
-        // attempts to retrieve image from firebase
-        // still not working
-        if (item.getImageUrl().length() > 0){
-            mStorageRef = FirebaseStorage.getInstance().getReference("Item").child(item.getImageUrl());
-            //GlideApp.with(holder.itemView.getContext()).load(mStorageRef).into(holder.myImage);
-        }
+        Storage.getInstance().getImage(item.getImageUrl(), holder.myImage, 500);
+
     }
 
     // total number of rows
