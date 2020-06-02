@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MAIN";
     public static User user;
-    private FirebaseAuth mAuth;
 
     private enum State {
         SWIPE,
@@ -31,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         MATCHES,
         TRADES
     }
+
+
 
     private State state;
     NavController navController;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.parent_layout);
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("users").document(mAuth.getUid());
@@ -68,10 +69,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         navController = Navigation.findNavController(findViewById(R.id.nav_fragment));
-
         state = State.SWIPE;
-
-
     }
 
     public void onClickProfile(View v) {

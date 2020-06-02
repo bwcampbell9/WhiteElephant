@@ -21,7 +21,7 @@ import java.util.List;
 public class ItemList extends ArrayAdapter<Item> {
 
     private Activity context;
-    private List<Item> itemList;
+    private List<Item> mItemList;
     Uri imageUri;
 
     StorageReference imageReff;
@@ -36,7 +36,7 @@ public class ItemList extends ArrayAdapter<Item> {
 
         super(context, R.layout.list_layout, itemList);
         this.context = context;
-        this.itemList = itemList;
+        this.mItemList = itemList;
     }
 
     @NonNull
@@ -48,18 +48,12 @@ public class ItemList extends ArrayAdapter<Item> {
         listNameTextView = (TextView) listViewItem.findViewById(R.id.listNameTextView);
         listDescTextView = (TextView) listViewItem.findViewById(R.id.listDescTextView);
         listValTextView = (TextView) listViewItem.findViewById(R.id.listValTextView);
-        //listImageView = (ImageView) listImageView.findViewById(R.id.listImageView);
 
-        Item item = itemList.get(position);
+        Item item = mItemList.get(position);
 
         listNameTextView.setText(item.getName());
         listDescTextView.setText(item.getDescription());
         listValTextView.setText(item.getValue() + "");
-
-//        imageReff = FirebaseStorage.getInstance()
-//                .getReference("child").child(item.getImageUrl());
-
-
 
         return listViewItem;
 

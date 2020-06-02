@@ -17,15 +17,15 @@ import java.util.List;
 
 public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHolder> {
 
+    private Context context;
     private List<TradeModel> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
-    private Context mContext;
     StorageReference mStorageRef;
 
     // data is passed into the constructor
     public MatchesAdapter(Context context, List<TradeModel> data) {
-        mContext = context;
+        this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
@@ -54,7 +54,6 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
         // duplicate for item2 if you get it working
         if (item.getItem1().getImageUrl().length() > 0){
             mStorageRef = FirebaseStorage.getInstance().getReference("Item").child(item.getItem1().getImageUrl());
-            //GlideApp.with(holder.itemView.getContext()).load(mStorageRef).into(holder.myImage);
         }
     }
 

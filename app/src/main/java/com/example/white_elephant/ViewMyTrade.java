@@ -19,8 +19,6 @@ import com.example.white_elephant.models.TradeModel;
 public class ViewMyTrade extends Fragment implements View.OnClickListener{
 
     private NavDirections action;
-    private Button goBack;
-    private Button confirm;
     private TradeModel trade;
     private TextView status;
     private boolean confirmed;
@@ -63,36 +61,35 @@ public class ViewMyTrade extends Fragment implements View.OnClickListener{
             status.setText("Status: not confirmed by you");
         }
 
-        goBack = view.findViewById(R.id.buttonCloseMT);
+        Button goBack = view.findViewById(R.id.buttonCloseMT);
         goBack.setOnClickListener(this);
-        confirm = view.findViewById(R.id.buttonToggleConfirm);
+        Button confirm = view.findViewById(R.id.buttonToggleConfirm);
         confirm.setOnClickListener(this);
 
         return view;
     }
 
     public void onClick(View v){
-        switch (v.getId()) {
-            case R.id.buttonCloseMT:
-                NavController navController = ((MainActivity) getActivity()).getNavController();
-                navController.navigate(action);
-                break;
-            case R.id.buttonToggleConfirm:
-                if (confirmed){
-                    status.setText("Status: not confirmed by you");
-                    confirmed = false;
-                }
-                else{status.setText("Status: Waiting for trading partner to confirm");
-                confirmed = true;}
+        if (v.getId() == R.id.buttonCloseMT){
+            NavController navController = ((MainActivity) getActivity()).getNavController();
+            navController.navigate(action);
+        } else if (v.getId() == R.id.buttonToggleConfirm){
+            if (confirmed){
+                status.setText("Status: not confirmed by you");
+                confirmed = false;
+            }
+            else{
+                status.setText("Status: Waiting for trading partner to confirm");
+                confirmed = true;
                 //FragmentTransaction ft = getChildFragmentManager().beginTransaction();
                 //int j = 1;
                 //if (action.equals(MatchesFragmentDirections.actionMatchesFragmentSelf())){
                 //    j =0;
-            //}
+                //}
                 //Fragment fragment = ViewMyTrade.newInstance(this.trade, j, !confirmed);
                 //ft.replace(R.id.TradeViewLayout, fragment);
                 //ft.commit();
-                break;
+            }
         }
     }
 }

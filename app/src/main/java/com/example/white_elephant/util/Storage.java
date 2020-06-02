@@ -18,10 +18,10 @@ import java.io.InputStream;
  */
 public class Storage {
     private static Storage singleton;
-    private FirebaseStorage storage;
+    private FirebaseStorage mStorage;
 
     public Storage() {
-        storage = FirebaseStorage.getInstance();
+        mStorage = FirebaseStorage.getInstance();
     }
 
     public static Storage getInstance() {
@@ -33,7 +33,7 @@ public class Storage {
 
     public UploadTask uploadImage(String imageName, Uri uri) {
         // Create a storage reference from our app
-        StorageReference pathReference = storage.getReference().child("Item/" + imageName);
+        StorageReference pathReference = mStorage.getReference().child("Item/" + imageName);
 
         InputStream stream = null;
         try {
@@ -42,12 +42,15 @@ public class Storage {
             e.printStackTrace();
         }
 
+        if (stream == null){
+            return null;
+        }
         return pathReference.putStream(stream);
     }
 
     public void getImage(String imageName, ImageView view, int size) {
         // Create a storage reference from our app
-        StorageReference pathReference = storage.getReference().child("Item/" + imageName);
+        StorageReference pathReference = mStorage.getReference().child("Item/" + imageName);
 
         if (size == -1){
             Glide.with(MyApplication.getAppContext())

@@ -2,22 +2,15 @@ package com.example.white_elephant.util;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.example.white_elephant.models.Item;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -26,6 +19,9 @@ import java.util.List;
  *  Singleton design pattern used to deal with database operations
  */
 public class Database {
+
+    private static final String itemCollection = "items";
+    private static final String err = "Error";
 
     public interface ObjectCallback {
         void objectCallback(Object object);
@@ -50,72 +46,56 @@ public class Database {
     }
 
     public void getItemsByTags(List<String> tags, final ItemCallback forEachDoc) {
-        getDocsByProp("items", "tags", "array-contains-any", tags, (Object o) -> {forEachDoc.itemCallback(((Item) o));}, Item.class);
+        getDocsByProp(itemCollection, "tags", "array-contains-any", tags, (Object o) -> forEachDoc.itemCallback(((Item) o)), Item.class);
     }
 
     public void getItemsByPrice(double price, ObjectCallback forEachDoc, Class objType){
         double lowerBound = .70 * price;
         double upperBound = 1.30 * price;
-        Query query = this.db.collection("items")
+        Query query = this.db.collection(itemCollection)
                 .whereLessThanOrEqualTo("value", upperBound)
                 .whereGreaterThanOrEqualTo("value", lowerBound);
-        if(query == null) {
-            Log.e("Error", "invalid comparison type");
-            return;
-        }
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Object item = document.toObject(objType);
-                        if (!(((Item) item).getUser().equals(FirebaseAuth.getInstance().getUid()))){
-                            forEachDoc.objectCallback(item);
-                        }
+
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Object item = document.toObject(objType);
+                    if (!(((Item) item).getUser().equals(FirebaseAuth.getInstance().getUid()))){
+                        forEachDoc.objectCallback(item);
                     }
-                } else {
                 }
             }
         });
     }
 
-    //Todo: add success and failure listeners and use add document
+    // add success and failure listeners and use add document
     public void pushItem(Item item) {
-        db.collection("items").add(item)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.e("Info", "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
+        db.collection(itemCollection).add(item)
+                .addOnSuccessListener(docRef -> {
+                    Log.e("Info", "DocumentSnapshot added with ID: " + docRef.getId());
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e("Info", "Error adding document", e);
-                    }
-                });;
+                .addOnFailureListener(e -> {
+                    Log.e("Info", "Error adding document", e);
+                });
     }
 
     public void getDocument(String path, final ObjectCallback docCB, Class objType) {
         DocumentReference docRef = this.db.document(path);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Object item = document.toObject(objType);
-                        //item.id = document.getId();
-                        docCB.objectCallback(item);
+        docRef.get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Object item = document.toObject(objType);
+                            docCB.objectCallback(item);
+                        } else {
+                            Log.e(err, "No such document");
+                        }
                     } else {
-                        Log.e("Error", "No such document");
+                        Log.e(err, "get failed with ", task.getException());
                     }
-                } else {
-                    Log.e("Error", "get failed with ", task.getException());
-                }
-            }
-        });
-    };
+                });
+    }
 
     public void getDocsByProp(String path, String prop, String compare, Object value, ObjectCallback forEachDoc, Class objType) {
         Query query = null;
@@ -144,9 +124,11 @@ public class Database {
             case "in":
                 query = this.db.collection(path).whereIn(prop, (List) value);
                 break;
+            default:
+                Log.e(err, "query not executed");
         }
         if(query == null) {
-            Log.e("Error", "invalid comparison type");
+            Log.e(err, "invalid comparison type");
             return;
         }
         query.get().addOnCompleteListener(task -> {
@@ -162,14 +144,13 @@ public class Database {
     };
 
     public void addDocument(String path, Object doc) {
-        String id;
         CollectionReference colRef = this.db.collection(path);
         if (doc instanceof Item){
-            db.collection("items").document(((Item) doc).getImageUrl()).set(doc);
+            db.collection(itemCollection).document(((Item) doc).getImageUrl()).set(doc);
         } else {
             colRef.add(doc);
         }
-    };
+    }
 
     public void deleteDocument(String path) {
         DocumentReference docRef = this.db.document(path);

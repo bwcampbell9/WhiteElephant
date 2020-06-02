@@ -37,7 +37,6 @@ public class ItemSwipeView extends Fragment {
     }
 
     private Status status = Status.NOTHING;
-    private Item item;
 
     /**
      * Create a new instance of ItemSwipeView, initialized to
@@ -54,7 +53,7 @@ public class ItemSwipeView extends Fragment {
         return f;
     }
 
-    public void LoadImageFromWebOperations(Drawable d) {
+    public void loadImageFromWebOperations(Drawable d) {
         imageView.setImageDrawable(d);
     }
 
@@ -76,7 +75,7 @@ public class ItemSwipeView extends Fragment {
         dislikeView.setAlpha(0f);
         saveView.setAlpha(0f);
 
-        item = getModel();
+        Item item = getModel();
 
         textView.setText(item.getName() + ", $" + item.getValue());
         descriptionView.setText(item.getDescription());

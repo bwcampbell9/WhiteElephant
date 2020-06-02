@@ -96,8 +96,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            mBinding.textStatus.setText(String.format("Email User: %1$s",
-                    user.getEmail(), user.isEmailVerified()));
+            mBinding.textStatus.setText(String.format("Email User: %1$s", user.getEmail()));
             mBinding.createAcct.setVisibility(View.GONE);
             mBinding.fieldEmail.setVisibility(View.GONE);
             mBinding.fieldPassword.setVisibility(View.GONE);

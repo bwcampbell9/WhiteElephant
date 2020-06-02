@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -44,8 +43,6 @@ public class MainSwipeFragment extends Fragment {
         View view = inflater.inflate(R.layout.main_swipe_layout, container, false);
 
         fragMan = getChildFragmentManager();
-
-        RelativeLayout parentView = (RelativeLayout) view.findViewById(R.id.swipe_cards_layout);
 
         itemViewList = new ArrayList<>();
 

@@ -127,9 +127,8 @@ public class PostItemFragment extends Fragment {
                     imageUrl = tempImageUrl;
                     uploaded = true;
                 })
-                .addOnFailureListener(exception -> {
-                    makeToast(exception.getMessage());
-                });
+                .addOnFailureListener(e -> makeToast(e.getMessage())
+                );
     }
 
     private String getExtension(Uri mUri){
