@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Item implements Parcelable, Serializable {
-    public String id;
-    public String user;
+    private String id;
+    private String user;
     private String name;
     private String description;
     private double value;
@@ -26,7 +26,7 @@ public class Item implements Parcelable, Serializable {
         setDescription("");
         setValue(-1);
         setImageUrl("");
-        setTags(new ArrayList<String>());
+        setTags(new ArrayList<>());
     }
 
     /***

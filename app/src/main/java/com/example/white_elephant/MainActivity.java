@@ -5,18 +5,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import com.example.white_elephant.models.User;
-import com.example.white_elephant.util.Database;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,8 +29,7 @@ public class MainActivity extends AppCompatActivity {
         POST,
         CLOSET,
         MATCHES,
-        TRADES,
-        MYPROFILE
+        TRADES
     }
 
     private State state;
@@ -65,11 +59,11 @@ public class MainActivity extends AppCompatActivity {
                     user = document.toObject(User.class);
                 } else {
                     Log.d(TAG, "No such document");
-                    System.out.println("User not found\n");
+                    Toast.makeText(this, "User not found", Toast.LENGTH_LONG).show();
                 }
             } else {
                 Log.d(TAG, "get failed with ", task.getException());
-                System.out.println("User failure\n");
+                Toast.makeText(this, "User not found", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -80,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void onClickProfile(View view) {
+    public void onClickProfile(View v) {
         if(state == State.SWIPE) {
             NavDirections action = MainSwipeFragmentDirections.actionMainSwipeViewToViewProfileFragment();
             navController.navigate(action);
@@ -97,10 +91,6 @@ public class MainActivity extends AppCompatActivity {
             NavDirections action = MyTradesDirections.actionMyTradesToViewProfileFragment();
             navController.navigate(action);
         }
-//        else if (state == State.MYPROFILE){
-//            NavDirections action = MyProfileFragmentDirections.actionMyTradesToViewProfileFragment();
-//            navController.navigate(action);
-//        }
         state = State.PROFILE;
     }
     public void onClickTrading(View view) {

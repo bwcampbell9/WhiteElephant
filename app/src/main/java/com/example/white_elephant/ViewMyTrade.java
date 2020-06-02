@@ -1,22 +1,17 @@
 package com.example.white_elephant;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.white_elephant.models.Item;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+
 import com.example.white_elephant.models.TradeModel;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,7 +48,6 @@ public class ViewMyTrade extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //TradeModel trade = (TradeModel)getArguments().getSerializable("a");
         View view = inflater.inflate(R.layout.fragment_view_my_trade, container, false);
         ((TextView)(view.findViewById(R.id.item1title))).setText(trade.getItem1().getName());
         ((TextView)(view.findViewById(R.id.item2title))).setText(trade.getItem2().getName());

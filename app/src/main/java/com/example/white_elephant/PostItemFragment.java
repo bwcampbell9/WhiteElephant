@@ -14,14 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.white_elephant.models.Item;
-import com.example.white_elephant.util.Database;
 import com.example.white_elephant.util.Storage;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.UploadTask;
 
 import static com.example.white_elephant.MainActivity.user;
@@ -34,15 +29,12 @@ public class PostItemFragment extends Fragment {
     EditText nameEditText;
     EditText descEditText;
     EditText valEditText;
-    EditText postErrorEditText;
 
-    Button backBtn;
     Button chooseBtn;
     Button uploadBtn;
     ImageView imageView;
 
     Button addItemBtn;
-    Item item;
 
     private Uri imageUri;
 
@@ -80,48 +72,38 @@ public class PostItemFragment extends Fragment {
         valEditText = (EditText) view.findViewById(R.id.userAddressEditText);
         addItemBtn = (Button) view.findViewById(R.id.editProfileBtn);
 
-        chooseBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                uploaded = false;
-                chose = true;
-                myFileChooser();
+        chooseBtn.setOnClickListener((View v) ->{
+            uploaded = false;
+            chose = true;
+            myFileChooser();
+        });
+
+        uploadBtn.setOnClickListener((View v) -> {
+            if (uploadTask != null && uploadTask.isInProgress()){
+                makeToast("Upload in progress");
+            } else if (uploaded){
+                makeToast("Item already uploaded");
+            } else if (!chose){
+                makeToast("Choose an image first");
+            } else {
+                myFileUploader();
             }
         });
 
-        uploadBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (uploadTask != null && uploadTask.isInProgress()){
-                    makeToast("Upload in progress");
-                } else if (uploaded){
-                    makeToast("Item already uploaded");
-                } else if (!chose){
-                    makeToast("Choose an image first");
-                } else
-                    myFileUploader();
-            }
-
-        });
-
-        addItemBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = nameEditText.getText().toString().trim();
-                String desc = descEditText.getText().toString().trim();
-                Double val = Double.valueOf(0);
-                try{
-                    val = Double.parseDouble(valEditText.getText().toString().trim());
-                    if (name.length() <= 0 || imageUrl.length() <= 0 || val < 0){
-                        makeToast("Item Not Added, Try Again");
-                    } else{
-                        user.addItem(name,desc,val,imageUrl);
-                        makeToast("Item Added Successfully");
-                    }
-                } catch (Exception e){
+        addItemBtn.setOnClickListener((View v) -> {
+            String name = nameEditText.getText().toString().trim();
+            String desc = descEditText.getText().toString().trim();
+            Double val = Double.valueOf(0);
+            try{
+                val = Double.parseDouble(valEditText.getText().toString().trim());
+                if (name.length() <= 0 || imageUrl.length() <= 0 || val < 0){
                     makeToast("Item Not Added, Try Again");
+                } else{
+                    user.addItem(name,desc,val,imageUrl);
+                    makeToast("Item Added Successfully");
                 }
-
+            } catch (Exception e){
+                makeToast("Item Not Added, Try Again");
             }
         });
 
@@ -140,23 +122,14 @@ public class PostItemFragment extends Fragment {
         tempImageUrl = System.currentTimeMillis() + "." + getExtension(imageUri);
 
         Storage.getInstance().uploadImage(tempImageUrl, imageUri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        makeToast("Image Uploaded Successfully");
-                        imageUrl = tempImageUrl;
-                        uploaded = true;
-                    }
-
+                .addOnSuccessListener(taskSnapshot -> {
+                    makeToast("Image Uploaded Successfully");
+                    imageUrl = tempImageUrl;
+                    uploaded = true;
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        makeToast(exception.getMessage());
-                    }
+                .addOnFailureListener(exception -> {
+                    makeToast(exception.getMessage());
                 });
-
-
     }
 
     private String getExtension(Uri mUri){

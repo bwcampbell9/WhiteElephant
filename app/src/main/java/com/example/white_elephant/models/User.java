@@ -16,25 +16,26 @@ import java.util.ArrayList;
 
 public class User {
     private static final String TAG = "USERMODEL";
-    public String uid;
-    public List<String> iidList;
+    private String uid;
+    private List<String> iidList;
 
     public User() {}
 
     public User(String uid) {
         this.uid = uid;
-        this.iidList = new ArrayList<String>();
+        this.iidList = new ArrayList<>();
     }
     public String getUid() {return uid;}
 
     public List<String> getIidList() {return iidList;}
 
     public void addItem(String name, String description, double value,String imageurl) {
-        Item newItem = new Item(name, description, value, new ArrayList<String>());
+        Item newItem = new Item(name, description, value, new ArrayList<>());
         newItem.setUser(uid);
         newItem.setImageUrl(imageurl);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("items")
+        CollectionReference dbItems = db.collection("items");
+        dbItems
                 .add(newItem)
                 .addOnSuccessListener(documentReference -> {
                     iidList.add(documentReference.getId());
@@ -82,7 +83,8 @@ public class User {
 
     public void deleteItem(String anIID) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("items").document(anIID)
+        DocumentReference itemRef = db.collection("items").document(anIID);
+        itemRef
                 .delete()
                 .addOnSuccessListener(aVoid -> {
                     iidList.remove(anIID);
