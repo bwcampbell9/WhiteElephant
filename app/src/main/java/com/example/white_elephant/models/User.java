@@ -18,6 +18,7 @@ public class User {
     private static final String TAG = "USERMODEL";
     private String uid;
     private List<String> iidList;
+    private final String ITEMSTEXT = "items";
 
     public User() {}
 
@@ -34,7 +35,7 @@ public class User {
         newItem.setUser(uid);
         newItem.setImageUrl(imageurl);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference dbItems = db.collection("items");
+        CollectionReference dbItems = db.collection(ITEMSTEXT);
         dbItems
                 .add(newItem)
                 .addOnSuccessListener(documentReference -> {
@@ -60,9 +61,9 @@ public class User {
     }
 
     public Item[] grabItems() {
-        List<Item> itemList = new ArrayList<Item>();
+        List<Item> itemList = new ArrayList<>();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference itemsRef = db.collection("items");
+        CollectionReference itemsRef = db.collection(ITEMSTEXT);
         for (String anIID : iidList) {
             DocumentReference docRef = itemsRef.document(anIID);
             docRef.get().addOnCompleteListener(task -> {
@@ -83,7 +84,7 @@ public class User {
 
     public void deleteItem(String anIID) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference itemRef = db.collection("items").document(anIID);
+        DocumentReference itemRef = db.collection(ITEMSTEXT).document(anIID);
         itemRef
                 .delete()
                 .addOnSuccessListener(aVoid -> {

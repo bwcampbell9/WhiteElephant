@@ -19,7 +19,6 @@ import androidx.fragment.app.Fragment;
 import com.example.white_elephant.util.Storage;
 import com.google.firebase.storage.UploadTask;
 
-//import static com.example.white_elephant.MainActivity.user;
 
 public class PostItemFragment extends Fragment {
 

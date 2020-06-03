@@ -57,6 +57,7 @@ public class ItemSwipeView extends Fragment {
         imageView.setImageDrawable(d);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
@@ -71,9 +72,6 @@ public class ItemSwipeView extends Fragment {
         final ImageView dislikeView = view.findViewById(R.id.dislikeIcon);
         final ImageView saveView = view.findViewById(R.id.saveIcon);
 
-        likeView.setAlpha(0f);
-        dislikeView.setAlpha(0f);
-        saveView.setAlpha(0f);
 
         Item item = getModel();
 
@@ -97,7 +95,6 @@ public class ItemSwipeView extends Fragment {
                 xCenter = width / 2.0;
                 yCenter = height / 2.0;
 
-                // TODO: handle possible crash here if this fragment is used outside of MainSwipeView
                 MainSwipeFragment parentFragment = (MainSwipeFragment) getParentFragment();
 
                 switch (event.getAction()) {

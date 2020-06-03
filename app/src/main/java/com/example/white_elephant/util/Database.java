@@ -20,8 +20,8 @@ import java.util.List;
  */
 public class Database {
 
-    private static final String itemCollection = "items";
-    private static final String err = "Error";
+    private static final String ITEMCOLLECTION = "items";
+    private static final String ERR = "Error";
 
     public interface ObjectCallback {
         void objectCallback(Object object);
@@ -46,13 +46,13 @@ public class Database {
     }
 
     public void getItemsByTags(List<String> tags, final ItemCallback forEachDoc) {
-        getDocsByProp(itemCollection, "tags", "array-contains-any", tags, (Object o) -> forEachDoc.itemCallback(((Item) o)), Item.class);
+        getDocsByProp(ITEMCOLLECTION, "tags", "array-contains-any", tags, (Object o) -> forEachDoc.itemCallback(((Item) o)), Item.class);
     }
 
     public void getItemsByPrice(double price, ObjectCallback forEachDoc, Class objType){
         double lowerBound = .70 * price;
         double upperBound = 1.30 * price;
-        Query query = this.db.collection(itemCollection)
+        Query query = this.db.collection(ITEMCOLLECTION)
                 .whereLessThanOrEqualTo("value", upperBound)
                 .whereGreaterThanOrEqualTo("value", lowerBound);
 
@@ -70,13 +70,13 @@ public class Database {
 
     // add success and failure listeners and use add document
     public void pushItem(Item item) {
-        db.collection(itemCollection).add(item)
-                .addOnSuccessListener(docRef -> {
-                    Log.e("Info", "DocumentSnapshot added with ID: " + docRef.getId());
-                })
-                .addOnFailureListener(e -> {
-                    Log.e("Info", "Error adding document", e);
-                });
+        db.collection(ITEMCOLLECTION).add(item)
+                .addOnSuccessListener(docRef ->
+                    Log.e("Info", "DocumentSnapshot added with ID: " + docRef.getId())
+                )
+                .addOnFailureListener(e ->
+                    Log.e("Info", "Error adding document", e)
+                );
     }
 
     public void getDocument(String path, final ObjectCallback docCB, Class objType) {
@@ -89,10 +89,10 @@ public class Database {
                             Object item = document.toObject(objType);
                             docCB.objectCallback(item);
                         } else {
-                            Log.e(err, "No such document");
+                            Log.e(ERR, "No such document");
                         }
                     } else {
-                        Log.e(err, "get failed with ", task.getException());
+                        Log.e(ERR, "get failed with ", task.getException());
                     }
                 });
     }
@@ -125,28 +125,26 @@ public class Database {
                 query = this.db.collection(path).whereIn(prop, (List) value);
                 break;
             default:
-                Log.e(err, "query not executed");
+                Log.e(ERR, "query not executed");
         }
         if(query == null) {
-            Log.e(err, "invalid comparison type");
+            Log.e(ERR, "invalid comparison type");
             return;
         }
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     Object item = document.toObject(objType);
-                    //item.id = document.getId();
                     forEachDoc.objectCallback(item);
                 }
-            } else {
             }
         });
-    };
+    }
 
     public void addDocument(String path, Object doc) {
         CollectionReference colRef = this.db.collection(path);
         if (doc instanceof Item){
-            db.collection(itemCollection).document(((Item) doc).getImageUrl()).set(doc);
+            db.collection(ITEMCOLLECTION).document(((Item) doc).getImageUrl()).set(doc);
         } else {
             colRef.add(doc);
         }

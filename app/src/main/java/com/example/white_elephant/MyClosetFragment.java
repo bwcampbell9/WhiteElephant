@@ -15,8 +15,6 @@ import com.example.white_elephant.models.Item;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-//import static com.example.white_elephant.MainActivity.user;
-
 
 public class MyClosetFragment extends Fragment implements ClosetAdapter.ItemClickListener {
 
