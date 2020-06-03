@@ -1,5 +1,7 @@
 package com.example.white_elephant.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -14,23 +16,57 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.List;
 import java.util.ArrayList;
 
-public class User {
+public class User implements Parcelable {
     private static final String TAG = "USERMODEL";
     private String uid;
     private List<String> iidList;
     private final String ITEMSTEXT = "items";
 
-    public User() {}
+    public User() {
+    }
 
     public User(String uid) {
         this.uid = uid;
         this.iidList = new ArrayList<>();
     }
-    public String getUid() {return uid;}
 
-    public List<String> getIidList() {return iidList;}
+    protected User(Parcel in) {
+        uid = in.readString();
+        iidList = in.createStringArrayList();
+    }
 
-    public void addItem(String name, String description, double value,String imageurl) {
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(uid);
+        dest.writeStringList(iidList);
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public List<String> getIidList() {
+        return iidList;
+    }
+
+    public void addItem(String name, String description, double value, String imageurl) {
         Item newItem = new Item(name, description, value, new ArrayList<>());
         newItem.setUser(uid);
         newItem.setImageUrl(imageurl);
@@ -42,21 +78,11 @@ public class User {
                     iidList.add(documentReference.getId());
                     Log.d(TAG, "new item written with ID: " + documentReference.getId());
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
+                .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
         DocumentReference userRef = db.collection("users").document(uid);
         userRef
                 .update("iidList", iidList)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "user iidlist successfully updated!");
-                    }
-                })
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "user iidlist successfully updated!"))
                 .addOnFailureListener(e -> Log.w(TAG, "Error updating document", e));
     }
 
