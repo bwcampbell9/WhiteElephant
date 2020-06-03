@@ -10,6 +10,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
+import com.example.white_elephant.models.Item;
 import com.example.white_elephant.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MAIN";
     private User user;
+    public Item trading;
 
     public User getUser(){return user;}
 

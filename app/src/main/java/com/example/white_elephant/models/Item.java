@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Item implements Parcelable, Serializable {
+public class Item extends DBItem implements Parcelable, Serializable {
     private String user;
     private String name;
     private String description;
@@ -116,6 +116,8 @@ public class Item implements Parcelable, Serializable {
         this.disliked = disliked;
     }
 
+    public void addDisliked(String dislike) { this.disliked.add(dislike); }
+
     public List<String> getLiked() {
         return liked;
     }
@@ -123,6 +125,8 @@ public class Item implements Parcelable, Serializable {
     public void setLiked(List<String> liked) {
         this.liked = liked;
     }
+
+    public void addLiked(String like) { this.liked.add(like); }
 
 
     /* ALL CODE TO IMPLEMENT PARCELABLE THIS ALLOWS THE OBJECT TO BE PASSED IN A BUNDLE */

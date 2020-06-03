@@ -2,6 +2,7 @@ package com.example.white_elephant.util;
 
 import android.util.Log;
 
+import com.example.white_elephant.models.DBItem;
 import com.example.white_elephant.models.Item;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -57,7 +58,8 @@ public class Database {
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    Object item = document.toObject(objType);
+                    DBItem item = (DBItem) document.toObject(objType);
+                    item.uid = document.getId();
                     if (!(((Item) item).getUser().equals(FirebaseAuth.getInstance().getUid()))){
                         forEachDoc.objectCallback(item);
                     }
@@ -84,7 +86,8 @@ public class Database {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
-                            Object item = document.toObject(objType);
+                            DBItem item = (DBItem) document.toObject(objType);
+                            item.uid = document.getId();
                             docCB.objectCallback(item);
                         } else {
                             Log.e(ERR, "No such document");
@@ -132,7 +135,8 @@ public class Database {
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    Object item = document.toObject(objType);
+                    DBItem item = (DBItem) document.toObject(objType);
+                    item.uid = document.getId();
                     forEachDoc.objectCallback(item);
                 }
             }

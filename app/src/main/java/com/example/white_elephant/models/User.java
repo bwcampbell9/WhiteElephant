@@ -16,9 +16,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.List;
 import java.util.ArrayList;
 
-public class User implements Parcelable {
+public class User extends DBItem implements Parcelable {
     private static final String TAG = "USERMODEL";
-    private String uid;
     private List<String> iidList;
     private final String ITEMSTEXT = "items";
 

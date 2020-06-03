@@ -94,11 +94,17 @@ public class MainSwipeFragment extends Fragment {
     }
 
     public void likeItem() {
-        popTopItem();
+        MainActivity activity = ((MainActivity) getActivity());
+        ItemSwipeView item = popTopItem();
+        activity.trading.addLiked(item.item.uid);
+        Database.getInstance().updateDocument("items/" + activity.trading.uid,  activity.trading);
     }
 
     public void dislikeItem() {
-        popTopItem();
+        MainActivity activity = ((MainActivity) getActivity());
+        ItemSwipeView item = popTopItem();
+        activity.trading.addDisliked(item.item.uid);
+        Database.getInstance().updateDocument("items/" + activity.trading.uid,  activity.trading);
     }
     public void saveItem() {
         popTopItem();
