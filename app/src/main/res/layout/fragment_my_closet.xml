@@ -6,14 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".MyClosetFragment">
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/itemList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
 </FrameLayout>

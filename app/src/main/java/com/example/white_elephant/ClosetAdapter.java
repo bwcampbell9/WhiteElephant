@@ -29,7 +29,7 @@ public class ClosetAdapter extends RecyclerView.Adapter<ClosetAdapter.ViewHolder
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.list_layout, parent, false);
+        View view = mInflater.inflate(R.layout.item_tile_layout, parent, false);
         return new ViewHolder(view);
     }
 
@@ -38,11 +38,11 @@ public class ClosetAdapter extends RecyclerView.Adapter<ClosetAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         Item item = mData.get(position);
-        holder.nameTextView.setText(item.getName());
-        holder.descTextView.setText(item.getDescription());
-        holder.valueTextView.setText(Double.toString(item.getValue()));
 
-        Storage.getInstance().getImage(item.getImageUrl(), holder.myImage, 500);
+        holder.titleText.setText(item.getName());
+        holder.valueText.setText("Value: $" + item.getValue());
+
+        Storage.getInstance().getImage(item.getImageUrl(), holder.imageView, -1);
     }
 
     // total number of rows
@@ -54,17 +54,16 @@ public class ClosetAdapter extends RecyclerView.Adapter<ClosetAdapter.ViewHolder
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView nameTextView;
-        TextView descTextView;
-        TextView valueTextView;
-        ImageView myImage;
+        TextView titleText;
+        TextView descriptionText;
+        TextView valueText;
+        ImageView imageView;
 
         ViewHolder(View itemView) {
             super(itemView);
-            nameTextView = itemView.findViewById(R.id.listNameTextView);
-            descTextView = itemView.findViewById(R.id.listDescTextView);
-            valueTextView = itemView.findViewById(R.id.listValTextView);
-            myImage = itemView.findViewById(R.id.listImageView);
+            titleText = itemView.findViewById(R.id.titleText);
+            valueText = itemView.findViewById(R.id.valueText);
+            imageView = itemView.findViewById(R.id.imageView);
 
             itemView.setOnClickListener(this);
         }
