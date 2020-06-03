@@ -98,7 +98,7 @@ public class PostItemFragment extends Fragment {
                 if (name.length() <= 0 || imageUrl.length() <= 0 || val < 0){
                     makeToast("Item Not Added, Try Again");
                 } else{
-                    MainActivity.getUser().addItem(name,desc,val,imageUrl);
+                    ((MainActivity)getActivity()).getUser().addItem(name,desc,val,imageUrl);
                     makeToast("Item Added Successfully");
                 }
             } catch (Exception e){

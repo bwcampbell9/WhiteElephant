@@ -33,7 +33,7 @@ public class MyClosetFragment extends Fragment implements ClosetAdapter.ItemClic
 
         RecyclerView recyclerView = view.findViewById(R.id.itemList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ClosetAdapter(getActivity(), Arrays.asList(MainActivity.getUser().grabItems()));
+        adapter = new ClosetAdapter(getActivity(), Arrays.asList(((MainActivity)getActivity()).getUser().grabItems()));
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
         return view;
