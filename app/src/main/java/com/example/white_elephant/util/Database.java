@@ -50,11 +50,9 @@ public class Database {
     }
 
     public void getItemsByPrice(double price, ObjectCallback forEachDoc, Class objType){
-        double lowerBound = .70 * price;
-        double upperBound = 1.30 * price;
         Query query = this.db.collection(ITEMCOLLECTION)
-                .whereLessThanOrEqualTo("value", upperBound)
-                .whereGreaterThanOrEqualTo("value", lowerBound);
+                .whereLessThanOrEqualTo("value", Item.lowerBound(price))
+                .whereGreaterThanOrEqualTo("value", Item.upperBound(price));
 
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
