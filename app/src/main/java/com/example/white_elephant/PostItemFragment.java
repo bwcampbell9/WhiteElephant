@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.example.white_elephant.util.Storage;
 import com.google.firebase.storage.UploadTask;
 
-import static com.example.white_elephant.MainActivity.user;
+//import com.example.white_elephant.MainActivity.user;
 
 public class PostItemFragment extends Fragment {
 
@@ -96,7 +96,7 @@ public class PostItemFragment extends Fragment {
             Double val = Double.valueOf(0);
             try{
                 val = Double.parseDouble(valEditText.getText().toString().trim());
-                if (name.length() <= 0 || imageUrl.length() <= 0 || val < 0){
+                if (name.length() <= 0 || val < 0){
                     makeToast("Item Not Added, Try Again");
                 } else{
                     user.addItem(name,desc,val,imageUrl);
@@ -104,6 +104,7 @@ public class PostItemFragment extends Fragment {
                 }
             } catch (Exception e){
                 makeToast("Item Not Added, Try Again");
+                throw e;
             }
         });
 
