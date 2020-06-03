@@ -106,6 +106,7 @@ public class PostItemFragment extends Fragment {
             }
         });
 
+
         return view;
     }
 
