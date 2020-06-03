@@ -9,9 +9,6 @@ android:
     - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
-      lintOptions {
-          abortOnError false
-      }
  components:
     - tools
     - platform-tools
