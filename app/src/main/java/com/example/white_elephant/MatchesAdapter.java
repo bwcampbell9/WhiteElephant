@@ -17,7 +17,6 @@ import java.util.List;
 
 public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHolder> {
 
-    private Context context;
     private List<TradeModel> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
@@ -25,7 +24,6 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
 
     // data is passed into the constructor
     public MatchesAdapter(Context context, List<TradeModel> data) {
-        this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }

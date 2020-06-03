@@ -19,11 +19,9 @@ public class ClosetAdapter extends RecyclerView.Adapter<ClosetAdapter.ViewHolder
     private List<Item> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
-    private Context mContext;
 
     // data is passed into the constructor
     ClosetAdapter(Context context, List<Item> data) {
-        mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }

@@ -81,14 +81,6 @@ public class ViewMyTrade extends Fragment implements View.OnClickListener{
             else{
                 status.setText("Status: Waiting for trading partner to confirm");
                 confirmed = true;
-                //FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-                //int j = 1;
-                //if (action.equals(MatchesFragmentDirections.actionMatchesFragmentSelf())){
-                //    j =0;
-                //}
-                //Fragment fragment = ViewMyTrade.newInstance(this.trade, j, !confirmed);
-                //ft.replace(R.id.TradeViewLayout, fragment);
-                //ft.commit();
             }
         }
     }

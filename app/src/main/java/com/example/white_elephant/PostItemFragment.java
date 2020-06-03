@@ -104,7 +104,6 @@ public class PostItemFragment extends Fragment {
                 }
             } catch (Exception e){
                 makeToast("Item Not Added, Try Again");
-                throw e;
             }
         });
 

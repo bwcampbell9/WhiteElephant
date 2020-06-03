@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         state = State.SWIPE;
     }
 
-    public void onClickProfile(View v) {
+    public void onClickProfile() {
         if(state == State.SWIPE) {
             NavDirections action = MainSwipeFragmentDirections.actionMainSwipeViewToViewProfileFragment();
             navController.navigate(action);
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         }
         state = State.PROFILE;
     }
-    public void onClickTrading(View view) {
+    public void onClickTrading() {
         if(state == State.PROFILE) {
             NavDirections action = ViewProfileFragmentDirections.actionViewProfileFragmentToMainSwipeView();
             navController.navigate(action);
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         }
         state = State.SWIPE;
     }
-    public void onClickPost(View view) {
+    public void onClickPost() {
         if(state == State.PROFILE) {
             NavDirections action = ViewProfileFragmentDirections.actionViewProfileFragmentToPostItemFragment();
             navController.navigate(action);

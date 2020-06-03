@@ -156,4 +156,26 @@ public class Item implements Parcelable, Serializable {
     public int describeContents() {
         return 0;
     }
+
+    public static double lowerBound(double price){
+        double upper;
+        if (price >= 200){
+            upper = price * .8;
+        } else{
+            upper = price * .7;
+        }
+        return upper;
+    }
+
+    public static double upperBound(double price){
+        double upper;
+        if (price <= 10){
+            upper = 20;
+        } else if (price >= 200){
+           upper = price * 1.2;
+        } else {
+            upper = price * 1.3;
+        }
+        return upper;
+    }
 }
