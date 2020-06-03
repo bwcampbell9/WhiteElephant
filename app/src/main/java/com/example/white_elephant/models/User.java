@@ -20,7 +20,7 @@ public class User implements Parcelable {
     private static final String TAG = "USERMODEL";
     private String uid;
     private List<String> iidList;
-    private final String ITEMSTEXT = "items";
+    private static final String itemsText = "items";
 
     public User() {
     }
@@ -71,7 +71,7 @@ public class User implements Parcelable {
         newItem.setUser(uid);
         newItem.setImageUrl(imageurl);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference dbItems = db.collection(ITEMSTEXT);
+        CollectionReference dbItems = db.collection(itemsText);
         dbItems
                 .add(newItem)
                 .addOnSuccessListener(documentReference -> {
@@ -89,7 +89,7 @@ public class User implements Parcelable {
     public Item[] grabItems() {
         List<Item> itemList = new ArrayList<>();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference itemsRef = db.collection(ITEMSTEXT);
+        CollectionReference itemsRef = db.collection(itemsText);
         for (String anIID : iidList) {
             DocumentReference docRef = itemsRef.document(anIID);
             docRef.get().addOnCompleteListener(task -> {
@@ -110,7 +110,7 @@ public class User implements Parcelable {
 
     public void deleteItem(String anIID) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference itemRef = db.collection(ITEMSTEXT).document(anIID);
+        DocumentReference itemRef = db.collection(itemsText).document(anIID);
         itemRef
                 .delete()
                 .addOnSuccessListener(aVoid -> {

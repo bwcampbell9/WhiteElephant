@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.white_elephant.models.Item;
-import com.example.white_elephant.models.User;
 import java.util.ArrayList;
 import java.util.Arrays;
 
