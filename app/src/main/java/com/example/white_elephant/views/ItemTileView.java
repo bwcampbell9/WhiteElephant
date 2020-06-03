@@ -27,7 +27,6 @@ public class ItemTileView extends Fragment {
         return f;
     }
     @Override
-    @Deprecated
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment

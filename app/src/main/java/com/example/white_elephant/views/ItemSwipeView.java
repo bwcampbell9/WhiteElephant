@@ -85,10 +85,8 @@ public class ItemSwipeView extends Fragment {
         dislikeView.setAlpha(0f);
         saveView.setAlpha(0f);
 
-        view.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
+        view.setOnTouchListener(
+            (View v, MotionEvent event) -> {
 
                 width = container.getWidth();
                 height = container.getHeight();
@@ -161,7 +159,7 @@ public class ItemSwipeView extends Fragment {
                 }
                 return true;
             }
-        });
+        );
 
         Storage.getInstance().getImage(item.getImageUrl(), imageView, -1);
         return view;
