@@ -15,7 +15,7 @@ import com.example.white_elephant.models.Item;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static com.example.white_elephant.MainActivity.user;
+//import static com.example.white_elephant.MainActivity.user;
 
 
 public class MyClosetFragment extends Fragment implements ClosetAdapter.ItemClickListener {
@@ -35,7 +35,7 @@ public class MyClosetFragment extends Fragment implements ClosetAdapter.ItemClic
 
         RecyclerView recyclerView = view.findViewById(R.id.itemList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ClosetAdapter(getActivity(), Arrays.asList(user.grabItems()));
+        adapter = new ClosetAdapter(getActivity(), Arrays.asList(MainActivity.getUser().grabItems()));
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
         return view;

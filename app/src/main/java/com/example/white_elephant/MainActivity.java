@@ -20,7 +20,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MAIN";
-    public static User user;
+    private static User user;
+
+    public static User getUser(){return user;}
 
     private enum State {
         SWIPE,
