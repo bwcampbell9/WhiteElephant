@@ -2,11 +2,6 @@
 
 buildscript {
 
-    android{
-        lintOptions {
-            abortOnError false
-        }
-    }
     
     repositories {
         google()
