@@ -149,7 +149,6 @@ public class Database {
             colRef.add(doc);
         }
     }
-
     public void deleteDocument(String path) {
         DocumentReference docRef = this.db.document(path);
         docRef.delete();
