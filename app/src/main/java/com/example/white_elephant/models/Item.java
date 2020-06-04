@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Item implements Parcelable, Serializable {
+public class Item extends DBItem implements Parcelable, Serializable {
     private String user;
     private String name;
     private String description;
@@ -16,6 +16,8 @@ public class Item implements Parcelable, Serializable {
 
     private List<String> liked;
     private List<String> disliked;
+    private List<String> saved;
+    private List<String> matches;
     private String imageUrl;
 
     /***
@@ -26,6 +28,10 @@ public class Item implements Parcelable, Serializable {
         setValue(-1);
         setImageUrl("");
         setTags(new ArrayList<>());
+        setLiked(new ArrayList<>());
+        setDisliked(new ArrayList<>());
+        setSaved(new ArrayList<>());
+        setMatches(new ArrayList<>());
     }
 
     /***
@@ -37,6 +43,10 @@ public class Item implements Parcelable, Serializable {
         setValue(value);
         setImageUrl("");
         setTags(tags);
+        setLiked(new ArrayList<>());
+        setDisliked(new ArrayList<>());
+        setSaved(new ArrayList<>());
+        setMatches(new ArrayList<>());
     }
 
     public String getUser() {
@@ -116,6 +126,8 @@ public class Item implements Parcelable, Serializable {
         this.disliked = disliked;
     }
 
+    public void addDisliked(String dislike) { this.disliked.add(dislike); }
+
     public List<String> getLiked() {
         return liked;
     }
@@ -124,6 +136,19 @@ public class Item implements Parcelable, Serializable {
         this.liked = liked;
     }
 
+    public void addLiked(String like) { this.liked.add(like); }
+
+    public List<String> getSaved() { return saved; }
+
+    public void setSaved(List<String> saved) { this.saved = saved; }
+
+    public void addSaved(String save) { this.saved.add(save); }
+
+    public List<String> getMatches() { return matches; }
+
+    public void setMatches(List<String> matches) { this.matches = matches; }
+
+    public void addMatch(String match) { this.matches.add(match); }
 
     /* ALL CODE TO IMPLEMENT PARCELABLE THIS ALLOWS THE OBJECT TO BE PASSED IN A BUNDLE */
 

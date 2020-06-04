@@ -12,6 +12,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 
 import com.example.white_elephant.models.TradeModel;
+import com.example.white_elephant.util.Storage;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,6 +54,9 @@ public class ViewMyTrade extends Fragment implements View.OnClickListener{
         ((TextView)(view.findViewById(R.id.item1desc))).setText(trade.getItem1().getDescription());
         ((TextView)(view.findViewById(R.id.item2valuetr))).setText(Double.toString(trade.getItem2().getValue()));
         ((TextView)(view.findViewById(R.id.item2desc))).setText(trade.getItem2().getDescription());
+        Storage.getInstance().getImage(trade.getItem1().getImageUrl(), view.findViewById(R.id.item1Image), -1);
+        Storage.getInstance().getImage(trade.getItem2().getImageUrl(), view.findViewById(R.id.item2Image), -1);
+
         status = view.findViewById(R.id.textView5);
         if (confirmed){
             status.setText("Status: Waiting for trading partner to confirm");

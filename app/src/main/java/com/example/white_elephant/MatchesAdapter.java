@@ -9,9 +9,9 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.white_elephant.models.Item;
 import com.example.white_elephant.models.TradeModel;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.example.white_elephant.util.Storage;
 
 import java.util.List;
 
@@ -20,10 +20,9 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
     private List<TradeModel> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
-    StorageReference mStorageRef;
 
     // data is passed into the constructor
-    public MatchesAdapter(Context context, List<TradeModel> data) {
+    MatchesAdapter(Context context, List<TradeModel> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
@@ -39,20 +38,15 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        TradeModel item = mData.get(position);
-        holder.item1name.setText(item.getItem1().getName());
-        holder.item2name.setText(item.getItem2().getName());
-        holder.item1value.setText(Double.toString(item.getItem1().getValue()));
-        holder.item2value.setText(Double.toString(item.getItem2().getValue()));
+        TradeModel trade = mData.get(position);
 
+        holder.title1Text.setText(trade.getItem1().getName());
+        holder.title2Text.setText(trade.getItem2().getName());;
+        holder.value1Text.setText("Value: $" + trade.getItem1().getValue());
+        holder.value2Text.setText("Value: $" + trade.getItem2().getValue());
 
-
-        // attempts to retrieve image from firebase
-        // still not working
-        // duplicate for item2 if you get it working
-        if (item.getItem1().getImageUrl().length() > 0){
-            mStorageRef = FirebaseStorage.getInstance().getReference("Item").child(item.getItem1().getImageUrl());
-        }
+        Storage.getInstance().getImage(trade.getItem1().getImageUrl(), holder.image1View, -1);
+        Storage.getInstance().getImage(trade.getItem2().getImageUrl(), holder.image2View, -1);
     }
 
     // total number of rows
@@ -64,22 +58,23 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView item1name;
-        TextView item2name;
-        TextView item1value;
-        TextView item2value;
-        ImageView item1pic;
-        ImageView item2pic;
+        TextView title1Text;
+        TextView title2Text;
+        TextView value1Text;
+        TextView value2Text;
+        ImageView image1View;
+        ImageView image2View;
 
-        ViewHolder(View tradeView) {
-            super(tradeView);
-            item1name = tradeView.findViewById(R.id.item1title);
-            item2name = tradeView.findViewById(R.id.item2title);
-            item1value = tradeView.findViewById(R.id.item1value);
-            item2value = tradeView.findViewById(R.id.item2value);
-            item1pic = tradeView.findViewById(R.id.item1pic);
-            item2pic = tradeView.findViewById(R.id.item2pic);
-            tradeView.setOnClickListener(this);
+        ViewHolder(View itemView) {
+            super(itemView);
+            title1Text = itemView.findViewById(R.id.item1title);
+            value1Text = itemView.findViewById(R.id.item1value);
+            image1View = itemView.findViewById(R.id.item1pic);
+            title2Text = itemView.findViewById(R.id.item2title);
+            value2Text = itemView.findViewById(R.id.item2value);
+            image2View = itemView.findViewById(R.id.item2pic);
+
+            itemView.setOnClickListener(this);
         }
 
         @Override
@@ -94,7 +89,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
     }
 
     // allows clicks events to be caught
-    public void setClickListener(ItemClickListener itemClickListener) {
+    void setClickListener(ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
     }
 

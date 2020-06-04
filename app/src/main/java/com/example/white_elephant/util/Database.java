@@ -2,7 +2,9 @@ package com.example.white_elephant.util;
 
 import android.util.Log;
 
+import com.example.white_elephant.models.DBItem;
 import com.example.white_elephant.models.Item;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -10,6 +12,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.List;
@@ -57,9 +60,29 @@ public class Database {
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    Object item = document.toObject(objType);
+                    DBItem item = (DBItem) document.toObject(objType);
+                    item.uid = document.getId();
                     if (!(((Item) item).getUser().equals(FirebaseAuth.getInstance().getUid()))){
                         forEachDoc.objectCallback(item);
+                    }
+                }
+            }
+        });
+    }
+
+    public void getItemsByItem(Item inputItem, ObjectCallback forEachDoc){
+        Query query = this.db.collection(ITEMCOLLECTION)
+                .whereLessThanOrEqualTo("value", Item.upperBound(inputItem.getValue()))
+                .whereGreaterThanOrEqualTo("value", Item.lowerBound(inputItem.getValue()));
+
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Item newItem = (Item) document.toObject(Item.class);
+                    newItem.uid = document.getId();
+                    if (!(newItem.getUser().equals(FirebaseAuth.getInstance().getUid())) &&
+                        !inputItem.getLiked().contains(newItem.uid) && !inputItem.getDisliked().contains(newItem.uid)) {
+                        forEachDoc.objectCallback(newItem);
                     }
                 }
             }
@@ -84,7 +107,8 @@ public class Database {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
-                            Object item = document.toObject(objType);
+                            DBItem item = (DBItem) document.toObject(objType);
+                            item.uid = document.getId();
                             docCB.objectCallback(item);
                         } else {
                             Log.e(ERR, "No such document");
@@ -95,7 +119,7 @@ public class Database {
                 });
     }
 
-    public void getDocsByProp(String path, String prop, String compare, Object value, ObjectCallback forEachDoc, Class objType) {
+    public Task<QuerySnapshot> getDocsByProp(String path, String prop, String compare, Object value, ObjectCallback forEachDoc, Class objType) {
         Query query = null;
         switch (compare) {
             case "==":
@@ -127,12 +151,13 @@ public class Database {
         }
         if(query == null) {
             Log.e(ERR, "invalid comparison type");
-            return;
+            return null;
         }
-        query.get().addOnCompleteListener(task -> {
+        return query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    Object item = document.toObject(objType);
+                    DBItem item = (DBItem) document.toObject(objType);
+                    item.uid = document.getId();
                     forEachDoc.objectCallback(item);
                 }
             }

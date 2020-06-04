@@ -28,6 +28,7 @@ public class ItemSwipeView extends Fragment {
     int y;
     static final double MAX_ROTATION = .2;
     private ImageView imageView;
+    public Item item;
 
     enum Status {
         NOTHING,
@@ -73,7 +74,7 @@ public class ItemSwipeView extends Fragment {
         final ImageView saveView = view.findViewById(R.id.saveIcon);
 
 
-        Item item = getModel();
+        item = getModel();
 
         textView.setText(item.getName() + ", $" + item.getValue());
         descriptionView.setText(item.getDescription());

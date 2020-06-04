@@ -6,6 +6,9 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.white_elephant.util.Database;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -14,9 +17,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.List;
 import java.util.ArrayList;
 
-public class User implements Parcelable {
+public class User extends DBItem implements Parcelable {
     private static final String TAG = "USERMODEL";
-    private String uid;
     private List<String> iidList;
     private static final String ITEMS = "items";
 
@@ -64,6 +66,10 @@ public class User implements Parcelable {
         return iidList;
     }
 
+    public void setIidList(List<String> iidList) {
+        this.iidList = iidList;
+    }
+
     public void addItem(String name, String description, double value, String imageurl) {
         Item newItem = new Item(name, description, value, new ArrayList<>());
         newItem.setUser(uid);
@@ -75,35 +81,24 @@ public class User implements Parcelable {
                 .addOnSuccessListener(documentReference -> {
                     iidList.add(documentReference.getId());
                     Log.d(TAG, "new item written with ID: " + documentReference.getId());
+                    DocumentReference userRef = db.collection("users").document(uid);
+                    userRef
+                            .update("iidList", iidList)
+                            .addOnSuccessListener(aVoid -> Log.d(TAG, "user iidlist successfully updated!"))
+                            .addOnFailureListener(e -> Log.w(TAG, "Error updating document", e));
                 })
                 .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
-        DocumentReference userRef = db.collection("users").document(uid);
-        userRef
-                .update("iidList", iidList)
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "user iidlist successfully updated!"))
-                .addOnFailureListener(e -> Log.w(TAG, "Error updating document", e));
     }
 
-    public Item[] grabItems() {
+    public List<Item> grabItems() throws InterruptedException {
         List<Item> itemList = new ArrayList<>();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference itemsRef = db.collection(ITEMS);
-        for (String anIID : iidList) {
-            DocumentReference docRef = itemsRef.document(anIID);
-            docRef.get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        itemList.add(document.toObject(Item.class));
-                    } else {
-                        Log.w(TAG, "document not found. should not happen!");
-                    }
-                } else {
-                    Log.w(TAG, "Error deleting document", task.getException());
-                }
-            });
-        }
-        return itemList.toArray(new Item[0]);
+
+        Database.getInstance().getDocsByProp("items", "user", "==", uid, (Object item) -> {
+            itemList.add((Item) item);
+        }, Item.class).wait();
+
+        Log.e("Items", String.valueOf(itemList));
+        return itemList;
     }
 
     public void deleteItem(String anIID) {
