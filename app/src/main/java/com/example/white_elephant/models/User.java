@@ -95,7 +95,7 @@ public class User extends DBItem implements Parcelable {
 
         Database.getInstance().getDocsByProp("items", "user", "==", uid, (Object item) -> {
             itemList.add((Item) item);
-        }, Item.class).wait();
+        }, Item.class);
 
         Log.e("Items", String.valueOf(itemList));
         return itemList;

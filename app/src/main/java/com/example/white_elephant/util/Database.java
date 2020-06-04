@@ -52,7 +52,7 @@ public class Database {
         getDocsByProp(ITEMCOLLECTION, "tags", "array-contains-any", tags, (Object o) -> forEachDoc.itemCallback(((Item) o)), Item.class);
     }
 
-    public void getItemsByPrice(double price, ObjectCallback forEachDoc, Class objType){
+    public <T> void getItemsByPrice(double price, ObjectCallback forEachDoc, Class<? extends DBItem> objType){
         Query query = this.db.collection(ITEMCOLLECTION)
                 .whereLessThanOrEqualTo("value", Item.lowerBound(price))
                 .whereGreaterThanOrEqualTo("value", Item.upperBound(price));
@@ -100,7 +100,7 @@ public class Database {
                 );
     }
 
-    public void getDocument(String path, final ObjectCallback docCB, Class objType) {
+    public void getDocument(String path, final ObjectCallback docCB, Class<? extends DBItem> objType) {
         DocumentReference docRef = this.db.document(path);
         docRef.get()
                 .addOnCompleteListener(task -> {
@@ -119,7 +119,7 @@ public class Database {
                 });
     }
 
-    public Task<QuerySnapshot> getDocsByProp(String path, String prop, String compare, Object value, ObjectCallback forEachDoc, Class objType) {
+    public Task<QuerySnapshot> getDocsByProp(String path, String prop, String compare, Object value, ObjectCallback forEachDoc, Class<? extends DBItem> objType) {
         Query query = null;
         switch (compare) {
             case "==":
