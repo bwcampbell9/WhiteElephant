@@ -1,7 +1,6 @@
 package com.example.white_elephant;
 
 import com.example.white_elephant.models.Item;
-import com.example.white_elephant.util.Database;
 
 import org.junit.Test;
 
