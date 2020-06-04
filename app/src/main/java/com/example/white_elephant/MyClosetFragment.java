@@ -49,7 +49,7 @@ public class MyClosetFragment extends Fragment implements ClosetAdapter.ItemClic
         Log.i("Info", "Getting items for user " + ((MainActivity) getActivity()).getUser().getUid());
         Database.getInstance().getDocsByProp("items", "user", "==",
                 ((MainActivity) getActivity()).getUser().getUid(), (Object item) -> {
-            Log.i("Found Item", ((Item) item).uid);
+            Log.i("Found Item", ((Item) item).getUid());
             items.add((Item) item);
             adapter.notifyDataSetChanged();
         }, Item.class);

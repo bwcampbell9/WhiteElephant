@@ -108,28 +108,28 @@ public class MainSwipeFragment extends Fragment {
     public void likeItem() {
         MainActivity activity = ((MainActivity) getActivity());
         ItemSwipeView item = popTopItem();
-        activity.getTrading().addLiked(item.item.uid);
-        if(item.item.getLiked().contains(activity.getTrading().uid)) {
+        activity.getTrading().addLiked(item.item.getUid());
+        if(item.item.getLiked().contains(activity.getTrading().getUid())) {
             // Match!
-            activity.getTrading().addMatch(item.item.uid);
-            item.item.addMatch(activity.getTrading().uid);
+            activity.getTrading().addMatch(item.item.getUid());
+            item.item.addMatch(activity.getTrading().getUid());
             makeToast("It's a match!");
         }
-        Database.getInstance().updateDocument(itemsCollection + activity.getTrading().uid,  activity.getTrading());
-        Database.getInstance().updateDocument(itemsCollection + item.item.uid, item.item);
+        Database.getInstance().updateDocument(itemsCollection + activity.getTrading().getUid(),  activity.getTrading());
+        Database.getInstance().updateDocument(itemsCollection + item.item.getUid(), item.item);
     }
 
     public void dislikeItem() {
         MainActivity activity = ((MainActivity) getActivity());
         ItemSwipeView item = popTopItem();
-        activity.getTrading().addDisliked(item.item.uid);
-        Database.getInstance().updateDocument(itemsCollection + activity.getTrading().uid,  activity.getTrading());
+        activity.getTrading().addDisliked(item.item.getUid());
+        Database.getInstance().updateDocument(itemsCollection + activity.getTrading().getUid(),  activity.getTrading());
     }
     public void saveItem() {
         MainActivity activity = ((MainActivity) getActivity());
         ItemSwipeView item = popTopItem();
-        activity.getTrading().addSaved(item.item.uid);
-        Database.getInstance().updateDocument(itemsCollection + activity.getTrading().uid,  activity.getTrading());
+        activity.getTrading().addSaved(item.item.getUid());
+        Database.getInstance().updateDocument(itemsCollection + activity.getTrading().getUid(),  activity.getTrading());
     }
 
     private void getArrayData() {
