@@ -3,9 +3,11 @@ package com.example.white_elephant;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
@@ -21,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MAIN";
     private User user;
+
+    private ImageView profileView;
+    private ImageView swipeView;
+    private ImageView postView;
 
     public User getUser(){return user;}
 
@@ -70,11 +76,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        profileView = findViewById(R.id.accountButton);
+        swipeView = findViewById(R.id.tradeButton);
+        postView = findViewById(R.id.postButton);
+        swipeView.setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary));
         navController = Navigation.findNavController(findViewById(R.id.nav_fragment));
         state = State.SWIPE;
     }
 
     public void onClickProfile(View view) {
+        profileView.setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary));
+        swipeView.setColorFilter(ContextCompat.getColor(this, R.color.black));
+        postView.setColorFilter(ContextCompat.getColor(this, R.color.black));
         if(state == State.SWIPE) {
             NavDirections action = MainSwipeFragmentDirections.actionMainSwipeViewToViewProfileFragment();
             navController.navigate(action);
@@ -94,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
         state = State.PROFILE;
     }
     public void onClickTrading(View view) {
+        profileView.setColorFilter(ContextCompat.getColor(this, R.color.black));
+        swipeView.setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary));
+        postView.setColorFilter(ContextCompat.getColor(this, R.color.black));
         if(state == State.PROFILE) {
             NavDirections action = ViewProfileFragmentDirections.actionViewProfileFragmentToMainSwipeView();
             navController.navigate(action);
@@ -113,6 +129,9 @@ public class MainActivity extends AppCompatActivity {
         state = State.SWIPE;
     }
     public void onClickPost(View view) {
+        profileView.setColorFilter(ContextCompat.getColor(this, R.color.black));
+        swipeView.setColorFilter(ContextCompat.getColor(this, R.color.black));
+        postView.setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary));
         if(state == State.PROFILE) {
             NavDirections action = ViewProfileFragmentDirections.actionViewProfileFragmentToPostItemFragment();
             navController.navigate(action);
