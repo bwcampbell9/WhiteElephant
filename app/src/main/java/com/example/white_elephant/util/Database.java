@@ -54,7 +54,7 @@ public class Database {
         getDocsByProp(ITEMCOLLECTION, "tags", "array-contains-any", tags, (Object o) -> forEachDoc.itemCallback(((Item) o)), Item.class);
     }
 
-    public <T> void getItemsByPrice(double price, ObjectCallback forEachDoc, Class<? extends DBItem> objType){
+    public void getItemsByPrice(double price, ObjectCallback forEachDoc, Class<? extends DBItem> objType){
         Query query = this.db.collection(ITEMCOLLECTION)
                 .whereLessThanOrEqualTo(VALUE, Item.lowerBound(price))
                 .whereGreaterThanOrEqualTo(VALUE, Item.upperBound(price));
@@ -62,7 +62,7 @@ public class Database {
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    DBItem item = (DBItem) document.toObject(objType);
+                    DBItem item = document.toObject(objType);
                     item.setUid(document.getId());
                     if (!(((Item) item).getUser().equals(FirebaseAuth.getInstance().getUid()))){
                         forEachDoc.objectCallback(item);
@@ -109,7 +109,7 @@ public class Database {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
-                            DBItem item = (DBItem) document.toObject(objType);
+                            DBItem item = document.toObject(objType);
                             item.setUid(document.getId());
                             docCB.objectCallback(item);
                         } else {
@@ -158,7 +158,7 @@ public class Database {
         return query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    DBItem item = (DBItem) document.toObject(objType);
+                    DBItem item = document.toObject(objType);
                     item.setUid(document.getId());
                     forEachDoc.objectCallback(item);
                 }
