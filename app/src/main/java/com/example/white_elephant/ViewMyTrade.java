@@ -28,6 +28,27 @@ public class ViewMyTrade extends Fragment implements View.OnClickListener{
         // Required empty public constructor
     }
 
+    public boolean getConfirmed() {
+        return confirmed;
+    }
+
+    public void setTrade(TradeModel trd) {
+        trade = trd;
+    }
+
+    public void setConfirmed(boolean conf) {
+        confirmed = conf;
+    }
+    public void setAction(NavDirections nav) {
+        action = nav;
+    }
+
+    public Bundle argBundling(TradeModel trd) {
+        Bundle args = new Bundle();
+        args.putSerializable("a",trd);
+        return args;
+    }
+
     public static ViewMyTrade newInstance(TradeModel trade,int i, boolean confirmed){
         ViewMyTrade v = new ViewMyTrade();
         Bundle args = new Bundle();
