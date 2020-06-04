@@ -83,7 +83,7 @@ public class User extends DBItem implements Parcelable {
                 .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
     }
 
-    public List<Item> grabItems() throws InterruptedException {
+    public List<Item> grabItems() {
         List<Item> itemList = new ArrayList<>();
 
         Database.getInstance().getDocsByProp(ITEMS, "user", "==", this.getUid(), (Object item) ->

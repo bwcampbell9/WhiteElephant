@@ -108,28 +108,36 @@ public class MainSwipeFragment extends Fragment {
     public void likeItem() {
         MainActivity activity = ((MainActivity) getActivity());
         ItemSwipeView item = popTopItem();
-        activity.getTrading().addLiked(item.getItem().getUid());
-        if(item.getItem().getLiked().contains(activity.getTrading().getUid())) {
-            // Match!
-            activity.getTrading().addMatch(item.getItem().getUid());
-            item.getItem().addMatch(activity.getTrading().getUid());
-            makeToast("It's a match!");
+        if (item != null){
+            activity.getTrading().addLiked(item.getItem().getUid());
+            if(item.getItem().getLiked().contains(activity.getTrading().getUid())) {
+                // Match!
+                activity.getTrading().addMatch(item.getItem().getUid());
+                item.getItem().addMatch(activity.getTrading().getUid());
+                makeToast("It's a match!");
+            }
+            Database.getInstance().updateDocument(itemsCollection + activity.getTrading().getUid(),  activity.getTrading());
+            Database.getInstance().updateDocument(itemsCollection + item.getItem().getUid(), item.getItem());
         }
-        Database.getInstance().updateDocument(itemsCollection + activity.getTrading().getUid(),  activity.getTrading());
-        Database.getInstance().updateDocument(itemsCollection + item.getItem().getUid(), item.getItem());
+
     }
 
     public void dislikeItem() {
         MainActivity activity = ((MainActivity) getActivity());
         ItemSwipeView item = popTopItem();
-        activity.getTrading().addDisliked(item.getItem().getUid());
-        Database.getInstance().updateDocument(itemsCollection + activity.getTrading().getUid(),  activity.getTrading());
+        if (item != null){
+            activity.getTrading().addDisliked(item.getItem().getUid());
+            Database.getInstance().updateDocument(itemsCollection + activity.getTrading().getUid(),  activity.getTrading());
+        }
     }
     public void saveItem() {
         MainActivity activity = ((MainActivity) getActivity());
         ItemSwipeView item = popTopItem();
-        activity.getTrading().addSaved(item.getItem().getUid());
-        Database.getInstance().updateDocument(itemsCollection + activity.getTrading().getUid(),  activity.getTrading());
+        if (item != null){
+            activity.getTrading().addSaved(item.getItem().getUid());
+            Database.getInstance().updateDocument(itemsCollection + activity.getTrading().getUid(),  activity.getTrading());
+        }
+
     }
 
     private void getArrayData() {
