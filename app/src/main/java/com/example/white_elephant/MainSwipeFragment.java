@@ -108,27 +108,27 @@ public class MainSwipeFragment extends Fragment {
     public void likeItem() {
         MainActivity activity = ((MainActivity) getActivity());
         ItemSwipeView item = popTopItem();
-        activity.getTrading().addLiked(item.item.getUid());
-        if(item.item.getLiked().contains(activity.getTrading().getUid())) {
+        activity.getTrading().addLiked(item.getItem().getUid());
+        if(item.getItem().getLiked().contains(activity.getTrading().getUid())) {
             // Match!
-            activity.getTrading().addMatch(item.item.getUid());
-            item.item.addMatch(activity.getTrading().getUid());
+            activity.getTrading().addMatch(item.getItem().getUid());
+            item.getItem().addMatch(activity.getTrading().getUid());
             makeToast("It's a match!");
         }
         Database.getInstance().updateDocument(itemsCollection + activity.getTrading().getUid(),  activity.getTrading());
-        Database.getInstance().updateDocument(itemsCollection + item.item.getUid(), item.item);
+        Database.getInstance().updateDocument(itemsCollection + item.getItem().getUid(), item.getItem());
     }
 
     public void dislikeItem() {
         MainActivity activity = ((MainActivity) getActivity());
         ItemSwipeView item = popTopItem();
-        activity.getTrading().addDisliked(item.item.getUid());
+        activity.getTrading().addDisliked(item.getItem().getUid());
         Database.getInstance().updateDocument(itemsCollection + activity.getTrading().getUid(),  activity.getTrading());
     }
     public void saveItem() {
         MainActivity activity = ((MainActivity) getActivity());
         ItemSwipeView item = popTopItem();
-        activity.getTrading().addSaved(item.item.getUid());
+        activity.getTrading().addSaved(item.getItem().getUid());
         Database.getInstance().updateDocument(itemsCollection + activity.getTrading().getUid(),  activity.getTrading());
     }
 
