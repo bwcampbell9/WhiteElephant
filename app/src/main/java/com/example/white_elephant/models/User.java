@@ -7,15 +7,12 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.white_elephant.util.Database;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class User extends DBItem implements Parcelable {
     private static final String TAG = "USERMODEL";
@@ -26,12 +23,12 @@ public class User extends DBItem implements Parcelable {
     }
 
     public User(String uid) {
-        this.uid = uid;
+        this.setUid(uid);
         this.iidList = new ArrayList<>();
     }
 
     protected User(Parcel in) {
-        uid = in.readString();
+        this.setUid(in.readString());
         iidList = in.createStringArrayList();
     }
 
@@ -54,12 +51,8 @@ public class User extends DBItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(uid);
+        dest.writeString(this.getUid());
         dest.writeStringList(iidList);
-    }
-
-    public String getUid() {
-        return uid;
     }
 
     public List<String> getIidList() {
@@ -72,7 +65,7 @@ public class User extends DBItem implements Parcelable {
 
     public void addItem(String name, String description, double value, String imageurl) {
         Item newItem = new Item(name, description, value, new ArrayList<>());
-        newItem.setUser(uid);
+        newItem.setUser(this.getUid());
         newItem.setImageUrl(imageurl);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference dbItems = db.collection(ITEMS);
@@ -81,7 +74,7 @@ public class User extends DBItem implements Parcelable {
                 .addOnSuccessListener(documentReference -> {
                     iidList.add(documentReference.getId());
                     Log.d(TAG, "new item written with ID: " + documentReference.getId());
-                    DocumentReference userRef = db.collection("users").document(uid);
+                    DocumentReference userRef = db.collection("users").document(this.getUid());
                     userRef
                             .update("iidList", iidList)
                             .addOnSuccessListener(aVoid -> Log.d(TAG, "user iidlist successfully updated!"))
@@ -90,14 +83,13 @@ public class User extends DBItem implements Parcelable {
                 .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
     }
 
-    public List<Item> grabItems() throws InterruptedException {
+    public List<Item> grabItems() {
         List<Item> itemList = new ArrayList<>();
 
-        Database.getInstance().getDocsByProp("items", "user", "==", uid, (Object item) -> {
-            itemList.add((Item) item);
-        }, Item.class).wait();
+        Database.getInstance().getDocsByProp(ITEMS, "user", "==", this.getUid(), (Object item) ->
+            itemList.add((Item) item), Item.class);
 
-        Log.e("Items", String.valueOf(itemList));
+        Log.e(ITEMS, String.valueOf(itemList));
         return itemList;
     }
 
@@ -113,7 +105,7 @@ public class User extends DBItem implements Parcelable {
                 .addOnFailureListener(
                     (@NonNull Exception e) ->
                         Log.w(TAG, "Error deleting document", e));
-        DocumentReference userRef = db.collection("users").document(uid);
+        DocumentReference userRef = db.collection("users").document(this.getUid());
         userRef
                 .update("iidList", iidList)
                 .addOnSuccessListener(

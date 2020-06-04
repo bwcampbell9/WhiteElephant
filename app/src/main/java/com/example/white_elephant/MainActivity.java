@@ -24,13 +24,22 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MAIN";
     private User user;
-    public Item trading = null;
+    private Item trading = null;
+
 
     private ImageView profileView;
     private ImageView swipeView;
     private ImageView postView;
 
     public User getUser(){return user;}
+
+    public Item getTrading() {
+        return trading;
+    }
+
+    public void setTrading(Item trading) {
+        this.trading = trading;
+    }
 
     private enum State {
         SWIPE,

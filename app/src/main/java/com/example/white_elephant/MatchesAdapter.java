@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.white_elephant.models.Item;
 import com.example.white_elephant.models.TradeModel;
 import com.example.white_elephant.util.Storage;
 
@@ -41,7 +40,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.ViewHold
         TradeModel trade = mData.get(position);
 
         holder.title1Text.setText(trade.getItem1().getName());
-        holder.title2Text.setText(trade.getItem2().getName());;
+        holder.title2Text.setText(trade.getItem2().getName());
         holder.value1Text.setText("Value: $" + trade.getItem1().getValue());
         holder.value2Text.setText("Value: $" + trade.getItem2().getValue());
 

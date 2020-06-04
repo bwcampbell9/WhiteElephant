@@ -25,6 +25,8 @@ public class Database {
 
     private static final String ITEMCOLLECTION = "items";
     private static final String ERR = "Error";
+    private static final String VALUE = "value";
+
 
     public interface ObjectCallback {
         void objectCallback(Object object);
@@ -54,14 +56,14 @@ public class Database {
 
     public void getItemsByPrice(double price, ObjectCallback forEachDoc, Class objType){
         Query query = this.db.collection(ITEMCOLLECTION)
-                .whereLessThanOrEqualTo("value", Item.lowerBound(price))
-                .whereGreaterThanOrEqualTo("value", Item.upperBound(price));
+                .whereLessThanOrEqualTo(VALUE, Item.lowerBound(price))
+                .whereGreaterThanOrEqualTo(VALUE, Item.upperBound(price));
 
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     DBItem item = (DBItem) document.toObject(objType);
-                    item.uid = document.getId();
+                    item.setUid(document.getId());
                     if (!(((Item) item).getUser().equals(FirebaseAuth.getInstance().getUid()))){
                         forEachDoc.objectCallback(item);
                     }
@@ -72,16 +74,16 @@ public class Database {
 
     public void getItemsByItem(Item inputItem, ObjectCallback forEachDoc){
         Query query = this.db.collection(ITEMCOLLECTION)
-                .whereLessThanOrEqualTo("value", Item.upperBound(inputItem.getValue()))
-                .whereGreaterThanOrEqualTo("value", Item.lowerBound(inputItem.getValue()));
+                .whereLessThanOrEqualTo(VALUE, Item.upperBound(inputItem.getValue()))
+                .whereGreaterThanOrEqualTo(VALUE, Item.lowerBound(inputItem.getValue()));
 
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    Item newItem = (Item) document.toObject(Item.class);
-                    newItem.uid = document.getId();
+                    Item newItem = document.toObject(Item.class);
+                    newItem.setUid(document.getId());
                     if (!(newItem.getUser().equals(FirebaseAuth.getInstance().getUid())) &&
-                        !inputItem.getLiked().contains(newItem.uid) && !inputItem.getDisliked().contains(newItem.uid)) {
+                        !inputItem.getLiked().contains(newItem.getUid()) && !inputItem.getDisliked().contains(newItem.getUid())) {
                         forEachDoc.objectCallback(newItem);
                     }
                 }
@@ -108,7 +110,7 @@ public class Database {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             DBItem item = (DBItem) document.toObject(objType);
-                            item.uid = document.getId();
+                            item.setUid(document.getId());
                             docCB.objectCallback(item);
                         } else {
                             Log.e(ERR, "No such document");
@@ -157,7 +159,7 @@ public class Database {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     DBItem item = (DBItem) document.toObject(objType);
-                    item.uid = document.getId();
+                    item.setUid(document.getId());
                     forEachDoc.objectCallback(item);
                 }
             }

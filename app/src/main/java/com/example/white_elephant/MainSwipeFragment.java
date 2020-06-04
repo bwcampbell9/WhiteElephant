@@ -1,7 +1,6 @@
 package com.example.white_elephant;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,7 @@ import java.util.ArrayList;
 
 public class MainSwipeFragment extends Fragment {
 
+    private static String itemsCollection = "items/";
     private FragmentManager fragMan;
     private Item trading = null;
 
@@ -54,7 +54,7 @@ public class MainSwipeFragment extends Fragment {
 
         TextView text = view.findViewById(R.id.textView);
 
-        trading = ((MainActivity)getActivity()).trading;
+        trading = ((MainActivity)getActivity()).getTrading();
         if(trading != null) {
             getArrayData();
             text.setText(R.string.with_item);
@@ -108,28 +108,36 @@ public class MainSwipeFragment extends Fragment {
     public void likeItem() {
         MainActivity activity = ((MainActivity) getActivity());
         ItemSwipeView item = popTopItem();
-        activity.trading.addLiked(item.item.uid);
-        if(item.item.getLiked().contains(activity.trading.uid)) {
-            // Match!
-            activity.trading.addMatch(item.item.uid);
-            item.item.addMatch(activity.trading.uid);
-            makeToast("It's a match!");
+        if (item != null){
+            activity.getTrading().addLiked(item.getItem().getUid());
+            if(item.getItem().getLiked().contains(activity.getTrading().getUid())) {
+                // Match!
+                activity.getTrading().addMatch(item.getItem().getUid());
+                item.getItem().addMatch(activity.getTrading().getUid());
+                makeToast("It's a match!");
+            }
+            Database.getInstance().updateDocument(itemsCollection + activity.getTrading().getUid(),  activity.getTrading());
+            Database.getInstance().updateDocument(itemsCollection + item.getItem().getUid(), item.getItem());
         }
-        Database.getInstance().updateDocument("items/" + activity.trading.uid,  activity.trading);
-        Database.getInstance().updateDocument("items/" + item.item.uid, item.item);
+
     }
 
     public void dislikeItem() {
         MainActivity activity = ((MainActivity) getActivity());
         ItemSwipeView item = popTopItem();
-        activity.trading.addDisliked(item.item.uid);
-        Database.getInstance().updateDocument("items/" + activity.trading.uid,  activity.trading);
+        if (item != null){
+            activity.getTrading().addDisliked(item.getItem().getUid());
+            Database.getInstance().updateDocument(itemsCollection + activity.getTrading().getUid(),  activity.getTrading());
+        }
     }
     public void saveItem() {
         MainActivity activity = ((MainActivity) getActivity());
         ItemSwipeView item = popTopItem();
-        activity.trading.addSaved(item.item.uid);
-        Database.getInstance().updateDocument("items/" + activity.trading.uid,  activity.trading);
+        if (item != null){
+            activity.getTrading().addSaved(item.getItem().getUid());
+            Database.getInstance().updateDocument(itemsCollection + activity.getTrading().getUid(),  activity.getTrading());
+        }
+
     }
 
     private void getArrayData() {

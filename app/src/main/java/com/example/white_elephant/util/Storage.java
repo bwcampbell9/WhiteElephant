@@ -1,6 +1,7 @@
 package com.example.white_elephant.util;
 
 import android.net.Uri;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -39,7 +40,7 @@ public class Storage {
         try {
             stream = MyApplication.getAppContext().getContentResolver().openInputStream(uri);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Log.e("Info", e.getMessage());
         }
 
         if (stream == null){
