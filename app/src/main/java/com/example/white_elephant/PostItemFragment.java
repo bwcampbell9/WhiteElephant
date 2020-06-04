@@ -25,6 +25,8 @@ public class PostItemFragment extends Fragment {
     private boolean uploaded = false;
     private boolean chose = false;
 
+    private static int count = 0;
+
     EditText nameEditText;
     EditText descEditText;
     EditText valEditText;
@@ -60,6 +62,7 @@ public class PostItemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         View view = inflater.inflate(R.layout.activity_post_item, container, false);
 
         chooseBtn = (Button) view.findViewById(R.id.chooseBtn);
@@ -98,8 +101,14 @@ public class PostItemFragment extends Fragment {
                 if (name.length() <= 0 || imageUrl.length() <= 0 || val < 0){
                     makeToast("Item Not Added, Try Again");
                 } else{
-                    ((MainActivity)getActivity()).getUser().addItem(name,desc,val,imageUrl);
-                    makeToast("Item Added Successfully");
+                    count ++;
+                    if (count < 2){
+                        ((MainActivity)getActivity()).getUser().addItem(name,desc,val,imageUrl);
+                        makeToast("Item Added Successfully");
+                    } else{
+                        makeToast("Item Already Added");
+                    }
+
                 }
             } catch (Exception e){
                 makeToast("Item Not Added, Try Again");
@@ -123,6 +132,7 @@ public class PostItemFragment extends Fragment {
 
         Storage.getInstance().uploadImage(tempImageUrl, imageUri)
                 .addOnSuccessListener(taskSnapshot -> {
+                    count = 0;
                     makeToast("Image Uploaded Successfully");
                     imageUrl = tempImageUrl;
                     uploaded = true;
