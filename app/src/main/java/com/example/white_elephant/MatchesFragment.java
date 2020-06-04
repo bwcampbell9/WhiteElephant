@@ -1,23 +1,21 @@
 package com.example.white_elephant;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.example.white_elephant.models.Item;
 import com.example.white_elephant.models.TradeModel;
 import com.example.white_elephant.util.Database;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 
 /**
@@ -25,9 +23,9 @@ import java.util.LinkedList;
  */
 public class MatchesFragment extends Fragment implements MatchesAdapter.ItemClickListener {
 
+    private static final String MATCHES = "Matches";
     private MatchesAdapter adapter;
     ArrayList<TradeModel> trades;
-    private RecyclerView recyclerView;
 
     public MatchesFragment() {
         // Required empty public constructor
@@ -38,11 +36,10 @@ public class MatchesFragment extends Fragment implements MatchesAdapter.ItemClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_matches, container, false);
-        ArrayList<Item> items = new ArrayList<>();
 
         trades = new ArrayList<>();
 
-        recyclerView = view.findViewById(R.id.matches);
+        RecyclerView recyclerView = view.findViewById(R.id.matches);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         adapter = new MatchesAdapter(getContext(), trades);
@@ -65,11 +62,11 @@ public class MatchesFragment extends Fragment implements MatchesAdapter.ItemClic
         Database.getInstance().getDocsByProp("items", "user", "==",
                 ((MainActivity) getActivity()).getUser().getUid(), (Object item) -> {
                     if (((Item)item).getMatches() != null ) {
-                        Log.e("Matches", "Matches found for " + ((Item)item).getName());
+                        Log.e(MATCHES, "Matches found for " + ((Item)item).getName());
                         for (String id : ((Item) item).getMatches()) {
-                            Log.e("Matches", "Matches is " + id);
+                            Log.e(MATCHES, "Matches is " + id);
                             Database.getInstance().getDocument("items/" + id, (Object other) -> {
-                                Log.e("Matches", "Match retrieved " + ((Item)other).getName());
+                                Log.e(MATCHES, "Match retrieved " + ((Item)other).getName());
                                 trades.add(new TradeModel((Item) item, (Item) other));
                                 adapter.notifyDataSetChanged();
                             }, Item.class);
