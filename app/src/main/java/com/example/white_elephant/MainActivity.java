@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MAIN";
     private User user;
-    public Item trading;
+    public Item trading = null;
 
     public User getUser(){return user;}
 

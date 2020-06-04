@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">WhiteElephant</string>
+    <string name="without_item">Select an item from your closet to begin trading.</string>
+    <string name="with_item">Sorry! We ran out of available trades for that item.</string>
 
 </resources>

@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -13,12 +15,14 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.white_elephant.models.Item;
 import com.example.white_elephant.util.Database;
 import com.example.white_elephant.views.ItemSwipeView;
+import com.example.white_elephant.views.ItemTileView;
 
 import java.util.ArrayList;
 
 public class MainSwipeFragment extends Fragment {
 
     private FragmentManager fragMan;
+    private Item trading = null;
 
     ArrayList<com.example.white_elephant.views.ItemSwipeView> itemViewList;
 
@@ -46,9 +50,19 @@ public class MainSwipeFragment extends Fragment {
 
         itemViewList = new ArrayList<>();
 
-        getArrayData();
-
         FragmentTransaction fragTransaction = fragMan.beginTransaction();
+
+        TextView text = view.findViewById(R.id.textView);
+
+        trading = ((MainActivity)getActivity()).trading;
+        if(trading != null) {
+            getArrayData();
+            text.setText(R.string.with_item);
+            fragTransaction.add(R.id.trading_with_view, ItemTileView.newInstance(trading));
+        } else {
+            text.setText(R.string.without_item);
+        }
+
         if (itemViewList.size() > 1) {
             fragTransaction.add(R.id.swipe_cards_layout, (Fragment) itemViewList.get(1));
         }
@@ -85,11 +99,9 @@ public class MainSwipeFragment extends Fragment {
         FragmentTransaction fragTransaction = fragMan.beginTransaction();
         fragTransaction.add(R.id.swipe_cards_layout, view);
         if(itemViewList.size() == 2) {
-            Log.e("Info", "Rearranging ");
             fragTransaction.detach(itemViewList.get(0));
             fragTransaction.attach(itemViewList.get(0));
         }
-        Log.e("Info", "Task Pushing item with name " + ((Item) obj).getName());
         fragTransaction.commit();
     }
 
@@ -97,7 +109,14 @@ public class MainSwipeFragment extends Fragment {
         MainActivity activity = ((MainActivity) getActivity());
         ItemSwipeView item = popTopItem();
         activity.trading.addLiked(item.item.uid);
+        if(item.item.getLiked().contains(activity.trading.uid)) {
+            // Match!
+            activity.trading.addMatch(item.item.uid);
+            item.item.addMatch(activity.trading.uid);
+            makeToast("It's a match!");
+        }
         Database.getInstance().updateDocument("items/" + activity.trading.uid,  activity.trading);
+        Database.getInstance().updateDocument("items/" + item.item.uid, item.item);
     }
 
     public void dislikeItem() {
@@ -107,11 +126,18 @@ public class MainSwipeFragment extends Fragment {
         Database.getInstance().updateDocument("items/" + activity.trading.uid,  activity.trading);
     }
     public void saveItem() {
-        popTopItem();
+        MainActivity activity = ((MainActivity) getActivity());
+        ItemSwipeView item = popTopItem();
+        activity.trading.addSaved(item.item.uid);
+        Database.getInstance().updateDocument("items/" + activity.trading.uid,  activity.trading);
     }
 
     private void getArrayData() {
-        Database.getInstance().getItemsByPrice(50, this::pushNewItem, Item.class);
+        Database.getInstance().getItemsByItem(trading, this::pushNewItem);
+    }
+
+    private void makeToast(String str){
+        Toast.makeText(getActivity(), str, Toast.LENGTH_LONG).show();
     }
 
 }

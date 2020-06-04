@@ -63,7 +63,6 @@ public class MyClosetFragment extends Fragment implements ClosetAdapter.ItemClic
 
     @Override
     public void onItemClick(View view, int position) {
-        Log.e("Click", "On item " + items.get(position).getName());
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         Fragment fragment = ViewMyItem.newInstance(adapter.getItem(position));
         ft.replace(R.id.Closet, fragment);

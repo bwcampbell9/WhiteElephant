@@ -70,6 +70,25 @@ public class Database {
         });
     }
 
+    public void getItemsByItem(Item inputItem, ObjectCallback forEachDoc){
+        Query query = this.db.collection(ITEMCOLLECTION)
+                .whereLessThanOrEqualTo("value", Item.upperBound(inputItem.getValue()))
+                .whereGreaterThanOrEqualTo("value", Item.lowerBound(inputItem.getValue()));
+
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Item newItem = (Item) document.toObject(Item.class);
+                    newItem.uid = document.getId();
+                    if (!(newItem.getUser().equals(FirebaseAuth.getInstance().getUid())) &&
+                        !inputItem.getLiked().contains(newItem.uid) && !inputItem.getDisliked().contains(newItem.uid)) {
+                        forEachDoc.objectCallback(newItem);
+                    }
+                }
+            }
+        });
+    }
+
     // add success and failure listeners and use add document
     public void pushItem(Item item) {
         db.collection(ITEMCOLLECTION).add(item)
