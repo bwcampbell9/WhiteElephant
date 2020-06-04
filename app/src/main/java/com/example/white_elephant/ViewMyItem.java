@@ -54,17 +54,16 @@ public class ViewMyItem extends Fragment implements View.OnClickListener
     }
 
     public void onClick(View v){
-        switch (v.getId()) {
-            case R.id.buttonClose:
-                ((MainActivity) getActivity()).setState(0);
-                NavController navController = ((MainActivity) getActivity()).getNavController();
-                NavDirections action = MyClosetFragmentDirections.actionMyClosetFragmentSelf();
-                navController.navigate(action);
-                break;
-            case R.id.selectItemButton:
-                ((MainActivity) getActivity()).trading = item;
-                makeToast("Item Selected for Trading");
-                break;
+        if (v.getId() == R.id.buttonClose){
+            ((MainActivity) getActivity()).setState(0);
+            NavController navController = ((MainActivity) getActivity()).getNavController();
+            NavDirections action = MyClosetFragmentDirections.actionMyClosetFragmentSelf();
+            navController.navigate(action);
+        } else if (v.getId() == R.id.selectItemButton){
+            ((MainActivity) getActivity()).setTrading(item);
+            makeToast("Item Selected for Trading");
+        } else{
+            throw new IllegalStateException("Unexpected value: " + v.getId());
         }
     }
 

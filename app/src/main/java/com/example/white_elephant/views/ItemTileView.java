@@ -1,6 +1,5 @@
 package com.example.white_elephant.views;
 
-import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,13 +7,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.white_elephant.models.Item;
+import androidx.fragment.app.Fragment;
+
 import com.example.white_elephant.R;
+import com.example.white_elephant.models.Item;
 import com.example.white_elephant.util.Storage;
 
 public class ItemTileView extends Fragment {
-
-    private ImageView imageView;
 
     /**
      * Create a new instance of ItemSwipeView, initialized to
@@ -38,7 +37,7 @@ public class ItemTileView extends Fragment {
 
         TextView textView = (TextView) view.findViewById(R.id.titleText);
         TextView valueView = (TextView) view.findViewById(R.id.valueText);
-        imageView = view.findViewById(R.id.imageView);
+        ImageView imageView = view.findViewById(R.id.imageView);
 
         Item model = getModel();
 

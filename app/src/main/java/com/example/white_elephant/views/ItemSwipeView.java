@@ -28,7 +28,15 @@ public class ItemSwipeView extends Fragment {
     int y;
     static final double MAX_ROTATION = .2;
     private ImageView imageView;
-    public Item item;
+    private Item item;
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
 
     enum Status {
         NOTHING,
