@@ -85,10 +85,8 @@ public class ItemSwipeView extends Fragment {
         dislikeView.setAlpha(0f);
         saveView.setAlpha(0f);
 
-        view.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
+        view.setOnTouchListener(
+            (View v, MotionEvent event) -> {
 
                 width = container.getWidth();
                 height = container.getHeight();
@@ -113,10 +111,9 @@ public class ItemSwipeView extends Fragment {
                         view.setRotation((float) ((xCord / xCenter) * (90) * MAX_ROTATION));
                         float xVal = (float)((xCord) / (xCenter / 2.0));
                         float yVal = (float)((yCord) / (yCenter / 2.0));
+                        saveView.setAlpha(0f);
                         if(xVal < .5 && xVal > -.5) {
                             saveView.setAlpha(-yVal);
-                        } else {
-                            saveView.setAlpha(0f);
                         }
                         likeView.setAlpha(xVal);
                         dislikeView.setAlpha(-xVal);
@@ -162,7 +159,7 @@ public class ItemSwipeView extends Fragment {
                 }
                 return true;
             }
-        });
+        );
 
         Storage.getInstance().getImage(item.getImageUrl(), imageView, -1);
         return view;

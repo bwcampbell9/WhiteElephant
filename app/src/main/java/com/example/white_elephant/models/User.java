@@ -6,8 +6,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -20,7 +18,7 @@ public class User implements Parcelable {
     private static final String TAG = "USERMODEL";
     private String uid;
     private List<String> iidList;
-    private final String ITEMSTEXT = "items";
+    private static final String ITEMS = "items";
 
     public User() {
     }
@@ -71,7 +69,7 @@ public class User implements Parcelable {
         newItem.setUser(uid);
         newItem.setImageUrl(imageurl);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference dbItems = db.collection(ITEMSTEXT);
+        CollectionReference dbItems = db.collection(ITEMS);
         dbItems
                 .add(newItem)
                 .addOnSuccessListener(documentReference -> {
@@ -89,7 +87,7 @@ public class User implements Parcelable {
     public Item[] grabItems() {
         List<Item> itemList = new ArrayList<>();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference itemsRef = db.collection(ITEMSTEXT);
+        CollectionReference itemsRef = db.collection(ITEMS);
         for (String anIID : iidList) {
             DocumentReference docRef = itemsRef.document(anIID);
             docRef.get().addOnCompleteListener(task -> {
@@ -110,28 +108,22 @@ public class User implements Parcelable {
 
     public void deleteItem(String anIID) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference itemRef = db.collection(ITEMSTEXT).document(anIID);
+        DocumentReference itemRef = db.collection(ITEMS).document(anIID);
         itemRef
                 .delete()
                 .addOnSuccessListener(aVoid -> {
                     iidList.remove(anIID);
                     Log.d(TAG, "DocumentSnapshot successfully deleted!");
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error deleting document", e);
-                    }
-                });
+                .addOnFailureListener(
+                    (@NonNull Exception e) ->
+                        Log.w(TAG, "Error deleting document", e));
         DocumentReference userRef = db.collection("users").document(uid);
         userRef
                 .update("iidList", iidList)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "item delete successful!");
-                    }
-                })
+                .addOnSuccessListener(
+                   (Void aVoid) ->
+                        Log.d(TAG, "item delete successful!"))
                 .addOnFailureListener(e -> Log.w(TAG, "Error deleting item", e));
 
     }
