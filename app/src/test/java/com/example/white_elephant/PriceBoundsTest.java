@@ -5,6 +5,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({PriceTest.class, PriceExceptionTest.class})
+@Suite.SuiteClasses({LowerBoundTest.class, UpperBoundTest.class})
 
-public class PriceTestSuite { }
+public class PriceBoundsTest { }
