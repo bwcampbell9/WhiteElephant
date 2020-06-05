@@ -7,4 +7,4 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({LowerBoundTest.class, UpperBoundTest.class})
 
-public class PriceBoundsTest { }
+public class PriceBoundsTestSuite { }
