@@ -183,24 +183,50 @@ public class Item extends DBItem implements Parcelable, Serializable {
     }
 
     public static double lowerBound(double price){
-        double upper;
-        if (price >= 200){
-            upper = price * .8;
+        double lowerBound = -1;
+        double multiplier = .9;
+        int[] priceArray = {15, 50, 100, 500, 1000};
+        // price lower bound ratios depends on price range
+
+        // special case for large values
+        if (price > 1000){
+            lowerBound = price * multiplier;
         } else{
-            upper = price * .7;
+            multiplier = .4;
+            for (int val: priceArray){
+                if (price <= val){
+                    lowerBound = price * multiplier;
+                    break;
+                }
+                multiplier += .1;
+            }
         }
-        return upper;
+
+        return lowerBound;
     }
 
     public static double upperBound(double price){
-        double upper;
+        double upperBound = -1;
+        double multiplier = 1.1;
+        int[] priceArray = {15, 50, 100, 500, 1000};
+
+        // special case for small values
         if (price <= 10){
-            upper = 20;
-        } else if (price >= 200){
-           upper = price * 1.2;
-        } else {
-            upper = price * 1.3;
+            upperBound = 16;
+        } // special case for large values
+        else if (price > 1000){
+            upperBound = price * multiplier;
         }
-        return upper;
+        else{
+            multiplier = 1.6;
+            for (int val: priceArray){
+                if (price <= val){
+                    upperBound = price * multiplier;
+                    break;
+                }
+                multiplier -= .1;
+            }
+        }
+        return upperBound;
     }
 }
