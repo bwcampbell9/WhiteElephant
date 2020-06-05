@@ -77,17 +77,7 @@ public class PostItemFragment extends Fragment {
             myFileChooser();
         });
 
-        uploadBtn.setOnClickListener((View v) -> {
-            if (uploadTask != null && uploadTask.isInProgress()){
-                makeToast("Upload in progress");
-            } else if (uploaded){
-                makeToast("Item already uploaded");
-            } else if (!chose){
-                makeToast("Choose an image first");
-            } else {
-                myFileUploader();
-            }
-        });
+        setUploadListener();
 
         addItemBtn.setOnClickListener((View v) -> {
             String name = nameEditText.getText().toString().trim();
@@ -108,6 +98,20 @@ public class PostItemFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void setUploadListener() {
+        uploadBtn.setOnClickListener((View v) -> {
+            if (uploadTask != null && uploadTask.isInProgress()){
+                makeToast("Upload in progress");
+            } else if (uploaded){
+                makeToast("Item already uploaded");
+            } else if (!chose){
+                makeToast("Choose an image first");
+            } else {
+                myFileUploader();
+            }
+        });
     }
 
     private void myFileChooser () {
