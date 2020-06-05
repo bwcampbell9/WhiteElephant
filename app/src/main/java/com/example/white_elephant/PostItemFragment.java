@@ -25,7 +25,7 @@ public class PostItemFragment extends Fragment {
     private boolean uploaded = false;
     private boolean chose = false;
 
-    private static int count = 0;
+    private int count = 0;
 
     EditText nameEditText;
     EditText descEditText;
